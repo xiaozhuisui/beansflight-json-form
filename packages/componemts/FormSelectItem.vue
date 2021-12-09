@@ -1,0 +1,52 @@
+<template>
+  <Col :span="config.span || 8">
+    <FormItem :label="`${config.label}`" :prop="config.key">
+      <Select
+        v-model="data[config.key]"
+        :placeholder="config.placeholder"
+        :disabled="disabled"
+      >
+        <Option
+          v-for="(option, index) in config.options"
+          :value="option.value"
+          :key="index"
+          >{{ option.label }}
+        </Option>
+      </Select>
+    </FormItem>
+  </Col>
+</template>
+<script>
+import { Col, FormItem, Select, Option } from "view-design";
+export default {
+  name: "FormSelectItem",
+  components: {
+    Col,
+    FormItem,
+    Select,
+    Option,
+  },
+  props: {
+    config: {
+      type: Object,
+      default: () => {},
+    },
+    data: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  computed: {
+    disabled() {
+      const { props = {} } = this.config;
+      if ("disabled" in props) {
+        return props["disabled"];
+      }
+      return false;
+    },
+  },
+};
+</script>
+<style lang="less">
+@import "../assets/styles/theme.less";
+</style>
