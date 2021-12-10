@@ -9,7 +9,7 @@
       border
       ref="mainTable"
       :panelConfig="panelConfig"
-      @newAction="showAddMerchantInfoForm"
+      @newAction="newInfoForm"
       @batchDeleteAction="batchDelete"
       @allExportAction="exportAll"
       @batchExportAction="batchExport"
@@ -33,13 +33,15 @@
 import Detail from "./Detail.vue";
 import Edit from "./Edit.vue";
 import New from "./New.vue";
-import { Row, Col, RadioGroup, Radio } from "view-design";
 export default {
   name: "HelloWorld",
-  components: { Detail, Edit, New, RadioGroup, Radio, Row, Col },
+  components: {
+    Detail,
+    Edit,
+    New,
+  },
   data() {
     return {
-      animal: "",
       formConfig: {
         // 输出值
         formModel: {
@@ -134,7 +136,7 @@ export default {
             icon: "md-add", // 按钮图标
             // privilege: "merchant-info-list-add", // 按钮权限
             click: () => {
-              this.$refs.newForm.showModalNew();
+              this.$refs.newForm.showModal();
             },
           },
           {
@@ -237,15 +239,15 @@ export default {
     };
   },
   mounted() {
-    // setTimeout(() => {
-    //   console.log("settimeout被执行");
-    //   this.formConfig.formModel = {
-    //     cascVal: ["beijing", "gugong"], // 级联
-    //     selOptions: "1", // 下拉框
-    //     inputVal: "输入框初始值", // 输入框
-    //     datePickerVal: "1988-09-19", // DatePicker
-    //   };
-    // }, 10000);
+    setTimeout(() => {
+      console.log("settimeout被执行");
+      this.formConfig.formModel = {
+        cascVal: ["beijing", "gugong"], // 级联
+        selOptions: "1", // 下拉框
+        inputVal: "输入框初始值", // 输入框
+        datePickerVal: "1988-09-19", // DatePicker
+      };
+    }, 5000);
     this.mainTable.data = [
       {
         id: "7D5DB3EA7DDD4457903059E39ED93C49",
@@ -376,8 +378,8 @@ export default {
     reset() {
       console.log("reset");
     },
-    showAddMerchantInfoForm() {
-      console.log("showAddMerchantInfoForm");
+    newInfoForm() {
+      this.$refs.newForm.showModal();
     },
     async batchDelete(rows) {
       console.log("batchDelete:", rows);

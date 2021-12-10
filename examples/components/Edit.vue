@@ -1918,10 +1918,7 @@ export default {
     showModalDeit(detail) {
       const tem = JSON.parse(JSON.stringify(detail));
       tem.payType = detail.payType.split(",");
-      // detail.payTypes = detail.payType.split(",");
-      // this.detail = JSON.parse(JSON.stringify(detail));
       tem.city_area = casitems(detail.cityId, detail.areaId);
-      console.log(detail);
       this.edit = tem;
       this.isShowDetailModal = true;
     },

@@ -3,7 +3,7 @@
     <Form
       ref="form"
       :label-width="100"
-      :model="formData"
+      :model="formModel"
       :rules="rules"
       :label-colon="true"
     >
@@ -18,7 +18,7 @@
           v-for="(col, index) in row.row"
           :key="index"
           :config="col"
-          :data="formData"
+          :data="formModel"
           :isShow="col._ifShow"
         >
         </component>
@@ -82,14 +82,13 @@ export default {
     };
   },
   computed: {
-    configForm() {
-      return this.config.map((item) => this.formateItem(item, this.formData));
+    // 表单转换
+    formModel() {
+      return this.data;
     },
-    // 动态组件名称转换
-    typeCase() {
-      return function (type) {
-        return `Form${titleCase(type)}Item`;
-      };
+    // 配置初始化
+    configForm() {
+      return this.config.map((item) => this.formateItem(item, this.data));
     },
     // 必填项验证
     rules() {
@@ -141,12 +140,6 @@ export default {
           this.$Message.error("参数验证错误，请仔细填写表单数据!");
         }
       });
-    },
-  },
-  watch: {
-    data(val) {
-      this.$refs["form"].resetFields();
-      this.formData = JSON.parse(JSON.stringify(val));
     },
   },
 };

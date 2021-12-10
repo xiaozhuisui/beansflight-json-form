@@ -1,6 +1,6 @@
 <template>
   <DetailFormPanel
-    title="商户详情"
+    title="详情"
     v-model="isShowDetailModal"
     :data="detail"
     :config="detailConfig"

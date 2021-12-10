@@ -35,7 +35,7 @@ import CascaderItem from "./CascaderItem.vue";
 import SelectItem from "./SelectItem.vue";
 import InputItem from "./InputItem.vue";
 import DatePickerItem from "./DatePickerItem.vue";
-import { titleCase, isFunc } from "../libs/lib";
+import { titleCase } from "../libs/lib";
 import { componentsMap } from "../mappings";
 export default {
   name: "QueryPanel",
