@@ -610,7 +610,89 @@ config: [
 
 ## 5 新建
 
-### 使用方式与编辑表单一样
+### 页面展示
+
+![新建](./screenshot/new.png)
+
+### 使用方式
+
+```vue
+  <NewFormPanel
+    title="新建"
+    v-model="isShowDetailModal"
+    :data="newForm"
+    :config="newConfig"
+    @sumbit="sumbit"
+    @cancel="cancel"
+  >
+  </NewFormPanel>
+```
+
+#### **newConfig**
+
+```javascript
+      newConfig: [
+        {
+          row: [
+            {
+              label: "商户名称",
+              type: "input",
+              // extendType: "password", // 取值范围[text、password、textarea、url、email、date、number、tel]
+              key: "name",
+              props: {
+                // 扩展属性
+                // disabled: true, // 设置输入框为禁用状态
+              },
+              span: 8,
+            },
+            {
+              label: "测试滑块",
+              type: "switch",
+              // extendType: "password", // 取值范围[text、password、textarea、url、email、date、number、tel]
+              key: "switchKey",
+              props: {
+                // 扩展属性
+                // disabled: true, // 设置输入框为禁用状态
+              },
+              span: 8,
+            },
+            {
+              label: "商户统一定价",
+              type: "select",
+              key: "isUniformprice",
+              options: [
+                { value: "0", label: "否" },
+                { value: "1", label: "是" },
+              ],
+              span: 8,
+              control: { // 组件联动 Switch为选中时，显示此组件
+                handle: (form) => {
+                  return form.switchKey === true; 
+                },
+              },
+            },
+            {
+              label: "商户状态",
+              type: "select",
+              key: "status",
+              props: {
+                // disabled: true, //是否禁用
+              },
+              options: [
+                { value: "0", label: "否" },
+                { value: "1", label: "是" },
+              ],
+              span: 8,
+              control: { // 组件联动
+                handle: (form) => {
+                  return form.switchKey === true; 
+                },
+              },
+            },
+          ],
+        },
+      ],
+```
 
 
 
