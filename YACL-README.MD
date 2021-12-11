@@ -6,7 +6,7 @@
 yarn global add yalc
 ```
 
-## 在组件开发目录下 打包并发布
+## 在组件开发目录下 打包并发布 严格执行以下顺序
 
 ```shell
 #先执行
@@ -20,7 +20,7 @@ yalc publish
 
 ```shell
 # 引入依赖
-yalc add my-component-package  
+yalc add beansflight-json-form
 # 更新依赖
 yarn
 ```

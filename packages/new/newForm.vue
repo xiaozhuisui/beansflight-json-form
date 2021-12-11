@@ -44,7 +44,7 @@ import { componentsMap } from "../mappings/formEditMapping";
 import { titleCase, isFunc, isObj } from "../libs/lib";
 
 export default {
-  name: "EditFormPanel",
+  name: "NewFormPanel",
   inheritAttrs: false,
   components: {
     Form,
@@ -61,10 +61,6 @@ export default {
     FormSwitchItem,
   },
   props: {
-    target: {
-      type: String,
-      default: () => {},
-    },
     data: {
       type: Object,
       default: () => {},
@@ -78,13 +74,17 @@ export default {
   },
   data() {
     return {
-      formData: {},
+      formData_deep: { ...this.data },
     };
   },
   computed: {
+    formData() {
+      console.log("计算属性开始监听formData", this.data);
+      return this.data;
+    },
     // 配置初始化
     configForm() {
-      return this.config.map((item) => this.formateItem(item, this.formData));
+      return this.config.map((item) => this.formateItem(item, this.data));
     },
     // 必填项验证
     rules() {
@@ -128,7 +128,8 @@ export default {
     save() {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          let emitForm = JSON.parse(JSON.stringify(this.formData));
+          let emitForm = JSON.parse(JSON.stringify(this.data));
+          this.$refs["form"].resetFields();
           this.$emit("sumbit", emitForm);
         } else {
           this.$Message.error("参数验证错误，请仔细填写表单数据!");
@@ -137,11 +138,10 @@ export default {
     },
   },
   watch: {
-    data: {
+    formData: {
       handler(val) {
-        console.log("编辑页面watch监听传递过来的data", val);
-        this.$refs["form"].resetFields();
-        this.formData = JSON.parse(JSON.stringify(val));
+        console.log("watch属性开始监听formData计算属性", this.data);
+        this.config.map((item) => this.formateItem(item, val));
       },
       deep: true,
     },

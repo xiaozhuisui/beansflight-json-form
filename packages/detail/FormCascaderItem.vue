@@ -35,7 +35,6 @@ export default {
   computed: {
     cascadeModel: {
       get() {
-        // console.warn("computed->cascade->get:", this.config);
         console.log([
           (
             Math.floor(this.data[this.config.key[0]] / 10000) * 10000
@@ -52,7 +51,6 @@ export default {
         ];
       },
       set(val) {
-        // console.warn("computed->cascade->set:", val);
         this.data[this.config.key[0]] = val[1];
         this.data[this.config.key[1]] = val[2];
       },

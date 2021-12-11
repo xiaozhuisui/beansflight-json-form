@@ -1,27 +1,23 @@
 <template>
   <Col :span="config.span || 8">
     <FormItem :label="`${config.label}`" :prop="config.key" v-if="isShow">
-      <RadioGroup v-model="data[config.key]" :disabled="disabled">
-        <Radio
-          v-for="(options, index) in config.options"
-          :label="options.value"
-          :key="index"
-          style="width: 230px; margin-bottom: 5px"
-          >{{ options.label }}</Radio
-        >
-      </RadioGroup>
+      <Input
+        v-model="data[config.key]"
+        :readonly="readOnly"
+        :type="inputType"
+        :disabled="disabled"
+      />
     </FormItem>
   </Col>
 </template>
 <script>
-import { FormItem, Col, RadioGroup, Radio } from "view-design";
+import { Col, FormItem, Input } from "view-design";
 export default {
-  name: "FormRadioItem",
+  name: "FormInputItem",
   components: {
-    FormItem,
     Col,
-    RadioGroup,
-    Radio,
+    FormItem,
+    Input,
   },
   props: {
     isShow: {
@@ -36,8 +32,17 @@ export default {
       type: Object,
       default: () => {},
     },
+    readOnly: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
+    inputType() {
+      const { extendType = "text" } = this.config;
+      return extendType;
+    },
+
     disabled() {
       const { props = {} } = this.config;
       if ("disabled" in props) {
@@ -46,10 +51,9 @@ export default {
       return false;
     },
   },
+  methods: {},
 };
 </script>
 <style lang="less">
-.ivu-modal-wrap .ivu-radio {
-  margin-right: 10px;
-}
+@import "../assets/styles/theme.less";
 </style>

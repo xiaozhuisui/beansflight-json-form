@@ -1,4 +1,6 @@
 const path = require('path')
+const webpack = require('webpack')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const resolve = (dir) => path.join(__dirname, dir);
 console.log('当前运行时:', process.env.VUE_APP_TYPE)
 module.exports = {
@@ -35,4 +37,21 @@ module.exports = {
         return options
       })
   },
+
+  configureWebpack: config => {
+    plugins: [
+      new webpack.BannerPlugin('前端逗逗飞!'),
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          compress: {
+            drop_debugger: true,
+            drop_console: true,
+            pure_funcs: ['console.log']
+          }
+        },
+        sourceMap: false,
+        parallel: true
+      })
+  ]
+  }
 }

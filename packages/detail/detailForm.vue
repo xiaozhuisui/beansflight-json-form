@@ -82,9 +82,18 @@ export default {
     },
   },
   watch: {
-    data(val) {
-      console.log("详情页面赋值", this.formData);
-      this.formData = JSON.parse(JSON.stringify(val));
+    // data(val) {
+    //   console.log("详情页面赋值", this.formData);
+    //   this.formData = JSON.parse(JSON.stringify(val));
+    // },
+    data: {
+      // console.log("详情页面赋值", this.formData);
+      // this.formData = JSON.parse(JSON.stringify(val));
+      handler(val) {
+        console.log("详情页面赋值", this.formData);
+        this.formData = JSON.parse(JSON.stringify(val));
+      },
+      deep: true,
     },
   },
 };

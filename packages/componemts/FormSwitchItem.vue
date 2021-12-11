@@ -1,6 +1,6 @@
 <template>
   <Col :span="config.span || 8">
-    <FormItem :label="`${config.label}`" :prop="config.key">
+    <FormItem :label="`${config.label}`" :prop="config.key" v-if="isShow">
       <i-switch v-model="data[config.key]" :disabled="disabled" />
     </FormItem>
   </Col>
@@ -15,6 +15,10 @@ export default {
     "i-switch": Switch,
   },
   props: {
+    isShow: {
+      type: Boolean,
+      default: true,
+    },
     config: {
       type: Object,
       default: () => {},
@@ -31,6 +35,11 @@ export default {
         return props["disabled"];
       }
       return false;
+    },
+  },
+  methods: {
+    topStatusChange(e) {
+      console.log("topStatusChange=", e);
     },
   },
 };

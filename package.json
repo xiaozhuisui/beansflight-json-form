@@ -1,6 +1,6 @@
 {
   "name": "beansflight-json-form",
-  "version": "0.2.1",
+  "version": "0.21.13",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -42,6 +42,7 @@
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
     "prettier": "^2.2.1",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "uglifyjs-webpack-plugin": "^2.2.0"
   }
 }

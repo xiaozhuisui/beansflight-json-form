@@ -8,6 +8,7 @@
       @input="backFn"
       draggable
       :styles="{ top: '20px' }"
+      @on-cancel="cancel"
     >
       <Form :label-width="100" :label-colon="true">
         <slot></slot>
@@ -39,11 +40,14 @@ export default {
     };
   },
   watch: {
-    value(newValue, oldValue) {
+    value(newValue) {
       this.childValue = newValue;
     },
   },
   methods: {
+    cancel() {
+      this.$emit("cance-modal");
+    },
     backFn() {
       this.$emit("input", this.childValue);
     },

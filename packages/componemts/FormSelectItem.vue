@@ -1,6 +1,6 @@
 <template>
   <Col :span="config.span || 8">
-    <FormItem :label="`${config.label}`" :prop="config.key">
+    <FormItem :label="`${config.label}`" :prop="config.key" v-if="isShow">
       <Select
         v-model="data[config.key]"
         :placeholder="config.placeholder"
@@ -27,6 +27,10 @@ export default {
     Option,
   },
   props: {
+    isShow: {
+      type: Boolean,
+      default: true,
+    },
     config: {
       type: Object,
       default: () => {},

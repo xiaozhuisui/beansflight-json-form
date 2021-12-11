@@ -1,6 +1,6 @@
 <template>
   <Col :span="config.span || 8">
-    <FormItem :label="`${config.label}`" :prop="config.key">
+    <FormItem :label="`${config.label}`" :prop="config.key" v-if="isShow">
       <DatePicker
         v-model="data[config.key]"
         :readonly="readOnly"
@@ -21,6 +21,10 @@ export default {
     FormItem,
   },
   props: {
+    isShow: {
+      type: Boolean,
+      default: true,
+    },
     config: {
       type: Object,
       default: () => {},
