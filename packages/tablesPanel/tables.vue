@@ -89,7 +89,7 @@ import noDataText from "../assets/icons/icon_no_data.png";
 import "./index.less";
 import tableAction from "../libs/table-action";
 import HeaderBtnOptions from "./header-btn-options.js";
-import { Card, Row, Page, Table, Button } from "view-design";
+import { Card, Row, Page, Table, Button, Switch } from "view-design";
 
 export default {
   name: "TablePanel",
@@ -101,6 +101,7 @@ export default {
     Page,
     Table,
     Button,
+    Switch,
   },
   props: {
     // 顶部按钮操作区配置
@@ -374,6 +375,17 @@ export default {
               params.row[res.key]
             );
             return h("span", disabled);
+          };
+        }
+        // switch处理
+        if (res.type && res.type === "switch") {
+          res.render = (h, params) => {
+            return h(Switch, {
+              props: {
+                value: params.row[res.key],
+                disabled: true,
+              },
+            });
           };
         }
         // 处理操作

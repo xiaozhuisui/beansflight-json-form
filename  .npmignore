@@ -1,2 +1,3 @@
-packages
-examples
+# 忽略目录
+examples/
+packages/
