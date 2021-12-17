@@ -46,7 +46,6 @@ export default {
       return false;
     },
     renderConfig() {
-      debugger;
       const { _ifShow = true } = this.config;
       return _ifShow;
     },

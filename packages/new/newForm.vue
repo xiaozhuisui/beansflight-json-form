@@ -31,17 +31,18 @@
   </ModelPanel>
 </template>
 <script>
-import { Form, Row, Button, Divider } from "view-design";
-import ModelPanel from "../componemts/ModelItem.vue";
-import FormSelectItem from "../componemts/FormSelectItem.vue";
-import FormDatepickerItem from "../componemts/FormDatePickerItem.vue";
-import FormCheckboxItem from "../componemts/FormCheckboxItem.vue";
-import FormSwitchItem from "../componemts/FormSwitchItem.vue";
-import FormRadioItem from "../componemts/FormRadioItem.vue";
-import FormInputItem from "./FormInputItem.vue";
-import FormCascaderItem from "./FormCascaderItem.vue";
-import { componentsMap } from "../mappings/formEditMapping";
-import { titleCase, isFunc, isObj } from "../libs/lib";
+import { Form, Row, Button, Divider } from "view-design"
+import ModelPanel from "../componemts/ModelItem.vue"
+import FormSelectItem from "../componemts/FormSelectItem.vue"
+import FormDatepickerItem from "../componemts/FormDatePickerItem.vue"
+import FormCheckboxItem from "../componemts/FormCheckboxItem.vue"
+import FormSwitchItem from "../componemts/FormSwitchItem.vue"
+import FormRadioItem from "../componemts/FormRadioItem.vue"
+import FormInputItem from "./FormInputItem.vue"
+import FormCascaderItem from "./FormCascaderItem.vue"
+import { componentsMap } from "../mappings/formEditMapping"
+import { titleCase, isFunc, isObj } from "../libs/lib"
+import FormUploadItem from "../componemts/FormUploadItem"
 
 export default {
   name: "NewFormPanel",
@@ -59,6 +60,7 @@ export default {
     FormCheckboxItem,
     FormRadioItem,
     FormSwitchItem,
+    FormUploadItem,
   },
   props: {
     data: {
@@ -75,78 +77,77 @@ export default {
   data() {
     return {
       formData_deep: { ...this.data },
-    };
+    }
   },
   computed: {
     formData() {
-      console.log("计算属性开始监听formData", this.data);
-      return this.data;
+      // console.log("计算属性开始监听formData", this.data);
+      return this.data
     },
     // 配置初始化
     configForm() {
-      return this.config.map((item) => this.formateItem(item, this.data));
+      return this.config.map((item) => this.formateItem(item, this.data))
     },
     // 必填项验证
     rules() {
-      const row = this.config;
-      const rules = {};
+      const row = this.config
+      const rules = {}
       row.forEach((i) => {
-        const { row } = i;
+        const { row } = i
         row.forEach((item) => {
-          rules[item.key] = item.rule || [];
-        });
-      });
-      return rules;
+          rules[item.key] = item.rule || []
+        })
+      })
+      return rules
     },
   },
   methods: {
     formateItem(item, form) {
-      const { row, splitLine, lineTitle } = item;
+      const { row, splitLine, lineTitle } = item
       row.map((column) => {
-        let type = column.type || "input";
-        let def = componentsMap[titleCase(type)];
-        column.tag = def.component;
-        column.props = Object.assign({}, def.props, column.props);
+        let type = column.type || "input"
+        let def = componentsMap[titleCase(type)]
+        column.tag = def.component
+        column.props = Object.assign({}, def.props, column.props)
         if (isObj(form) && form.hasOwnProperty(column.key)) {
           if ("control" in column) {
             if (Object.keys(column.control).find((key) => key === "handle")) {
               const {
                 control: { handle },
-              } = column;
-              column._ifShow = isFunc(handle) ? handle(form) : true;
+              } = column
+              column._ifShow = isFunc(handle) ? handle(form) : true
             }
           }
         }
-        return column;
-      });
-      return { splitLine, row, lineTitle };
+        return column
+      })
+      return { splitLine, row, lineTitle }
     },
     cancel() {
-      this.$refs.form.resetFields();
-      this.$emit("cancel");
+      this.$refs.form.resetFields()
+      this.$emit("cancel")
     },
     save() {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          let emitForm = JSON.parse(JSON.stringify(this.data));
-          this.$refs["form"].resetFields();
-          this.$emit("sumbit", emitForm);
+          let emitForm = JSON.parse(JSON.stringify(this.data))
+          this.$refs["form"].resetFields()
+          this.$emit("sumbit", emitForm)
         } else {
-          this.$Message.error("参数验证错误，请仔细填写表单数据!");
+          this.$Message.error("参数验证错误，请仔细填写表单数据!")
         }
-      });
+      })
     },
   },
   watch: {
     formData: {
       handler(val) {
-        console.log("watch属性开始监听formData计算属性", this.data);
-        this.config.map((item) => this.formateItem(item, val));
+        this.config.map((item) => this.formateItem(item, val))
       },
       deep: true,
     },
   },
-};
+}
 </script>
 <style lang="less">
 @import "../assets/styles/theme.less";

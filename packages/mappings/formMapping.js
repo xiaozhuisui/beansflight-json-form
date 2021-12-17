@@ -1,10 +1,15 @@
 // form组件与view-deisng组件映射关系
 export const componentsMap = {
+  // 附件上传
+  Upload: {
+    component: "FormUploadItem",
+  },
   // 输入框
   Input: {
     component: "FormInputItem",
     props: {
       readOnly: true,
+      maxlength: 40,
     },
   },
   // 级联
@@ -49,4 +54,4 @@ export const componentsMap = {
       // readOnly: true,
     },
   },
-};
+}

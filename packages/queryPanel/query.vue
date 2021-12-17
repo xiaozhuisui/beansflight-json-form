@@ -5,6 +5,7 @@
       class="smart-query-form-row"
       :gutter="row.gutter || 18"
       v-for="(row, index) in configItems"
+      v-if="showRow(index)"
       :key="index"
     >
       <component
@@ -19,10 +20,26 @@
     <!-- 底部按钮 -->
     <Row class="smart-query-form-row">
       <ButtonGroup class="btn-wrapper">
-        <Button @click="queryAction" icon="ios-search" type="primary"
+        <template v-if="showMoreQyery">
+          <Button
+            @click="conFlag = !conFlag"
+            :icon="conFlag ? 'ios-arrow-up' : 'ios-arrow-down'"
+            type="default"
+            >{{ conFlag ? "隐藏" : "展开" }}
+          </Button>
+        </template>
+        <Button
+          @click="queryAction"
+          icon="ios-search"
+          type="primary"
+          style="margin-left: 5px"
           >查询
         </Button>
-        <Button @click="resetAction" icon="md-refresh" type="default"
+        <Button
+          @click="resetAction"
+          icon="md-refresh"
+          type="default"
+          style="margin-left: 5px"
           >重置
         </Button>
       </ButtonGroup>
@@ -55,19 +72,41 @@ export default {
       default: () => {},
     },
   },
+  data() {
+    return {
+      conFlag: false, // 默认收起
+      showMoreQyery: false,
+    };
+  },
   computed: {
     model() {
       return this.config.formModel;
     },
     configItems() {
       return this.config.formItems.map((item) =>
-        this.formatItem(item, this.config.formModel)
+        this.formatItem(
+          item,
+          this.config.formItems.length,
+          this.config.formModel
+        )
       );
     },
   },
   methods: {
-    formatItem(config, form) {
+    showRow(rowIndex) {
+      if (rowIndex <= 0) {
+        return true;
+      } else {
+        return this.conFlag;
+      }
+    },
+    formatItem(config, rowLength, form) {
       const { row } = config;
+      if (rowLength > 1) {
+        this.showMoreQyery = true;
+      } else {
+        this.showMoreQyery = false;
+      }
       row.map((column) => {
         let type = column.type || "input";
         let def = componentsMap[titleCase(type)];

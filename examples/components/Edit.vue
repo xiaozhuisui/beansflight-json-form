@@ -10,7 +10,7 @@
   </EditFormPanel>
 </template>
 <script>
-import EditFormPanel from "../../packages/edit/editForm.vue";
+import EditFormPanel from "../../packages/edit/editForm.vue"
 // import { casitems } from "../../packages/libs/conversion-cascader";
 export default {
   name: "EditForm",
@@ -33,11 +33,12 @@ export default {
             {
               label: "商户名称",
               type: "input",
-              extendType: "textarea", // 取值范围[text、password、textarea、url、email、date、number、tel]
+              // extendType: "textarea", // 取值范围[text、password、textarea、url、email、date、number、tel]
               key: "name",
               props: {
                 // 扩展属性
                 // disabled: true, // 设置输入框为禁用状态
+                // maxlength: Number 最大长度
               },
               rule: [
                 {
@@ -53,8 +54,8 @@ export default {
               type: "select",
               key: "isUniformprice",
               options: [
-                { value: "0", label: "否" },
-                { value: "1", label: "是" },
+                //   { value: "0", label: "否" },
+                //   { value: "1", label: "是" },
               ],
               span: 8,
             },
@@ -72,8 +73,7 @@ export default {
               span: 8,
               control: {
                 handle: (form) => {
-                  debugger;
-                  return form.isUniformprice === "1";
+                  return form.isUniformprice === "1"
                 },
               },
             },
@@ -120,8 +120,7 @@ export default {
               span: 24,
               control: {
                 handle: (form) => {
-                  debugger;
-                  return form.switchkey === true;
+                  return form.switchkey === true
                 },
               },
             },
@@ -1919,21 +1918,27 @@ export default {
         //   ],
         // },
       ],
-    };
+    }
   },
   methods: {
     showModalDeit(detail) {
-      this.edit = detail;
-      this.isShowDetailModal = true;
+      this.edit = detail
+      this.isShowDetailModal = true
+      setTimeout(() => {
+        this.editConfig[0].row[1].options = [
+          { value: "0", label: "否" },
+          { value: "1", label: "是" },
+        ]
+      }, 5000)
     },
     cancel() {
-      this.isShowDetailModal = false;
-      this.$emit("cancel");
+      this.isShowDetailModal = false
+      this.$emit("cancel")
     },
     sumbit(params) {
-      console.log("Edit-button-save", JSON.stringify(params));
-      this.isShowDetailModal = false;
+      console.log("Edit-button-save", JSON.stringify(params))
+      this.isShowDetailModal = false
     },
   },
-};
+}
 </script>

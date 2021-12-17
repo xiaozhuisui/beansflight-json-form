@@ -10,10 +10,10 @@
   </NewFormPanel>
 </template>
 <script>
-import NewFormPanel from "../../packages/new/newForm.vue";
+import NewFormPanel from "../../packages/new/newForm.vue"
 
 export default {
-  name: "EditForm",
+  name: "NewForm",
   components: { NewFormPanel },
   props: {
     config: {
@@ -73,7 +73,7 @@ export default {
               span: 8,
               control: {
                 handle: (form) => {
-                  return form.switchKey === true;
+                  return form.switchKey === true
                 },
               },
             },
@@ -91,7 +91,31 @@ export default {
               span: 8,
               control: {
                 handle: (form) => {
-                  return form.switchKey === true;
+                  return form.switchKey === true
+                },
+              },
+            },
+          ],
+        },
+        {
+          row: [
+            {
+              label: "附件上传",
+              action: "/posts",
+              type: "upload",
+              uploadtitle: "点击上传",
+              formate: ["jpg", "jpeg", "png"],
+              control: {
+                error: (file, fileList) => {
+                  console.log(file)
+                  console.log(fileList)
+                },
+                success: (file, fileList) => {
+                  console.log(file)
+                  console.log(fileList)
+                },
+                formateError: (file, fileList) => {
+                  console.log(file, fileList)
                 },
               },
             },
@@ -249,19 +273,19 @@ export default {
         //   ],
         // },
       ],
-    };
+    }
   },
   methods: {
     showModal() {
-      this.isShowDetailModal = true;
+      this.isShowDetailModal = true
     },
     cancel() {
-      this.isShowDetailModal = false;
+      this.isShowDetailModal = false
     },
     sumbit(params) {
-      console.log("save", params);
-      this.isShowDetailModal = false;
+      console.log("save", params)
+      this.isShowDetailModal = false
     },
   },
-};
+}
 </script>

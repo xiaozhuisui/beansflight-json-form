@@ -35,13 +35,6 @@ export default {
   computed: {
     cascadeModel: {
       get() {
-        console.log([
-          (
-            Math.floor(this.data[this.config.key[0]] / 10000) * 10000
-          ).toString(),
-          this.data[this.config.key[0]],
-          this.data[this.config.key[1]],
-        ])
         return [
           (
             Math.floor(this.data[this.config.key[0]] / 10000) * 10000

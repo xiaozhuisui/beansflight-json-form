@@ -208,16 +208,17 @@ Vue.use(beansflightForm);
 
 #### **columns**
 
-| 属性     | 必填项 | 描述                        | 类型   | 默认值 | 备注                                                         |
-| -------- | ------ | --------------------------- | ------ | ------ | ------------------------------------------------------------ |
-| title    | true   | 列头显示文字                | String | -      |                                                              |
-| key      | true   | 对应列内容的字段名          | String |        |                                                              |
-| minWidth | false  | 最小列宽                    | Number |        |                                                              |
-| type     | false  | 用于区分枚举转换/列表操作区 | String | -      | 如果需要处理枚举则 type: 'eunm'，如果是列表操作项则  type: 'handler', |
-| enumKey  | false  | 枚举的key                   |        |        | 对于项目中维护的枚举的Key                                    |
-| align    | false  | 列表操作区位置固定          | String | -      | 如果是列表操作项则必传,固定值 align: 'right',                |
-| fixed    | false  | 列表操作区位置固定          | String | -      | 如果是列表操作项则必传,固定值  fixed: 'right',               |
-| options  | False  | 列表操作按钮                | Array  | -      | 如果是列表操作项则必传,                                      |
+| 属性     | 必填项 | 描述                                                         | 类型   | 默认值 | 备注                                                         |
+| -------- | ------ | ------------------------------------------------------------ | ------ | ------ | ------------------------------------------------------------ |
+| title    | true   | 列头显示文字                                                 | String | -      |                                                              |
+| key      | true   | 对应列内容的字段名                                           | String |        |                                                              |
+| minWidth | false  | 最小列宽                                                     | Number |        |                                                              |
+| type     | false  | 用于区分枚举转换/列表操作区 取值范围['switch','eunm', 'handler'] | String | -      | 如果需要处理枚举则 type: 'eunm'，如果是列表操作项则  type: 'handler', |
+| enumKey  | false  | 枚举的key                                                    |        |        | 对于项目中维护的枚举的Key                                    |
+| formate  | False  | 日期格式化                                                   | Sring  | -      | 格式参照 dayjs                                               |
+| align    | false  | 列表操作区位置固定                                           | String | -      | 如果是列表操作项则必传,固定值 align: 'right',                |
+| fixed    | false  | 列表操作区位置固定                                           | String | -      | 如果是列表操作项则必传,固定值  fixed: 'right',               |
+| options  | False  | 列表操作按钮                                                 | Array  | -      | 如果是列表操作项则必传,                                      |
 
 ```javascript
 columnArray: [
@@ -230,12 +231,18 @@ columnArray: [
     title: '商户状态',
     key: 'status',
     minWidth: 120,
-    type: 'eunm',
+    type: 'eunm', // 用于枚举处理
     enumKey: 'STATUS',
   },
   {
     title: '电子邮件',
     key: 'email',
+    minWidth: 140,
+  },
+  {
+    title: "createDate",
+    key: "createDate",
+    formate: "YYYY-MM-DD",  用于日期格式化
     minWidth: 140,
   },
   {

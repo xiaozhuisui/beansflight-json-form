@@ -62,6 +62,8 @@
       @on-row-click="onRowClick"
       @on-row-dblclick="onRowDblclick"
       @on-expand="onExpand"
+      draggable
+      @on-drag-drop="changeOrder"
     >
     </Table>
     <!-- page -->
@@ -83,13 +85,15 @@
 </template>
 
 <script>
-import TablesEdit from "./edit.vue";
+import TablesEdit from "./edit.vue"
 // import handleBtns from "./handle-btns";
-import noDataText from "../assets/icons/icon_no_data.png";
-import "./index.less";
-import tableAction from "../libs/table-action";
-import HeaderBtnOptions from "./header-btn-options.js";
-import { Card, Row, Page, Table, Button, Switch } from "view-design";
+import noDataText from "../assets/icons/icon_no_data.png"
+import "./index.less"
+import tableAction from "../libs/table-action"
+import HeaderBtnOptions from "./header-btn-options.js"
+import { Card, Row, Page, Table, Button, Switch } from "view-design"
+import dayjs from "dayjs"
+const datJS = require("dayjs")
 
 export default {
   name: "TablePanel",
@@ -113,7 +117,7 @@ export default {
     value: {
       type: Array,
       default() {
-        return [];
+        return []
       },
     },
     // 是否显示页码
@@ -125,7 +129,7 @@ export default {
     columns: {
       type: Array,
       default() {
-        return [];
+        return []
       },
     },
     pageTotal: {
@@ -141,6 +145,11 @@ export default {
     pageNumber: {
       type: Number,
       default: 1,
+    },
+    // 每页显示条数
+    pageSize: {
+      type: Number,
+      default: 10,
     },
     // 显示分页，用来改变page-size
     showSizer: {
@@ -189,7 +198,7 @@ export default {
     rowClassName: {
       type: Function,
       default() {
-        return "";
+        return ""
       },
     },
     // 筛选数据为空时显示的提示内容
@@ -243,7 +252,7 @@ export default {
       noDataText,
       // 分页时每页数量选择
       pageOpts: [10, 20, 30, 50, 100],
-      pageSize: 20,
+      // pageSize: 20,
       // 表格 每列的配置 如名称，宽度
       insideColumns: [],
       // 表格数据
@@ -258,42 +267,49 @@ export default {
       searchKey: "",
       // 删除时标注是否有选中的数据
       selectRows: 0,
-    };
+    }
   },
   watch: {
     columns(columns) {
-      this.handleColumns(columns);
-      this.setDefaultSearchKey();
+      this.handleColumns(columns)
+      this.setDefaultSearchKey()
     },
     value(val) {
-      this.handleTableData();
-      if (this.searchable) this.handleSearch();
+      this.handleTableData()
+      if (this.searchable) this.handleSearch()
     },
     panelConfig(options) {
-      this.handleHeaderBtnOPtions();
+      this.handleHeaderBtnOPtions()
     },
   },
   mounted() {
-    this.handleColumns(this.columns);
-    this.setDefaultSearchKey();
-    this.handleTableData();
-    this.handleHeaderBtnOPtions(this.panelConfig);
+    this.handleColumns(this.columns)
+    this.setDefaultSearchKey()
+    this.handleTableData()
+    this.handleHeaderBtnOPtions(this.panelConfig)
   },
   methods: {
+    changeOrder(oldIndex, newIndex) {
+      oldIndex = parseInt(oldIndex)
+      newIndex = parseInt(newIndex)
+      let oldData = this.insideTableData[oldIndex]
+      this.insideTableData.splice(oldIndex, 1, this.insideTableData[newIndex])
+      this.insideTableData.splice(newIndex, 1, oldData)
+    },
     handleHeaderBtnOPtions(options) {
-      const { show, options: vmBtn = [] } = options;
-      this.showHeaderBtn = show;
+      const { show, options: vmBtn = [] } = options
+      this.showHeaderBtn = show
       if (!show) {
-        this.headerBtns = vmBtn;
+        this.headerBtns = vmBtn
       }
     },
     // 页码改变
     pageChange(e) {
-      this.$emit("on-change", e);
+      this.$emit("on-change", e)
     },
     // 每页条数改变
     pageSizeChange(e) {
-      this.$emit("on-page-size-change", e);
+      this.$emit("on-page-size-change", e)
     },
     suportEdit(item, index) {
       item.render = (h, params) =>
@@ -306,29 +322,29 @@ export default {
           },
           on: {
             input: (val) => {
-              this.edittingText = val;
+              this.edittingText = val
             },
             "on-start-edit": (params) => {
-              this.edittingCellId = `editting-${params.index}-${params.column.key}`;
-              this.$emit("on-start-edit", params);
+              this.edittingCellId = `editting-${params.index}-${params.column.key}`
+              this.$emit("on-start-edit", params)
             },
             "on-cancel-edit": (params) => {
-              this.edittingCellId = "";
-              this.$emit("on-cancel-edit", params);
+              this.edittingCellId = ""
+              this.$emit("on-cancel-edit", params)
             },
             "on-save-edit": (params) => {
               this.value[params.row.initRowIndex][params.column.key] =
-                this.edittingText;
-              this.$emit("input", this.value);
+                this.edittingText
+              this.$emit("input", this.value)
               this.$emit(
                 "on-save-edit",
                 Object.assign(params, { value: this.edittingText })
-              );
-              this.edittingCellId = "";
+              )
+              this.edittingCellId = ""
             },
           },
-        });
-      return item;
+        })
+      return item
     },
 
     // surportHandle(item) {
@@ -346,12 +362,12 @@ export default {
     // },
 
     surportHandle(item) {
-      const options = item.options || [];
+      const options = item.options || []
       item.render = (h, params) => {
-        options.map((btn) => (btn.action = () => btn.onClick(params.row)));
-        return tableAction(h, options);
-      };
-      return item;
+        options.map((btn) => (btn.action = () => btn.onClick(params.row)))
+        return tableAction(h, options)
+      }
+      return item
     },
     // 设置表格列头
     handleColumns(columns) {
@@ -361,21 +377,22 @@ export default {
           type: "selection",
           width: 30,
           align: "center",
-        });
+        })
       }
       this.insideColumns = columns.map((item, index) => {
-        const res = item;
+        const res = item
+        // 可编辑状态
+        // if (res.editable) { res = this.suportEdit(res, index); }
         // 正常处理
         // 处理枚举
-        // if (res.editable) { res = this.suportEdit(res, index); }
         if (res.type && res.type === "eunm") {
           res.render = (h, params) => {
             const disabled = this.$enum.getDescByValue(
               res.enumKey,
               params.row[res.key]
-            );
-            return h("span", disabled);
-          };
+            )
+            return h("span", disabled)
+          }
         }
         // switch处理
         if (res.type && res.type === "switch") {
@@ -385,16 +402,28 @@ export default {
                 value: params.row[res.key],
                 disabled: true,
               },
-            });
-          };
+            })
+          }
+        }
+        //  日期格式处理
+        if (res.formate) {
+          res.render = (h, params) => {
+            let dateTemp = null
+            if (new Date(params.row[res.key])) {
+              dateTemp = dayjs(params.row[res.key]).format(res.formate)
+            } else {
+              console.warn("不能处理日期格式")
+            }
+            return h("span", dateTemp)
+          }
         }
         // 处理操作
         // if (res.key === 'handle') { res = this.surportHandle(res); }
         if (res.type && res.type === "handle") {
-          this.surportHandle(res);
+          this.surportHandle(res)
         }
-        return res;
-      });
+        return res
+      })
     },
     // 设置默认搜索关键词
     setDefaultSearchKey() {
@@ -403,93 +432,93 @@ export default {
           ? this.columns[0].key
           : this.columns.length > 1
           ? this.columns[1].key
-          : "";
+          : ""
     },
     handleClear(e) {
-      if (e.target.value === "") this.insideTableData = this.value;
+      if (e.target.value === "") this.insideTableData = this.value
     },
     handleSearch() {
       this.insideTableData = this.value.filter(
         (item) => item[this.searchKey].indexOf(this.searchValue) > -1
-      );
+      )
     },
     handleTableData() {
       this.insideTableData = this.value.map((item, index) => {
-        const res = item;
-        res.initRowIndex = index;
-        return res;
-      });
+        const res = item
+        res.initRowIndex = index
+        return res
+      })
     },
     exportCsv(params) {
-      this.$refs.tablesMain.exportCsv(params);
+      this.$refs.tablesMain.exportCsv(params)
     },
     clearCurrentRow() {
-      this.$refs.talbesMain.clearCurrentRow();
+      this.$refs.talbesMain.clearCurrentRow()
     },
     onCurrentChange(currentRow, oldCurrentRow) {
-      this.$emit("on-current-change", currentRow, oldCurrentRow);
+      this.$emit("on-current-change", currentRow, oldCurrentRow)
     },
     onSelect(selection, row) {
-      this.$emit("on-select", selection, row);
+      this.$emit("on-select", selection, row)
     },
     onSelectCancel(selection, row) {
-      this.$emit("on-select-cancel", selection, row);
+      this.$emit("on-select-cancel", selection, row)
     },
     onSelectAll(selection) {
-      this.$emit("on-select-all", selection);
+      this.$emit("on-select-all", selection)
     },
     onSelectionChange(selection) {
-      this.$emit("on-selection-change", selection);
+      this.$emit("on-selection-change", selection)
     },
     onSortChange(column, key, order) {
-      this.$emit("on-sort-change", column, key, order);
+      this.$emit("on-sort-change", column, key, order)
     },
     onFilterChange(row) {
-      this.$emit("on-filter-change", row);
+      this.$emit("on-filter-change", row)
     },
     onRowClick(row, index) {
-      this.$emit("on-row-click", row, index);
+      this.$emit("on-row-click", row, index)
     },
     onRowDblclick(row, index) {
-      this.$emit("on-row-dblclick", row, index);
+      this.$emit("on-row-dblclick", row, index)
     },
     onExpand(row, status) {
-      this.$emit("on-expand", row, status);
+      this.$emit("on-expand", row, status)
     },
     onChangePageNum(pageNum) {
-      this.$emit("onChangePageNum", pageNum);
+      this.$emit("onChangePageNum", pageNum)
     },
     onChangePageSize(pageSize) {
-      this.$emit("onChangePageSize", pageSize);
+      this.$emit("onChangePageSize", pageSize)
     },
     // 顶部操作项配置
     newAction() {
-      this.$emit("newAction");
+      this.$emit("newAction")
     },
     // 批量删除
     batchDeleteAction() {
-      const selectRows = this.$refs.tablesMain.getSelection();
+      const selectRows = this.$refs.tablesMain.getSelection()
       if (selectRows.length < 1) {
-        this.$Message.error("请选择至少一条数据");
-        return;
+        this.$Message.error("请选择至少一条数据")
+        return
       }
-      this.$emit("batchDeleteAction", { rows: selectRows });
+      this.$emit("batchDeleteAction", { rows: selectRows })
     },
     // 导出全部
     allExportAction() {
-      this.$emit("allExportAction");
+      this.$emit("allExportAction")
     },
     // 批量导出
     batchExportAction() {
-      const selectRows = this.$refs.tablesMain.getSelection();
+      const selectRows = this.$refs.tablesMain.getSelection()
       if (selectRows.length < 1) {
-        this.$Message.error("请选择至少一条数据");
-        return;
+        this.$Message.error("请选择至少一条数据")
+        return
       }
-      this.$emit("batchExportAction", { rows: selectRows });
+      this.$emit("batchExportAction", { rows: selectRows })
     },
   },
-};
+}
 </script>
 <style lang="less">
 @import "./table.less";

@@ -5,6 +5,7 @@
       class="query-form-element"
       clearable
       :placeholder="config.placeholder"
+      filterable
       v-model="rule[config.key]"
     >
       <Option

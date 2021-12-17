@@ -6,12 +6,14 @@
         :readonly="readOnly"
         :type="inputType"
         :disabled="disabled"
+        :maxlength="inputType !== 'textarea' ? maxLength : null"
+        :autosize="inputType === 'textarea'"
       />
     </FormItem>
   </Col>
 </template>
 <script>
-import { Col, FormItem, Input } from "view-design";
+import { Col, FormItem, Input } from "view-design"
 export default {
   name: "FormInputItem",
   components: {
@@ -35,20 +37,33 @@ export default {
   },
   computed: {
     inputType() {
-      const { extendType = "text" } = this.config;
-      return extendType;
+      const { extendType = "text" } = this.config
+      return extendType
     },
 
     disabled() {
-      const { props = {} } = this.config;
+      const { props = {} } = this.config
       if ("disabled" in props) {
-        return props["disabled"];
+        return props["disabled"]
       }
-      return false;
+      return false
+    },
+
+    maxLength() {
+      const { props = {} } = this.config
+      if ("maxlength" in props) {
+        return props["maxlength"]
+      }
+      return null
     },
   },
-  methods: {},
-};
+  methods: {
+    changeVal(e) {
+      console.log(e.target.value)
+      this.data[this.config.key] = e.target.value
+    },
+  },
+}
 </script>
 <style lang="less">
 @import "../assets/styles/theme.less";

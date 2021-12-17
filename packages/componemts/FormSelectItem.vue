@@ -5,6 +5,7 @@
         v-model="data[config.key]"
         :placeholder="config.placeholder"
         :disabled="disabled"
+        filterable
       >
         <Option
           v-for="(option, index) in config.options"
