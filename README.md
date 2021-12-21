@@ -132,6 +132,7 @@ Vue.use(beansflightForm);
       :loading="mainTable.loading"
       :pageNumber="queryForm.pageNum"
       :pageSize="queryForm.pageSize"
+			:pageShow="true"
       :pageTotal="mainTablePage.total"
       @onChangePageNum="changeMainTablePagePageNum"
       @onChangePageSize="changeMainTablePagePageSize"
@@ -154,6 +155,7 @@ Vue.use(beansflightForm);
 | loading           | true   | Boolean         |                              |        |
 | pageNumber        | true   | String          | 每页返回的数据条数           |        |
 | pageSize          | true   | String          | 页码                         |        |
+| pageShow          | false  | Boolean         | 是否显示翻页                 | true   |
 | pageTotal         | true   | String          | 总页数                       |        |
 | onChangePageNum   | true   | Function        | 切换每页数据条数时的回调函数 |        |
 | onChangePageSize  | true   | Function        | 切换页码时回调函数           |        |
@@ -495,22 +497,30 @@ formModel: {
 <edit-form-panel
     title="编辑或新建"
     v-model="isShowDetailModal"
+		displayed="model"
     :data="detail"
     :config="editConfig"
     @sumbit="sumbit"
     @cancel="cancel"
 >
+      <template v-slot:footer="data">
+       	  <div>底部按钮布局</div>
+      		<div>{{ data }}</div>
+     </template>
+
   </edit-form-panel>
 ```
 
-| 属性    | 必填项 | 说明             | 类型          | 默认值 | 备注 |
-| ------- | ------ | ---------------- | ------------- | ------ | ---- |
-| title   | true   | 标题             | String        | -      |      |
-| v-model | true   | 页面显示隐藏     | Boolean       | -      |      |
-| detail  | true   | 数据项           | Object        | -      |      |
-| config  | true   | 页面配置         | Object        | -      |      |
-| sumbit  | true   | 确认按钮回调函数 | (params) =>{} |        |      |
-| cancel  | true   | 取消按钮回调函数 | ()=>{}        |        |      |
+| 属性      | 必填项 | 说明                                                 | 类型          | 默认值 | 备注           |
+| --------- | ------ | ---------------------------------------------------- | ------------- | ------ | -------------- |
+| title     | true   | 标题                                                 | String        | -      |                |
+| v-model   | true   | 页面显示隐藏                                         | Boolean       | -      |                |
+| displayed | false  | 页面展现形式 支持2中显示方式 model:弹窗、panel: 平面 | String        | model  |                |
+| detail    | true   | 数据项                                               | Object        | -      |                |
+| config    | true   | 页面配置                                             | Object        | -      |                |
+| footer    | false  | 页脚插槽                                             | Slot          | -      | data是表单数据 |
+| sumbit    | true   | 确认按钮回调函数                                     | (params) =>{} |        |                |
+| cancel    | true   | 取消按钮回调函数                                     | ()=>{}        |        |                |
 
 #### **config**
 
@@ -571,15 +581,20 @@ formModel: {
   :data="detail"
   :config="detailConfig"
 >
+    <template v-slot:footer="data">
+      <div>底部按钮布局</div>
+      <div>{{ data }}</div>
+    </template>
   </detail-form-panel>
 ```
 
-| 属性    | 必填项 | 说明         | 类型    | 默认值 | 备注 |
-| ------- | ------ | ------------ | ------- | ------ | ---- |
-| title   | true   | 标题         | String  | -      |      |
-| v-model | true   | 页面显示隐藏 | Boolean | -      |      |
-| detail  | true   | 数据项       | Object  | -      |      |
-| config  | true   | 页面配置     | Object  | -      |      |
+| 属性    | 必填项 | 说明         | 类型    | 默认值 | 备注           |
+| ------- | ------ | ------------ | ------- | ------ | -------------- |
+| title   | true   | 标题         | String  | -      |                |
+| v-model | true   | 页面显示隐藏 | Boolean | -      |                |
+| footer  | false  | 页脚插槽     | Slot    | -      | data是表单数据 |
+| detail  | true   | 数据项       | Object  | -      |                |
+| config  | true   | 页面配置     | Object  | -      |                |
 
 #### **config**
 

@@ -5,8 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "lib": "vue-cli-service build --mode lib --target lib packages/index.js --name beansflight-json-form --dest beansflightJsonForm",
-    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
-    "postversion": "git push --follow-tags"
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "main": "beansflightJsonForm/beansflight-json-form.umd.min.js",
   "keywords": [
