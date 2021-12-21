@@ -32,17 +32,17 @@
 </template>
 <script>
 import { Form, Row, Button, Divider } from "view-design"
-import ModelPanel from "../componemts/ModelItem.vue"
-import FormSelectItem from "../componemts/FormSelectItem.vue"
-import FormDatepickerItem from "../componemts/FormDatePickerItem.vue"
-import FormCheckboxItem from "../componemts/FormCheckboxItem.vue"
-import FormSwitchItem from "../componemts/FormSwitchItem.vue"
-import FormRadioItem from "../componemts/FormRadioItem.vue"
+import ModelPanel from "../fields/ModelItem.vue"
+import FormUploadItem from "../fields/FormUploadItem"
+import FormSelectItem from "../fields/FormSelectItem.vue"
+import FormDatepickerItem from "../fields/FormDatePickerItem.vue"
+import FormCheckboxItem from "../fields/FormCheckboxItem.vue"
+import FormSwitchItem from "../fields/FormSwitchItem.vue"
+import FormRadioItem from "../fields/FormRadioItem.vue"
 import FormInputItem from "./FormInputItem.vue"
 import FormCascaderItem from "./FormCascaderItem.vue"
 import { componentsMap } from "../mappings/formEditMapping"
 import { titleCase, isFunc, isObj } from "../libs/lib"
-import FormUploadItem from "../componemts/FormUploadItem"
 
 export default {
   name: "NewFormPanel",

@@ -19,17 +19,17 @@
   </ModelPanel>
 </template>
 <script>
-import { Divider, Row } from "view-design";
-import FormSelectItem from "../componemts/FormSelectItem.vue";
-import FormDatepickerItem from "../componemts/FormDatePickerItem.vue";
-import FormCheckboxItem from "../componemts/FormCheckboxItem.vue";
-import FormRadioItem from "../componemts/FormRadioItem.vue";
-import FormSwitchItem from "../componemts/FormSwitchItem.vue";
-import FormInputItem from "./FormInputItem.vue";
-import FormCascaderItem from "./FormCascaderItem.vue";
-import ModelPanel from "../componemts/ModelItem.vue";
-import { titleCase } from "../libs/lib";
-import { componentsMap } from "../mappings/formMapping.js";
+import { Divider, Row } from "view-design"
+import FormSelectItem from "../fields/FormSelectItem.vue"
+import FormDatepickerItem from "../fields/FormDatePickerItem.vue"
+import FormCheckboxItem from "../fields/FormCheckboxItem.vue"
+import FormRadioItem from "../fields/FormRadioItem.vue"
+import FormSwitchItem from "../fields/FormSwitchItem.vue"
+import FormInputItem from "./FormInputItem.vue"
+import FormCascaderItem from "./FormCascaderItem.vue"
+import ModelPanel from "../fields/ModelItem.vue"
+import { titleCase } from "../libs/lib"
+import { componentsMap } from "../mappings/formMapping.js"
 
 export default {
   name: "DetailFormPanel",
@@ -61,24 +61,24 @@ export default {
   data() {
     return {
       formData: {},
-    };
+    }
   },
   computed: {
     configForm() {
-      return this.config.map((item) => this.formateItem(item));
+      return this.config.map((item) => this.formateItem(item))
     },
   },
   methods: {
     formateItem(item) {
-      const { row, splitLine, lineTitle } = item;
+      const { row, splitLine, lineTitle } = item
       row.map((column) => {
-        let type = column.type || "input";
-        let def = componentsMap[titleCase(type)];
-        column.tag = def.component;
-        column.props = Object.assign({}, def.props, column.props);
-        return column;
-      });
-      return { splitLine, row, lineTitle };
+        let type = column.type || "input"
+        let def = componentsMap[titleCase(type)]
+        column.tag = def.component
+        column.props = Object.assign({}, def.props, column.props)
+        return column
+      })
+      return { splitLine, row, lineTitle }
     },
   },
   watch: {
@@ -90,13 +90,13 @@ export default {
       // console.log("详情页面赋值", this.formData);
       // this.formData = JSON.parse(JSON.stringify(val));
       handler(val) {
-        console.log("详情页面赋值", this.formData);
-        this.formData = JSON.parse(JSON.stringify(val));
+        console.log("详情页面赋值", this.formData)
+        this.formData = JSON.parse(JSON.stringify(val))
       },
       deep: true,
     },
   },
-};
+}
 </script>
 <style lang="less">
 @import "../assets/styles/theme.less";
