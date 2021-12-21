@@ -1,37 +1,81 @@
 <template>
-  <ModelPanel v-bind="$attrs" v-on="$listeners" @cance-modal="cancel">
-    <Form
-      ref="form"
-      :label-width="100"
-      :model="formData"
-      :rules="rules"
-      :label-colon="true"
-    >
-      <Row :gutter="16" v-for="(row, index) in configForm" :key="index">
-        <!-- 分割线 -->
-        <template v-if="row.splitLine">
-          <Divider orientation="left">{{ row.lineTitle || "" }}</Divider>
-        </template>
-        <!-- 行内容 -->
-        <component
-          :is="col.tag"
-          v-for="(col, index) in row.row"
-          :key="index"
-          :config="col"
-          :data="formData"
-          :isShow="col._ifShow"
+  <div>
+    <div v-show="displayed === 'model'">
+      <ModelPanel v-bind="$attrs" v-on="$listeners" @cance-modal="cancel">
+        <Form
+          ref="form"
+          :label-width="100"
+          :model="formData"
+          :rules="rules"
+          :label-colon="true"
         >
-        </component>
+          <Row :gutter="16" v-for="(row, index) in configForm" :key="index">
+            <!-- 分割线 -->
+            <template v-if="row.splitLine">
+              <Divider orientation="left">{{ row.lineTitle || "" }}</Divider>
+            </template>
+            <!-- 行内容 -->
+            <component
+              :is="col.tag"
+              v-for="(col, index) in row.row"
+              :key="index"
+              :config="col"
+              :data="formData"
+              :isShow="col._ifShow"
+            >
+            </component>
+          </Row>
+        </Form>
+        <template v-if="!$slots.footer">
+          <Row class="code-row-bg" justify="end" type="flex">
+            <Button @click="cancel" style="margin-right: 10px">取消</Button>
+            <Button @click="save" type="primary">保存</Button>
+          </Row>
+        </template>
+        <Row class="code-row-bg" justify="end" type="flex">
+          <slot name="footer"></slot>
+        </Row>
+      </ModelPanel>
+    </div>
+    <Card class="smart-query-card" v-show="displayed === 'panel'">
+      <Form
+        ref="form"
+        :label-width="100"
+        :model="formData"
+        :rules="rules"
+        :label-colon="true"
+      >
+        <Row :gutter="16" v-for="(row, index) in configForm" :key="index">
+          <!-- 分割线 -->
+          <template v-if="row.splitLine">
+            <Divider orientation="left">{{ row.lineTitle || "" }}</Divider>
+          </template>
+          <!-- 行内容 -->
+          <component
+            :is="col.tag"
+            v-for="(col, index) in row.row"
+            :key="index"
+            :config="col"
+            :data="formData"
+            :isShow="col._ifShow"
+          >
+          </component>
+        </Row>
+      </Form>
+      <template v-if="!$slots.footer">
+        <Row class="code-row-bg" justify="end" type="flex">
+          <Button @click="cancel" style="margin-right: 10px">取消</Button>
+          <Button @click="save" type="primary">保存</Button>
+        </Row>
+      </template>
+      <Row class="code-row-bg" justify="end" type="flex">
+        <slot name="footer" :data="formData"></slot>
       </Row>
-    </Form>
-    <Row class="code-row-bg" justify="end" type="flex">
-      <Button @click="cancel" style="margin-right: 10px">取消</Button>
-      <Button @click="save" type="primary">保存</Button>
-    </Row>
-  </ModelPanel>
+    </Card>
+  </div>
 </template>
 <script>
-import { Form, Row, Button, Divider } from "view-design"
+import { Card, Form, Row, Button, Divider } from "view-design"
 import ModelPanel from "../fields/ModelItem.vue"
 import FormSelectItem from "../fields/FormSelectItem.vue"
 import FormDatepickerItem from "../fields/FormDatePickerItem.vue"
@@ -48,6 +92,7 @@ export default {
   name: "EditFormPanel",
   inheritAttrs: false,
   components: {
+    Card,
     Form,
     Row,
     Divider,
@@ -63,9 +108,10 @@ export default {
     FormUploadItem,
   },
   props: {
-    target: {
+    displayed: {
+      // 组件展现形式 model:弹窗 panel: 平面
       type: String,
-      default: () => {},
+      default: () => "model",
     },
     data: {
       type: Object,
@@ -141,10 +187,10 @@ export default {
   watch: {
     data: {
       handler(val) {
-        // console.log("编辑页面watch监听传递过来的data", val);
-        this.$refs["form"].resetFields()
+        this.$refs["form"] && this.$refs["form"].resetFields()
         this.formData = JSON.parse(JSON.stringify(val))
       },
+      immediate: true,
       deep: true,
     },
   },

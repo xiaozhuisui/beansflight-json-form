@@ -24,9 +24,14 @@
         </component>
       </Row>
     </Form>
+    <template v-if="!$slots.footer">
+      <Row class="code-row-bg" justify="end" type="flex">
+        <Button @click="cancel" style="margin-right: 10px">取消</Button>
+        <Button @click="save" type="primary">保存</Button>
+      </Row>
+    </template>
     <Row class="code-row-bg" justify="end" type="flex">
-      <Button @click="cancel" style="margin-right: 10px">取消</Button>
-      <Button @click="save" type="primary">保存</Button>
+      <slot name="footer" :data="formData"></slot>
     </Row>
   </ModelPanel>
 </template>

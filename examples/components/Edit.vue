@@ -2,11 +2,19 @@
   <EditFormPanel
     title="编辑"
     v-model="isShowDetailModal"
-    :data.sync="edit"
+    displayed="panel"
+    :data="edit"
     :config="editConfig"
     @sumbit="sumbit"
     @cancel="cancel"
   >
+    <!-- <template #footer>
+      <div>底部按钮布局</div>
+    </template> -->
+    <template v-slot:footer="data">
+      <div>底部按钮布局</div>
+      <div>{{ data }}</div>
+    </template>
   </EditFormPanel>
 </template>
 <script>
@@ -20,6 +28,10 @@ export default {
       type: Object,
       default: () => {},
       require: true,
+    },
+    value: {
+      type: Object,
+      default: () => {},
     },
   },
   data() {
@@ -1924,12 +1936,12 @@ export default {
     showModalDeit(detail) {
       this.edit = detail
       this.isShowDetailModal = true
-      setTimeout(() => {
-        this.editConfig[0].row[1].options = [
-          { value: "0", label: "否" },
-          { value: "1", label: "是" },
-        ]
-      }, 5000)
+      // setTimeout(() => {
+      this.editConfig[0].row[1].options = [
+        { value: "0", label: "否" },
+        { value: "1", label: "是" },
+      ]
+      // }, 5000)
     },
     cancel() {
       this.isShowDetailModal = false
@@ -1938,6 +1950,15 @@ export default {
     sumbit(params) {
       console.log("Edit-button-save", JSON.stringify(params))
       this.isShowDetailModal = false
+    },
+  },
+  watch: {
+    value: {
+      handler(val) {
+        debugger
+        this.edit = val
+      },
+      deep: true,
     },
   },
 }

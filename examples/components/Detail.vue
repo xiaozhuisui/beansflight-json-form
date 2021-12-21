@@ -2,13 +2,14 @@
   <DetailFormPanel
     title="详情"
     v-model="isShowDetailModal"
+    displayed="model"
     :data="detail"
     :config="detailConfig"
   >
   </DetailFormPanel>
 </template>
 <script>
-import DetailFormPanel from "../../packages/detail/detailForm.vue";
+import DetailFormPanel from "../../packages/detail/detailForm.vue"
 
 export default {
   name: "DetailForm",
@@ -1248,15 +1249,15 @@ export default {
           ],
         },
       ],
-    };
+    }
   },
   methods: {
     showModal(detail) {
-      this.isShowDetailModal = true;
-      detail.payType = detail.payType.split(",");
-      this.detail = detail;
-      console.log(this.detail);
+      this.isShowDetailModal = true
+      // detail.payType = detail.payType.split(",")
+      this.detail = detail
+      console.log(this.detail)
     },
   },
-};
+}
 </script>

@@ -1,5 +1,5 @@
 // @import '~view-design/dist/styles/iview.css';
-@import './main.less';
+@import "./main.less";
 
 @headerSplitline: 2px;
 @primary-color: #445ede;
@@ -13,8 +13,8 @@
 /***************************************************
     table
 **************/
-@table-thead-bg: #F7F7F9;
-@border-color-split: #F7F7F9;
+@table-thead-bg: #f7f7f9;
+@border-color-split: #f7f7f9;
 
 .ivu-table {
   height: auto;
@@ -23,11 +23,13 @@
     width: 100%;
     tr {
       &.ivu-table-row-hover {
-        tr, td {
+        tr,
+        td {
           animation: tableHover 0.5s;
         }
       }
-      th, td {
+      th,
+      td {
         border: 1px @tableColor solid;
         border-left: 0;
         border-top: 0;
@@ -64,21 +66,21 @@
         text-align: left;
         font-size: 14px;
         color: #606266;
-        border-bottom: 1px solid #F7F7F9;
-        .ivu-table-cell-with-expand{
+        border-bottom: 1px solid #f7f7f9;
+        .ivu-table-cell-with-expand {
           height: 36px;
           line-height: 36px;
         }
       }
     }
   }
-  .table-error-row td{
+  .table-error-row td {
     background-color: #fdf6ec;
     color: #cf9523;
   }
 }
 .ivu-table-body {
-  .scrollbar
+  .scrollbar;
 }
 
 .ivu-card-extra {
@@ -117,13 +119,13 @@
 /***************************************************
 表单
 **************/
-.ivu-btn{
-  &:focus{
+.ivu-btn {
+  &:focus {
     box-shadow: none;
   }
 }
 
-.ivu-spin-fix{
+.ivu-spin-fix {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
@@ -136,8 +138,8 @@
     .ivu-modal-header {
       border-bottom: @headerSplitline solid @primary-color;
       .ivu-modal-header-inner {
-          font-size: 18px;
-          font-weight: 400;
+        font-size: 18px;
+        font-weight: 400;
       }
     }
   }
@@ -154,14 +156,14 @@
 textarea.ivu-input,
 .ivu-btn,
 .ivu-checkbox-wrapper,
-.ivu-form .ivu-form-item-label{
+.ivu-form .ivu-form-item-label {
   font-size: 12px;
 }
-.ivu-btn-large{
+.ivu-btn-large {
   font-size: 14px;
 }
 .ivu-select-item,
-.ivu-dropdown-item{
+.ivu-dropdown-item {
   font-size: 12px !important;
 }
 
@@ -170,30 +172,30 @@ textarea.ivu-input,
 **************/
 
 .search-card .ivu-form-item {
-    margin-bottom: 0px !important;
+  margin-bottom: 0px !important;
 }
 
-.marginRight10{
+.marginRight10 {
   margin-right: 10px !important;
 }
-.marginLeft10{
+.marginLeft10 {
   margin-left: 10px !important;
 }
 
-.marginBottom10{
+.marginBottom10 {
   margin-bottom: 20px !important;
 }
 
-.float-right{
-  float:right;
+.float-right {
+  float: right;
 }
 
-.float-left{
-  float:left;
+.float-left {
+  float: left;
 }
 
-.error-color{
- color: #ed4014;
+.error-color {
+  color: #ed4014;
 }
 
 .smart-query-card {
@@ -201,17 +203,17 @@ textarea.ivu-input,
   box-shadow: 2px 2px 6px 3px #e7ebf0 !important;
 }
 
-.smart-query-card-float-left{
+.smart-query-card-float-left {
   width: 49.5%;
-  margin-right:.5%;
-  float:left;
+  margin-right: 0.5%;
+  float: left;
   // height:396px
 }
 
-.smart-query-card-float-right{
+.smart-query-card-float-right {
   width: 49.5%;
-  margin-left:.5%;
-  float:right;
+  margin-left: 0.5%;
+  float: right;
   // height:396px
 }
 
@@ -219,27 +221,26 @@ textarea.ivu-input,
   margin-top: 10px;
 }
 
-.smart-query-card .ivu-card-body{
+.smart-query-card .ivu-card-body {
   padding: 20px !important;
 }
 
-.smart-query-form-row:not(:first-child){
+.smart-query-form-row:not(:first-child) {
   margin-top: 8px;
 }
 
-.smart-query-form-row span{
+.smart-query-form-row span {
   margin-right: 8px;
 }
 
-
-.smart-query-form-row span label{
+.smart-query-form-row span label {
   text-align: right;
   width: 120px;
   margin-right: 8px;
   display: inline-block;
 }
 
-.smart-query-table-page{
+.smart-query-table-page {
   margin-top: 10px;
 }
 
@@ -295,9 +296,10 @@ textarea.ivu-input,
 .side-menu-content {
   height: "calc(100% - 115px - 35px)";
   overflow-y: auto;
-  &::-webkit-scrollbar {  width: 0 !important;}
+  &::-webkit-scrollbar {
+    width: 0 !important;
+  }
 }
-
 
 ul {
   list-style-type: none;

@@ -24,8 +24,8 @@
       @on-row-click="onRowClick"
     ></table-panel>
     <Detail ref="detailForm"></Detail>
-    <Edit ref="editForm" @cancel="mockDatas"></Edit>
-    <New ref="newForm" @cancel="mockDatas"></New>
+    <Edit ref="editForm" @cancel="mockDatas" :value="formData"> </Edit>
+    <!-- <New ref="newForm" @cancel="mockDatas"></New> -->
   </div>
 </template>
 
@@ -42,6 +42,7 @@ export default {
   },
   data() {
     return {
+      formData: null,
       formConfig: {
         // 输出值
         formModel: {
@@ -145,30 +146,15 @@ export default {
         data: [],
         // 表格列
         columnArray: [
-          // {
-          //   title: "swtich",
-          //   minWidth: 200,
-          //   key: "switch_key",
-          //   type: "switch",
-          // },
+          {
+            title: "swtich",
+            minWidth: 200,
+            key: "switch_key",
+            type: "switch",
+          },
           {
             title: "商户名称",
             key: "name",
-            minWidth: 120,
-          },
-          {
-            title: "地址",
-            key: "address",
-            minWidth: 150,
-          },
-          {
-            title: "商户联系人",
-            key: "contact",
-            minWidth: 120,
-          },
-          {
-            title: "手机号码",
-            key: "phone",
             minWidth: 120,
           },
           {
@@ -217,28 +203,28 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => {
-      this.mockDatas()
-    }, 2000)
-    setTimeout(() => {
-      this.formConfig.formItems[0].row[1].options = [
-        {
-          label: "启用",
-          value: "1",
-        },
-        {
-          label: "未启用",
-          value: "0",
-        },
-      ]
-    }, 5000)
+    // setTimeout(() => {
+    this.mockDatas()
+    // }, 2000)
+    // setTimeout(() => {
+    this.formConfig.formItems[0].row[1].options = [
+      {
+        label: "启用",
+        value: "1",
+      },
+      {
+        label: "未启用",
+        value: "0",
+      },
+    ]
+    // }, 5000)
     setTimeout(() => {
       this.queryForm.pageSize = 20
     }, 10000)
   },
   methods: {
     mockDatas() {
-      ;[...Array(5).keys()].forEach((i) => {
+      ;[...Array(1).keys()].forEach((i) => {
         this.mainTable.data.push({
           id: "7D5DB3EA7DDD4457903059E39ED93C49",
           code: "2016EA",
@@ -286,7 +272,8 @@ export default {
       console.log("changeMainTablePagePageSize:", pageSize)
     },
     onRowClick(rowParams) {
-      // console.log(rowParams);
+      debugger
+      this.formData = rowParams
     },
   },
 }

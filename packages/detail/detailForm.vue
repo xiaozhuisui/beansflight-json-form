@@ -1,25 +1,52 @@
 <template>
-  <ModelPanel v-bind="$attrs" v-on="$listeners">
-    <Row :gutter="16" v-for="(row, index) in configForm" :key="index">
-      <!-- 分割线 -->
-      <template v-if="row.splitLine">
-        <Divider orientation="left">{{ row.lineTitle || "" }}</Divider>
-      </template>
-      <!-- 行内容 -->
-      <component
-        :is="col.tag"
-        v-for="(col, index) in row.row"
-        :key="index"
-        :config="col"
-        :data="formData"
-        :readOnly="col.props.readOnly"
-      >
-      </component>
-    </Row>
-  </ModelPanel>
+  <div>
+    <div v-show="displayed === 'model'">
+      <ModelPanel v-bind="$attrs" v-on="$listeners">
+        <Row :gutter="16" v-for="(row, index) in configForm" :key="index">
+          <!-- 分割线 -->
+          <template v-if="row.splitLine">
+            <Divider orientation="left">{{ row.lineTitle || "" }}</Divider>
+          </template>
+          <!-- 行内容 -->
+          <component
+            :is="col.tag"
+            v-for="(col, index) in row.row"
+            :key="index"
+            :config="col"
+            :data="formData"
+            :readOnly="col.props.readOnly"
+          >
+          </component>
+        </Row>
+      </ModelPanel>
+    </div>
+    <Card class="smart-query-card" v-show="displayed === 'panel'">
+      <ModelPanel v-bind="$attrs" v-on="$listeners">
+        <Row :gutter="16" v-for="(row, index) in configForm" :key="index">
+          <!-- 分割线 -->
+          <template v-if="row.splitLine">
+            <Divider orientation="left">{{ row.lineTitle || "" }}</Divider>
+          </template>
+          <!-- 行内容 -->
+          <component
+            :is="col.tag"
+            v-for="(col, index) in row.row"
+            :key="index"
+            :config="col"
+            :data="formData"
+            :readOnly="col.props.readOnly"
+          >
+          </component>
+        </Row>
+        <Row class="code-row-bg" justify="end" type="flex">
+          <slot name="footer" :data="formData"></slot>
+        </Row>
+      </ModelPanel>
+    </Card>
+  </div>
 </template>
 <script>
-import { Divider, Row } from "view-design"
+import { Card, Divider, Row } from "view-design"
 import FormSelectItem from "../fields/FormSelectItem.vue"
 import FormDatepickerItem from "../fields/FormDatePickerItem.vue"
 import FormCheckboxItem from "../fields/FormCheckboxItem.vue"
@@ -35,6 +62,7 @@ export default {
   name: "DetailFormPanel",
   inheritAttrs: false,
   components: {
+    Card,
     Row,
     Divider,
     ModelPanel,
@@ -47,6 +75,11 @@ export default {
     FormSwitchItem,
   },
   props: {
+    displayed: {
+      // 组件展现形式 model:弹窗 panel: 平面
+      type: String,
+      default: () => "model",
+    },
     data: {
       type: Object,
       default: () => {},
@@ -82,13 +115,7 @@ export default {
     },
   },
   watch: {
-    // data(val) {
-    //   console.log("详情页面赋值", this.formData);
-    //   this.formData = JSON.parse(JSON.stringify(val));
-    // },
     data: {
-      // console.log("详情页面赋值", this.formData);
-      // this.formData = JSON.parse(JSON.stringify(val));
       handler(val) {
         console.log("详情页面赋值", this.formData)
         this.formData = JSON.parse(JSON.stringify(val))
