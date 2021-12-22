@@ -22,6 +22,7 @@
       @onChangePageNum="changeMainTablePagePageNum"
       @onChangePageSize="changeMainTablePagePageSize"
       @on-row-click="onRowClick"
+      :multi="false"
     ></table-panel>
     <Detail ref="detailForm"></Detail>
     <Edit ref="editForm" @cancel="mockDatas" :value="formData"> </Edit>

@@ -108,6 +108,11 @@ export default {
     Switch,
   },
   props: {
+    // 开启多选
+    multi: {
+      type: Boolean,
+      default: true,
+    },
     // 顶部按钮操作区配置
     panelConfig: {
       type: Object,
@@ -372,13 +377,16 @@ export default {
     // 设置表格列头
     handleColumns(columns) {
       // 自动填充选项
-      if (columns.length > 0 && columns[0].type !== "selection") {
-        columns.unshift({
-          type: "selection",
-          width: 30,
-          align: "center",
-        })
+      if (this.multi) {
+        if (columns.length > 0 && columns[0].type !== "selection") {
+          columns.unshift({
+            type: "selection",
+            width: 30,
+            align: "center",
+          })
+        }
       }
+
       this.insideColumns = columns.map((item, index) => {
         const res = item
         // 可编辑状态
