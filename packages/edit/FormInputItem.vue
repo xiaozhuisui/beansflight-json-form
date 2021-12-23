@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     changeVal(e) {
-      console.log(e.target.value)
+      // console.log(e.target.value)
       this.data[this.config.key] = e.target.value
     },
   },

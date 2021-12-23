@@ -1,10 +1,9 @@
 <template>
   <DetailFormPanel
-    title="详情"
     v-model="isShowDetailModal"
     displayed="model"
     :data="detail"
-    :config="detailConfig"
+    :config="config"
   >
   </DetailFormPanel>
 </template>
@@ -16,11 +15,17 @@ export default {
   components: {
     DetailFormPanel,
   },
+  props: {
+    value: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {
       isShowDetailModal: false,
       detail: {},
-      detailConfig: [
+      config: [
         {
           row: [
             {
@@ -1256,7 +1261,14 @@ export default {
       this.isShowDetailModal = true
       // detail.payType = detail.payType.split(",")
       this.detail = detail
-      console.log(this.detail)
+    },
+  },
+  watch: {
+    value: {
+      handler(val) {
+        this.detail = val
+      },
+      deep: true,
     },
   },
 }

@@ -93,7 +93,6 @@ import tableAction from "../libs/table-action"
 import HeaderBtnOptions from "./header-btn-options.js"
 import { Card, Row, Page, Table, Button, Switch } from "view-design"
 import dayjs from "dayjs"
-const datJS = require("dayjs")
 
 export default {
   name: "TablePanel",
@@ -393,15 +392,15 @@ export default {
         // if (res.editable) { res = this.suportEdit(res, index); }
         // 正常处理
         // 处理枚举
-        // if (res.type && res.type === "eunm") {
-        //   res.render = (h, params) => {
-        //     const disabled = this.$enum.getDescByValue(
-        //       res.enumKey,
-        //       params.row[res.key]
-        //     )
-        //     return h("span", disabled)
-        //   }
-        // }
+        if (res.type && res.type === "eunm") {
+          res.render = (h, params) => {
+            const disabled = this.$enum.getDescByValue(
+              res.enumKey,
+              params.row[res.key]
+            )
+            return h("span", disabled)
+          }
+        }
         // switch处理
         if (res.type && res.type === "switch") {
           res.render = (h, params) => {

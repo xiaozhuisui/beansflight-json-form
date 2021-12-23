@@ -2,33 +2,6 @@
   <div>
     <div v-show="displayed === 'model'">
       <ModelPanel v-bind="$attrs" v-on="$listeners">
-        <Form
-          ref="form"
-          :label-width="100"
-          :model="formData"
-          :label-colon="true"
-        >
-          <Row :gutter="16" v-for="(row, index) in configForm" :key="index">
-            <!-- 分割线 -->
-            <template v-if="row.splitLine">
-              <Divider orientation="left">{{ row.lineTitle || "" }}</Divider>
-            </template>
-            <!-- 行内容 -->
-            <component
-              :is="col.tag"
-              v-for="(col, index) in row.row"
-              :key="index"
-              :config="col"
-              :data="formData"
-              :readOnly="col.props.readOnly"
-            >
-            </component>
-          </Row>
-        </Form>
-      </ModelPanel>
-    </div>
-    <Card class="smart-query-card" v-show="displayed === 'panel'">
-      <Form ref="form" :label-width="100" :model="formData" :label-colon="true">
         <Row :gutter="16" v-for="(row, index) in configForm" :key="index">
           <!-- 分割线 -->
           <template v-if="row.splitLine">
@@ -45,12 +18,32 @@
           >
           </component>
         </Row>
-      </Form>
+      </ModelPanel>
+    </div>
+    <Card class="smart-query-card" v-show="displayed === 'panel'">
+      <ModelPanel v-bind="$attrs" v-on="$listeners">
+        <Row :gutter="16" v-for="(row, index) in configForm" :key="index">
+          <!-- 分割线 -->
+          <template v-if="row.splitLine">
+            <Divider orientation="left">{{ row.lineTitle || "" }}</Divider>
+          </template>
+          <!-- 行内容 -->
+          <component
+            :is="col.tag"
+            v-for="(col, index) in row.row"
+            :key="index"
+            :config="col"
+            :data="formData"
+            :readOnly="col.props.readOnly"
+          >
+          </component>
+        </Row>
+      </ModelPanel>
     </Card>
   </div>
 </template>
 <script>
-import { Form, Card, Divider, Row } from "view-design"
+import { Card, Divider, Row } from "view-design"
 import FormSelectItem from "../fields/FormSelectItem.vue"
 import FormDatepickerItem from "../fields/FormDatePickerItem.vue"
 import FormCheckboxItem from "../fields/FormCheckboxItem.vue"
@@ -66,7 +59,6 @@ export default {
   name: "DetailFormPanel",
   inheritAttrs: false,
   components: {
-    Form,
     Card,
     Row,
     Divider,
@@ -123,6 +115,7 @@ export default {
   watch: {
     data: {
       handler(val) {
+        debugger
         this.formData = JSON.parse(JSON.stringify(val))
       },
       immediate: true,

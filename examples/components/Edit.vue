@@ -1955,7 +1955,6 @@ export default {
   watch: {
     value: {
       handler(val) {
-        debugger
         this.edit = val
       },
       deep: true,

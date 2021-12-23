@@ -24,7 +24,7 @@
       @on-row-click="onRowClick"
       :multi="false"
     ></table-panel>
-    <Detail ref="detailForm"></Detail>
+    <Detail ref="detailForm" :value="formData"></Detail>
     <Edit ref="editForm" @cancel="mockDatas" :value="formData"> </Edit>
     <!-- <New ref="newForm" @cancel="mockDatas"></New> -->
   </div>
@@ -33,13 +33,12 @@
 <script>
 import Detail from "./Detail.vue"
 import Edit from "./Edit.vue"
-import New from "./New.vue"
+// import New from "./New.vue"
 export default {
   name: "HelloWorld",
   components: {
     Detail,
     Edit,
-    New,
   },
   data() {
     return {
@@ -205,7 +204,7 @@ export default {
   },
   mounted() {
     // setTimeout(() => {
-    this.mockDatas()
+    // this.mockDatas()
     // }, 2000)
     // setTimeout(() => {
     this.formConfig.formItems[0].row[1].options = [
@@ -225,7 +224,7 @@ export default {
   },
   methods: {
     mockDatas() {
-      ;[...Array(1).keys()].forEach((i) => {
+      ;[...Array(2).keys()].forEach((i) => {
         this.mainTable.data.push({
           id: "7D5DB3EA7DDD4457903059E39ED93C49",
           code: "2016EA",
@@ -273,7 +272,6 @@ export default {
       console.log("changeMainTablePagePageSize:", pageSize)
     },
     onRowClick(rowParams) {
-      debugger
       this.formData = rowParams
     },
   },
