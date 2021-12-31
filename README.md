@@ -1,28 +1,28 @@
-# beansflight-vue-json-form: 一份配置，轻松搞定配置Vue表单渲染 
+---
+typora-root-url: ./screenshot/formPanel.png
+---
 
-****
+# beansflight-vue-json-form: 一份配置，轻松搞定配置 Vue 表单渲染
+
+---
 
 **表单可以说是前端开发中最经常遇到的元素之一。在日常表单的开发中，存在着 `v-if` 条件渲染、满屏 `magic number` 枚举值，再加上表单之间的复杂的联动交互的情况，往往使得一个看似简单的表单变得愈加臃肿不堪。**
 
 **表单的联动关系与状态重置往往散落在各个函数方法中，随着需求的不断扩充与变更，使得表单之间的耦合复杂度上升，对于后续的开发者而言，很难清晰快速地了解表单中隐含的业务逻辑与联动关系，这使得表单变得非常不便于维护。**
 
-**beansflight-vue-json-form具有数据收集、校验和提交功能的表单生成器，支持双向数据绑定和事件扩展，组件包含有复选框、单选框、输入框、下拉选择框等表单元素以及省市区三级联动,时间选择,日期选择,颜色选择,滑块,评分,框架,树型,文件/图片上传等功能组件**
+**beansflight-vue-json-form 具有数据收集、校验和提交功能的表单生成器，支持双向数据绑定和事件扩展，组件包含有复选框、单选框、输入框、下拉选择框等表单元素以及省市区三级联动,时间选择,日期选择,颜色选择,滑块,评分,框架,树型,文件/图片上传等功能组件**
 
-
-
-# 一·JSONForm组件目前支持的类型(config中的type属性)
+# 一·JSONForm 组件目前支持的类型(config 中的 type 属性)
 
 1. **Input：输入框**
 
-   | 属性        | 说明                                                         | 类型    | 默认值 |
-   | ----------- | ------------------------------------------------------------ | ------- | ------ |
-   | extendType  | 输入框类型，可选值为 `text`、`password`、`textarea`、`url`、`email`、`date`、`number`、`tel`,   通过设置属性 `type` 为 `textarea` 来使用文本域，用于多行输入。 | String  | text   |
-   | placeholder | 通过设置属性 `rows` 控制文本域默认显示的行数。占位文本       | String  | -      |
-   | disabled    | 设置输入框为禁用状态                                         | Boolean | false  |
+   | 属性        | 说明                                                                                                                                                         | 类型    | 默认值 |
+   | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------- | ------ |
+   | extendType  | 输入框类型，可选值为 `text`、`password`、`textarea`、`url`、`email`、`date`、`number`、`tel`, 通过设置属性 `type` 为 `textarea` 来使用文本域，用于多行输入。 | String  | text   |
+   | placeholder | 通过设置属性 `rows` 控制文本域默认显示的行数。占位文本                                                                                                       | String  | -      |
+   | disabled    | 设置输入框为禁用状态                                                                                                                                         | Boolean | false  |
 
-   
-
-2. Select:     下拉框
+2. Select: 下拉框
 
    | 属性        | 说明           | 类型    | 默认值 |
    | ----------- | -------------- | ------- | ------ |
@@ -32,16 +32,14 @@
 
 3. DatePicker: 日期选择器
 
-   | 属性         | 说明                                                         | 类型     | 默认值 |
-   | ------------ | ------------------------------------------------------------ | -------- | ------ |
+   | 属性         | 说明                                                                                 | 类型     | 默认值 |
+   | ------------ | ------------------------------------------------------------------------------------ | -------- | ------ |
    | extendType   | 显示类型，可选值为 `date`、`daterange`、`datetime`、`datetimerange`、`year`、`month` | String   | date   |
-   | placeholder  | 占位文本                                                     | String   | 空     |
-   | disabledDate | 设置不可选择的日期，参数为当前的日期，需要返回 Boolean 是否禁用这天 | Function | date   |
-   | disabled     | 是否禁用选择器                                               | Boolean  | false  |
+   | placeholder  | 占位文本                                                                             | String   | 空     |
+   | disabledDate | 设置不可选择的日期，参数为当前的日期，需要返回 Boolean 是否禁用这天                  | Function | date   |
+   | disabled     | 是否禁用选择器                                                                       | Boolean  | false  |
 
-   
-
-4. Cascader:   级联组件
+4. Cascader: 级联组件
 
    | 属性        | 说明                                          | 类型    | 默认值 |
    | ----------- | --------------------------------------------- | ------- | ------ |
@@ -49,40 +47,26 @@
    | placeholder | 输入框占位符                                  | String  | 请选择 |
    | trigger     | 次级菜单展开方式，可选值为 `click` 或 `hover` | String  | hover  |
 
-   
+5. Checkbox: 多选框
 
-5. Checkbox:   多选框
-
-   | 属性     | 说明                                                         | 类型                     | 默认值  |
-   | -------- | ------------------------------------------------------------ | ------------------------ | ------- |
-   | disabled | 是否禁用当前项                                               | Boolean                  | false   |
+   | 属性     | 说明                                                                | 类型                     | 默认值  |
+   | -------- | ------------------------------------------------------------------- | ------------------------ | ------- |
+   | disabled | 是否禁用当前项                                                      | Boolean                  | false   |
    | label    | 只在组合使用时有效。指定当前选项的 value 值，组合会自动判断是否选中 | String\| Number\|Boolean | Boolean |
 
-   
+6. Radio: 单选框
 
-6. Radio:      单选框
-
-   | 属性     | 说明                                                         | 类型                     | 默认值  |
-   | -------- | ------------------------------------------------------------ | ------------------------ | ------- |
-   | disabled | 是否禁用当前项                                               | Boolean                  | false   |
-   | border   | 是否显示边框                                                 | Boolean                  | False   |
+   | 属性     | 说明                                                                | 类型                     | 默认值  |
+   | -------- | ------------------------------------------------------------------- | ------------------------ | ------- |
+   | disabled | 是否禁用当前项                                                      | Boolean                  | false   |
+   | border   | 是否显示边框                                                        | Boolean                  | False   |
    | label    | 只在组合使用时有效。指定当前选项的 value 值，组合会自动判断是否选中 | String\| Number\|Boolean | Boolean |
 
-   
-
-7. Switch:     switch滑块
+7. Switch: switch 滑块
 
    | 属性     | 说明     | 类型    | 默认值 |
    | -------- | -------- | ------- | ------ |
    | disabled | 禁用开关 | Boolean | false  |
-
-   
-
-
-
-
-
-
 
 # 二·安装依赖与配置
 
@@ -92,7 +76,7 @@
 yarn add beansflight-json-form
 ```
 
-## 在main.js配置引入如下配置
+## 在 main.js 配置引入如下配置
 
 ```javascript
 //main.js
@@ -104,13 +88,9 @@ Vue.use(beansflightForm);
 
 ```
 
-
-
 # 三·表单类型
 
-## 1 列表
-
-
+## 1 列表：tablePanel
 
 ### 页面展示
 
@@ -161,8 +141,6 @@ Vue.use(beansflightForm);
 | onChangePageSize  | true   | Function        | 切换页码时回调函数           |        |
 | onRowClick        | false  | (row,index)=>{} | 单击某一行时触发             |        |
 
-
-
 #### **panelConfig**
 
 | 属性    | 必填项 | 描述                                                    | 类型    | 默认值 | 备注 |
@@ -190,7 +168,6 @@ Vue.use(beansflightForm);
             icon: 'md-add', // 按钮图标
             privilege: 'merchant-info-list-add', // 按钮权限
             click: () => {
-              console.log('1被调用');
             },
           },
           {
@@ -199,28 +176,25 @@ Vue.use(beansflightForm);
             icon: 'ios-trash-outline', // 按钮图标
             privilege: 'merchant-info-list-add', // 按钮权限
             click: () => {
-              console.log('2被调用');
             },
           },
         ],
       },
 ```
 
-
-
 #### **columns**
 
-| 属性     | 必填项 | 描述                                                         | 类型   | 默认值 | 备注                                                         |
-| -------- | ------ | ------------------------------------------------------------ | ------ | ------ | ------------------------------------------------------------ |
-| title    | true   | 列头显示文字                                                 | String | -      |                                                              |
-| key      | true   | 对应列内容的字段名                                           | String |        |                                                              |
-| minWidth | false  | 最小列宽                                                     | Number |        |                                                              |
-| type     | false  | 用于区分枚举转换/列表操作区 取值范围['switch','eunm', 'handler'] | String | -      | 如果需要处理枚举则 type: 'eunm'，如果是列表操作项则  type: 'handler', |
-| enumKey  | false  | 枚举的key                                                    |        |        | 对于项目中维护的枚举的Key                                    |
-| formate  | False  | 日期格式化                                                   | Sring  | -      | 格式参照 dayjs                                               |
-| align    | false  | 列表操作区位置固定                                           | String | -      | 如果是列表操作项则必传,固定值 align: 'right',                |
-| fixed    | false  | 列表操作区位置固定                                           | String | -      | 如果是列表操作项则必传,固定值  fixed: 'right',               |
-| options  | False  | 列表操作按钮                                                 | Array  | -      | 如果是列表操作项则必传,                                      |
+| 属性     | 必填项 | 描述                                                             | 类型   | 默认值 | 备注                                                                 |
+| -------- | ------ | ---------------------------------------------------------------- | ------ | ------ | -------------------------------------------------------------------- |
+| title    | true   | 列头显示文字                                                     | String | -      |                                                                      |
+| key      | true   | 对应列内容的字段名                                               | String |        |                                                                      |
+| minWidth | false  | 最小列宽                                                         | Number |        |                                                                      |
+| type     | false  | 用于区分枚举转换/列表操作区 取值范围['switch','eunm', 'handler'] | String | -      | 如果需要处理枚举则 type: 'eunm'，如果是列表操作项则 type: 'handler', |
+| enumKey  | false  | 枚举的 key                                                       |        |        | 对于项目中维护的枚举的 Key                                           |
+| formate  | False  | 日期格式化                                                       | Sring  | -      | 格式参照 dayjs                                                       |
+| align    | false  | 列表操作区位置固定                                               | String | -      | 如果是列表操作项则必传,固定值 align: 'right',                        |
+| fixed    | false  | 列表操作区位置固定                                               | String | -      | 如果是列表操作项则必传,固定值 fixed: 'right',                        |
+| options  | False  | 列表操作按钮                                                     | Array  | -      | 如果是列表操作项则必传,                                              |
 
 ```javascript
 columnArray: [
@@ -258,8 +232,6 @@ columnArray: [
         title: '查看',
         type: 'info',
         onClick: (row) => {
-          console.log('查看按钮回调', row);
-          this.$refs.merchantTableDetail.showModal(row);
         },
       },
       {
@@ -271,9 +243,6 @@ columnArray: [
           },
         ],
         onClick: (row) => {
-          console.log('编辑按钮回调', row);
-          // this.showEditMerchantInfoForm(row);
-          this.$refs.merchantTableEdit.showModal(row);
         },
       },
     ],
@@ -281,16 +250,14 @@ columnArray: [
 ],
 ```
 
-
-
 ##### **columons.options**
 
-| 属性       | 必填项 | 描述         | 类型     | 默认值    | 备注                                                       |
-| ---------- | ------ | ------------ | -------- | --------- | ---------------------------------------------------------- |
-| title      | true   | 按钮标题     | String   | -         |                                                            |
-| type       | false  | 按钮主题色   | String   | -         | type取值范围:['info','success','primary','warning,'error'] |
-| onClick    | true   | 按钮回调函数 | Function | (row)=>{} |                                                            |
-| directives | false  | 按钮权限     | Array    | -         | {                                                          |
+| 属性       | 必填项 | 描述         | 类型     | 默认值    | 备注                                                        |
+| ---------- | ------ | ------------ | -------- | --------- | ----------------------------------------------------------- |
+| title      | true   | 按钮标题     | String   | -         |                                                             |
+| type       | false  | 按钮主题色   | String   | -         | type 取值范围:['info','success','primary','warning,'error'] |
+| onClick    | true   | 按钮回调函数 | Function | (row)=>{} |                                                             |
+| directives | false  | 按钮权限     | Array    | -         | {                                                           |
 
 ```javascript
 columnArray: [
@@ -322,7 +289,6 @@ columnArray: [
         title: '查看',
         type: 'info',
         onClick: (row) => {
-          console.log('查看按钮回调', row);
           this.$refs.merchantTableDetail.showModal(row);
         },
       },
@@ -335,9 +301,6 @@ columnArray: [
           },
         ],
         onClick: (row) => {
-          console.log('编辑按钮回调', row);
-          // this.showEditMerchantInfoForm(row);
-          this.$refs.merchantTableEdit.showModal(row);
         },
       },
     ],
@@ -345,9 +308,7 @@ columnArray: [
 ],
 ```
 
-
-
-### 2 查询
+### 2 查询：queryPanel
 
 ### 页面展示
 
@@ -370,10 +331,10 @@ columnArray: [
 
 #### **config**
 
-| 属性      | 必填项 | 说明          | 类型   | 默认值 | 备注                                                         |
-| --------- | ------ | ------------- | ------ | ------ | ------------------------------------------------------------ |
-| formModel | true   | v-model绑定项 | Object | -      | 框架目前支持4中交互 input：输入框、select：下拉列表、日历：dataPicker、Cascader：省市区级联 |
-| formItems | true   | 布局项        | Array  |        | 用于绘制查询项表单                                           |
+| 属性      | 必填项 | 说明           | 类型   | 默认值 | 备注                                                                                          |
+| --------- | ------ | -------------- | ------ | ------ | --------------------------------------------------------------------------------------------- |
+| formModel | true   | v-model 绑定项 | Object | -      | 框架目前支持 4 中交互 input：输入框、select：下拉列表、日历：dataPicker、Cascader：省市区级联 |
+| formItems | true   | 布局项         | Array  |        | 用于绘制查询项表单                                                                            |
 
 #### **config.formModel**
 
@@ -389,103 +350,105 @@ formModel: {
 #### **config.formItems**
 
 ```javascript
-        formItems: [
+formItems: [
+  {
+    row: [
+      {
+        label: "省市区", // 标题
+        key: "cascVal", //
+        type: "cascader", // 组件类型 不区分大小写 级联多用于省市区选择  type 取值范围：[select、input、datePicker、 cascader]
+        placeholder: "请选择城市/区县(可搜索）", // 占位文字
+        span: 6, // 24栏布局 占比 如果不传则是6
+        options: [
+          // 数据选项
           {
-            row: [
+            value: "beijing",
+            label: "北京",
+            children: [
               {
-                label: '省市区', // 标题
-                key: 'cascVal', // 
-                type: 'cascader', // 组件类型 不区分大小写 级联多用于省市区选择  type 取值范围：[select、input、datePicker、 cascader]
-                placeholder: '请选择城市/区县(可搜索）', // 占位文字
-                span: 6, // 24栏布局 占比 如果不传则是6
-                options: [  // 数据选项
-                  {
-                    value: 'beijing',
-                    label: '北京',
-                    children: [
-                      {
-                        value: 'gugong',
-                        label: '故宫',
-                      },
-                      {
-                        value: 'tiantan',
-                        label: '天坛',
-                      },
-                      {
-                        value: 'wangfujing',
-                        label: '王府井',
-                      },
-                    ],
-                  }, {
-                    value: 'jiangsu',
-                    label: '江苏',
-                    children: [
-                      {
-                        value: 'nanjing',
-                        label: '南京',
-                        children: [
-                          {
-                            value: 'fuzimiao',
-                            label: '夫子庙',
-                          },
-                        ],
-                      },
-                      {
-                        value: 'suzhou',
-                        label: '苏州',
-                        children: [
-                          {
-                            value: 'zhuozhengyuan',
-                            label: '拙政园',
-                          },
-                          {
-                            value: 'shizilin',
-                            label: '狮子林',
-                          },
-                        ],
-                      },
-                    ],
-                  }],
+                value: "gugong",
+                label: "故宫",
               },
               {
-                label: '场地',
-                key: 'selOptions',
-                type: 'select',
-                span: 6,
-                options: [  // 下拉框数据
+                value: "tiantan",
+                label: "天坛",
+              },
+              {
+                value: "wangfujing",
+                label: "王府井",
+              },
+            ],
+          },
+          {
+            value: "jiangsu",
+            label: "江苏",
+            children: [
+              {
+                value: "nanjing",
+                label: "南京",
+                children: [
                   {
-                    label: '全部',
-                    value: '全部',
-                  },
-                  {
-                    label: '零食区',
-                    value: '零食区间',
+                    value: "fuzimiao",
+                    label: "夫子庙",
                   },
                 ],
               },
               {
-                label: '商户编号',
-                key: 'inputVal',
-                placeholder: '占位符',
-                type: 'Input', // 输入框
-                span: 6,
-              },
-              {
-                label: '时间框',
-                key: 'datePickerVal',
-                placeholder: '占位符',
-                type: 'datePicker', // 输入框
-                // extendType: 'daterange', // date 单选  daterange 时间段
-                span: 6,
+                value: "suzhou",
+                label: "苏州",
+                children: [
+                  {
+                    value: "zhuozhengyuan",
+                    label: "拙政园",
+                  },
+                  {
+                    value: "shizilin",
+                    label: "狮子林",
+                  },
+                ],
               },
             ],
           },
-        ]
+        ],
+      },
+      {
+        label: "场地",
+        key: "selOptions",
+        type: "select",
+        span: 6,
+        options: [
+          // 下拉框数据
+          {
+            label: "全部",
+            value: "全部",
+          },
+          {
+            label: "零食区",
+            value: "零食区间",
+          },
+        ],
+      },
+      {
+        label: "商户编号",
+        key: "inputVal",
+        placeholder: "占位符",
+        type: "Input", // 输入框
+        span: 6,
+      },
+      {
+        label: "时间框",
+        key: "datePickerVal",
+        placeholder: "占位符",
+        type: "datePicker", // 输入框
+        // extendType: 'daterange', // date 单选  daterange 时间段
+        span: 6,
+      },
+    ],
+  },
+]
 ```
 
-
-
-## 3 编辑
+## 3 编辑：editFormPanel
 
 ### 页面展示
 
@@ -511,16 +474,16 @@ formModel: {
   </edit-form-panel>
 ```
 
-| 属性      | 必填项 | 说明                                                 | 类型          | 默认值 | 备注           |
-| --------- | ------ | ---------------------------------------------------- | ------------- | ------ | -------------- |
-| title     | true   | 标题                                                 | String        | -      |                |
-| v-model   | true   | 页面显示隐藏                                         | Boolean       | -      |                |
-| displayed | false  | 页面展现形式 支持2中显示方式 model:弹窗、panel: 平面 | String        | model  |                |
-| detail    | true   | 数据项                                               | Object        | -      |                |
-| config    | true   | 页面配置                                             | Object        | -      |                |
-| footer    | false  | 页脚插槽                                             | Slot          | -      | data是表单数据 |
-| sumbit    | true   | 确认按钮回调函数                                     | (params) =>{} |        |                |
-| cancel    | true   | 取消按钮回调函数                                     | ()=>{}        |        |                |
+| 属性      | 必填项 | 说明                                                   | 类型          | 默认值 | 备注            |
+| --------- | ------ | ------------------------------------------------------ | ------------- | ------ | --------------- |
+| title     | true   | 标题                                                   | String        | -      |                 |
+| v-model   | true   | 页面显示隐藏                                           | Boolean       | -      |                 |
+| displayed | false  | 页面展现形式 支持 2 中显示方式 model:弹窗、panel: 平面 | String        | model  |                 |
+| detail    | true   | 数据项                                                 | Object        | -      |                 |
+| config    | true   | 页面配置                                               | Object        | -      |                 |
+| footer    | false  | 页脚插槽                                               | Slot          | -      | data 是表单数据 |
+| sumbit    | true   | 确认按钮回调函数                                       | (params) =>{} |        |                 |
+| cancel    | true   | 取消按钮回调函数                                       | ()=>{}        |        |                 |
 
 #### **config**
 
@@ -532,11 +495,11 @@ formModel: {
           row: [ // 如果在一个行内布局，则用row嵌套
             {
               label: '修改日期', // label标题
-              type: 'datePicker', // 组件类型 不区分大小写 type取值范围['datePicker', 'input', 'select', 'cascader']                 
+              type: 'datePicker', // 组件类型 不区分大小写 type取值范围['datePicker', 'input', 'select', 'cascader']
               extendType: 'daterange', // 取值范围 [date 单选  daterange 时间段 ]
               key: 'modifyDate',  // 显示的字段名
               placeholder: '占位符', // 占位文字
-              
+
               rule: [{ // 必填项验证
                 type: 'date', required: true, message: '时间不能为空', trigger: 'blur',
               }],
@@ -564,9 +527,7 @@ formModel: {
       ],
 ```
 
-
-
-## 4 查看
+## 4 查看：detailFormPanel
 
 ### 页面展示
 
@@ -588,13 +549,13 @@ formModel: {
   </detail-form-panel>
 ```
 
-| 属性    | 必填项 | 说明         | 类型    | 默认值 | 备注           |
-| ------- | ------ | ------------ | ------- | ------ | -------------- |
-| title   | true   | 标题         | String  | -      |                |
-| v-model | true   | 页面显示隐藏 | Boolean | -      |                |
-| footer  | false  | 页脚插槽     | Slot    | -      | data是表单数据 |
-| detail  | true   | 数据项       | Object  | -      |                |
-| config  | true   | 页面配置     | Object  | -      |                |
+| 属性    | 必填项 | 说明         | 类型    | 默认值 | 备注            |
+| ------- | ------ | ------------ | ------- | ------ | --------------- |
+| title   | true   | 标题         | String  | -      |                 |
+| v-model | true   | 页面显示隐藏 | Boolean | -      |                 |
+| footer  | false  | 页脚插槽     | Slot    | -      | data 是表单数据 |
+| detail  | true   | 数据项       | Object  | -      |                 |
+| config  | true   | 页面配置     | Object  | -      |                 |
 
 #### **config**
 
@@ -630,7 +591,7 @@ config: [
 ],
 ```
 
-## 5 新建
+## 5 新建：newFormPanel
 
 ### 页面展示
 
@@ -639,14 +600,14 @@ config: [
 ### 使用方式
 
 ```vue
-  <NewFormPanel
-    title="新建"
-    v-model="isShowDetailModal"
-    :data="newForm"
-    :config="newConfig"
-    @sumbit="sumbit"
-    @cancel="cancel"
-  >
+<NewFormPanel
+  title="新建"
+  v-model="isShowDetailModal"
+  :data="newForm"
+  :config="newConfig"
+  @sumbit="sumbit"
+  @cancel="cancel"
+>
   </NewFormPanel>
 ```
 
@@ -689,7 +650,7 @@ config: [
               span: 8,
               control: { // 组件联动 Switch为选中时，显示此组件
                 handle: (form) => {
-                  return form.switchKey === true; 
+                  return form.switchKey === true;
                 },
               },
             },
@@ -707,9 +668,76 @@ config: [
               span: 8,
               control: { // 组件联动
                 handle: (form) => {
-                  return form.switchKey === true; 
+                  return form.switchKey === true;
                 },
               },
+            },
+          ],
+        },
+      ],
+```
+
+## 6 展示：formPanel
+
+### 页面展示
+
+![formPanel](./screenshot/formPanel.png)
+
+### 使用方式
+
+```javascript
+ <form-panel :data="panelData" :config="panelConfig"></form-panel>
+```
+
+panelConfig 
+
+```javascript
+    panelConfig: [
+        {
+          row: [
+            {
+              label: "商户名称",
+              type: "input",
+              extendType: "textarea", // 取值范围[text、password、textarea、url、email、date、number、tel]
+              key: "name",
+              props: {
+                // 扩展属性
+                disabled: true, // 设置输入框为禁用状态
+                border: false, // 不显示边框
+                bottom: 1,
+              },
+              control: {
+                // 组件联动
+                hiddenOption: (form) => {
+                  return form.isUniformprice === "0"
+                },
+              },
+              span: 8,
+            },
+            {
+              label: "商户统一定价",
+              type: "input",
+              // type: "select",
+              key: "isUniformprice",
+              control: {
+                // 组件enum
+                enumOption: {
+                  type: "STATUS",
+                },
+              },
+              span: 8,
+            },
+            {
+              label: "修改时间",
+              type: "input",
+              key: "modifyDate",
+              control: {
+                // 时间格式化
+                formatOption: {
+                  format: "YYYY-MM-DD",
+                },
+              },
+              span: 8,
             },
           ],
         },
@@ -720,21 +748,21 @@ config: [
 
 # 四·表单必填项验证
 
-表单验证功能同样也是表单不可或缺的功能之一，JSONFom通过rule节点来实现必填项验证
+表单验证功能同样也是表单不可或缺的功能之一，JSONFom 通过 rule 节点来实现必填项验证
 
- **rule支持的验证数据类型**
+**rule 支持的验证数据类型**
 
-| 属性    | 说明              |
-| ------- | ----------------- |
-| string  | 验证是否为字符串  |
-| number  | 验证是否为number  |
-| boolean | 验证是否为number  |
-| method  | 验证是否为method  |
-| integer | 验证是否为integer |
-| float   | 验证是否为float   |
-| array   | 验证是否为array   |
-| object  | 验证是否为object  |
-| email   | 验证是否为email   |
+| 属性    | 说明               |
+| ------- | ------------------ |
+| string  | 验证是否为字符串   |
+| number  | 验证是否为 number  |
+| boolean | 验证是否为 number  |
+| method  | 验证是否为 method  |
+| integer | 验证是否为 integer |
+| float   | 验证是否为 float   |
+| array   | 验证是否为 array   |
+| object  | 验证是否为 object  |
+| email   | 验证是否为 email   |
 
 **rule**
 
@@ -744,8 +772,6 @@ config: [
 | required | true   | 是否为必填项       | Boolean | -      |
 | message  | true   | 必填项提示信息     | String  | -      |
 | trigger  | true   | 验证触发方式       | String  | -      |
-
-
 
 ```javascript
 formConfig: [
@@ -769,31 +795,3 @@ formConfig: [
   ...
 ]
 ```
-
-
-
-# 五·表单间的联动
-
-实际的开发中，表单往往存在各个项之间的联动关系，JSONFom通过control节点的handle函数来控制表单组件的数据联动
-
-**示例**
-
-```javascript
-formConfig: [
-  ...
-  	{
-      row: [
-        {
-          	... 
-             control: {
-                handle: (form) => {
-                  return form.switchkey === true;
-                },
-              },
-        }
-      ]
-    }
-  ...
-]
-```
-

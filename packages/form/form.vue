@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div v-show="displayed === 'model'">
-      <ModelPanel v-bind="$attrs" v-on="$listeners" @cance-modal="cancel">
+    <!-- 需要卡片包裹 -->
+    <template v-if="cardWrapper">
+      <Card class="smart-query-card">
         <Form
           ref="form"
           :label-width="130"
           :model="formData"
-          :rules="rules"
           :label-colon="true"
         >
           <Row :gutter="16" v-for="(row, index) in configForm" :key="index">
@@ -21,29 +21,23 @@
               :key="index"
               :config="col"
               :data="formData"
+              :readOnly="col.props.readOnly"
+              :border="col.props.border"
               :isShow="col._ifShow"
             >
             </component>
           </Row>
         </Form>
-        <template v-if="!$slots.footer">
-          <Row class="code-row-bg" justify="end" type="flex">
-            <Button @click="cancel" style="margin-right: 10px">取消</Button>
-            <Button @click="save" type="primary">保存</Button>
-          </Row>
-        </template>
-        <Row class="code-row-bg" justify="end" type="flex">
-          <slot name="footer"></slot>
-        </Row>
-      </ModelPanel>
-    </div>
-    <Card class="smart-query-card" v-show="displayed === 'panel'">
+      </Card>
+    </template>
+    <!-- 不需要卡片包裹 -->
+    <template v-else>
       <Form
         ref="form"
         :label-width="130"
         :model="formData"
-        :rules="rules"
         :label-colon="true"
+        style="margin-top: 12px"
       >
         <Row :gutter="16" v-for="(row, index) in configForm" :key="index">
           <!-- 分割线 -->
@@ -57,46 +51,36 @@
             :key="index"
             :config="col"
             :data="formData"
-            :isShow="col._ifShow"
+            :readOnly="col.props.readOnly"
+            :border="col.props.border"
           >
           </component>
         </Row>
       </Form>
-      <template v-if="!$slots.footer">
-        <Row class="code-row-bg" justify="end" type="flex">
-          <Button @click="cancel" style="margin-right: 10px">取消</Button>
-          <Button @click="save" type="primary">保存</Button>
-        </Row>
-      </template>
-      <Row class="code-row-bg" justify="end" type="flex">
-        <slot name="footer" :data="formData"></slot>
-      </Row>
-    </Card>
+    </template>
   </div>
 </template>
 <script>
-import { Card, Form, Row, Button, Divider } from "view-design"
-import ModelPanel from "../fields/ModelItem.vue"
+import { Form, Card, Divider, Row } from "view-design"
 import FormSelectItem from "../fields/FormSelectItem.vue"
 import FormDatepickerItem from "../fields/FormDatePickerItem.vue"
 import FormCheckboxItem from "../fields/FormCheckboxItem.vue"
-import FormSwitchItem from "../fields/FormSwitchItem.vue"
 import FormRadioItem from "../fields/FormRadioItem.vue"
+import FormSwitchItem from "../fields/FormSwitchItem.vue"
 import FormInputItem from "./FormInputItem.vue"
 import FormCascaderItem from "./FormCascaderItem.vue"
-import { componentsMap } from "../mappings/formEditMapping"
-import FormUploadItem from "../fields/FormUploadItem"
+import ModelPanel from "../fields/ModelItem.vue"
 import { titleCase, isFunc, isObj } from "../libs/lib"
+import { componentsMap } from "../mappings/formMapping.js"
+const dayJS = require("dayjs")
 
 export default {
-  name: "EditFormPanel",
-  inheritAttrs: false,
+  name: "FormPanel",
   components: {
-    Card,
     Form,
+    Card,
     Row,
     Divider,
-    Button,
     ModelPanel,
     FormInputItem,
     FormSelectItem,
@@ -105,13 +89,11 @@ export default {
     FormCheckboxItem,
     FormRadioItem,
     FormSwitchItem,
-    FormUploadItem,
   },
   props: {
-    displayed: {
-      // 组件展现形式 model:弹窗 panel: 平面
-      type: String,
-      default: () => "model",
+    cardWrapper: {
+      type: Boolean,
+      default: true,
     },
     data: {
       type: Object,
@@ -134,18 +116,6 @@ export default {
     configForm() {
       return this.config.map((item) => this.formateItem(item, this.formData))
     },
-    // 必填项验证
-    rules() {
-      const row = this.config
-      const rules = {}
-      row.forEach((i) => {
-        const { row } = i
-        row.forEach((item) => {
-          rules[item.key] = item.rule || []
-        })
-      })
-      return rules
-    },
   },
   methods: {
     formateItem(item, form) {
@@ -157,6 +127,7 @@ export default {
         column.props = Object.assign({}, def.props, column.props)
         if (isObj(form) && form.hasOwnProperty(column.key)) {
           if ("control" in column) {
+            // formItem 组件联动
             if (
               Object.keys(column.control).find((key) => key === "hiddenOption")
             ) {
@@ -165,31 +136,51 @@ export default {
               } = column
               column._ifShow = isFunc(hiddenOption) ? hiddenOption(form) : true
             }
+
+            // formItem 枚举值转换
+            if (
+              Object.keys(column.control).find((key) => key === "enumOption")
+            ) {
+              // console.log("是否处理枚举转换")
+              const {
+                control: { enumOption },
+              } = column
+              if (isObj(enumOption) && enumOption.hasOwnProperty("type")) {
+                // console.log("可以处理枚举转换", form, column)
+                form[column.key] = this.$enum.getDescByValue(
+                  "STATUS",
+                  form[column.key]
+                )
+              }
+            }
+            // formItem 日期格式化
+            if (
+              Object.keys(column.control).find((key) => key === "formatOption")
+            ) {
+              // console.log("是否处理日期格式化")
+              const {
+                control: { formatOption },
+              } = column
+              if (
+                isObj(formatOption) &&
+                formatOption.hasOwnProperty("format")
+              ) {
+                // console.log("可以处理日期转换", form, column)
+                form[column.key] = form[column.key]
+                  ? dayJS(form[column.key]).format(formatOption.format)
+                  : ""
+              }
+            }
           }
         }
         return column
       })
       return { splitLine, row, lineTitle }
     },
-    cancel() {
-      this.$refs.form.resetFields()
-      this.$emit("cancel")
-    },
-    save() {
-      this.$refs.form.validate((valid) => {
-        if (valid) {
-          let emitForm = JSON.parse(JSON.stringify(this.formData))
-          this.$emit("sumbit", emitForm)
-        } else {
-          this.$Message.error("参数验证错误，请仔细填写表单数据!")
-        }
-      })
-    },
   },
   watch: {
     data: {
       handler(val) {
-        this.$refs["form"] && this.$refs["form"].resetFields()
         this.formData = JSON.parse(JSON.stringify(val))
       },
       immediate: true,

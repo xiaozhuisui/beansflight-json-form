@@ -1,5 +1,12 @@
 <template>
   <Card class="warp-card">
+    <!-- 分割线 -->
+    <template v-if="showDivider">
+      <Divider orientation="left" style="margin: 0 !important">{{
+        showDividerTitle || ""
+      }}</Divider>
+    </template>
+    <!-- 按钮区 -->
     <Row class="marginBottom10">
       <template v-if="showHeaderBtn">
         <slot>
@@ -87,11 +94,11 @@
 <script>
 import TablesEdit from "./edit.vue"
 // import handleBtns from "./handle-btns";
-import noDataText from "../assets/icons/icon_no_data.png"
+import noDataText from "./icon_no_data.png"
 import "./index.less"
 import tableAction from "../libs/table-action"
 import HeaderBtnOptions from "./header-btn-options.js"
-import { Card, Row, Page, Table, Button, Switch } from "view-design"
+import { Card, Divider, Row, Page, Table, Button, Switch } from "view-design"
 import dayjs from "dayjs"
 
 export default {
@@ -105,6 +112,7 @@ export default {
     Table,
     Button,
     Switch,
+    Divider,
   },
   props: {
     // 开启多选
@@ -249,6 +257,10 @@ export default {
    */
   data() {
     return {
+      //是否显示分割线
+      showDivider: false,
+      //分割线标题
+      showDividerTitle: "",
       // 默认显示顶部 新建 批量删除 批量导出 全部导出
       showHeaderBtn: true,
       headerBtns: [],
@@ -301,8 +313,18 @@ export default {
       this.insideTableData.splice(newIndex, 1, oldData)
     },
     handleHeaderBtnOPtions(options) {
-      const { show, options: vmBtn = [] } = options
+      const {
+        show,
+        options: vmBtn = [],
+        splitLine = false,
+        lineTitle = "",
+      } = options
+      // 分割线
+      this.showDivider = splitLine
+      this.showDividerTitle = lineTitle
+      // 按钮
       this.showHeaderBtn = show
+
       if (!show) {
         this.headerBtns = vmBtn
       }
@@ -398,6 +420,8 @@ export default {
               res.enumKey,
               params.row[res.key]
             )
+              ? this.$enum.getDescByValue(res.enumKey, params.row[res.key])
+              : params.row[res.key]
             return h("span", disabled)
           }
         }
@@ -416,11 +440,10 @@ export default {
         if (res.formate) {
           res.render = (h, params) => {
             let dateTemp = null
-            if (new Date(params.row[res.key])) {
-              dateTemp = dayjs(params.row[res.key]).format(res.formate)
-            } else {
-              console.warn("不能处理日期格式")
-            }
+            dateTemp =
+              dayjs(params.row[res.key]).format(res.formate) !== "Invalid Date"
+                ? dayjs(params.row[res.key]).format(res.formate)
+                : ""
             return h("span", dateTemp)
           }
         }

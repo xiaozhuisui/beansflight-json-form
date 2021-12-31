@@ -1,6 +1,13 @@
 <template>
   <Col :span="config.span || 8">
-    <FormItem :label="`${config.label}`" :prop="config.key" v-if="isShow">
+    <FormItem
+      :label="`${config.label}`"
+      :prop="config.key"
+      v-if="isShow"
+      :style="{
+        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px',
+      }"
+    >
       <Select
         v-model="data[config.key]"
         :placeholder="config.placeholder"
@@ -18,7 +25,7 @@
   </Col>
 </template>
 <script>
-import { Col, FormItem, Select, Option } from "view-design";
+import { Col, FormItem, Select, Option } from "view-design"
 export default {
   name: "FormSelectItem",
   components: {
@@ -43,14 +50,14 @@ export default {
   },
   computed: {
     disabled() {
-      const { props = {} } = this.config;
+      const { props = {} } = this.config
       if ("disabled" in props) {
-        return props["disabled"];
+        return props["disabled"]
       }
-      return false;
+      return false
     },
   },
-};
+}
 </script>
 <style lang="less">
 @import "../assets/styles/theme.less";

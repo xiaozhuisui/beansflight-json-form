@@ -1,6 +1,13 @@
 <template>
   <Col :span="config.span || 8">
-    <FormItem :label="`${config.label}`" :prop="config.key" v-if="isShow">
+    <FormItem
+      :label="`${config.label}`"
+      :prop="config.key"
+      v-if="isShow"
+      :style="{
+        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px',
+      }"
+    >
       <CheckboxGroup v-model="data[config.key]" :disabled="disabled">
         <Checkbox
           v-for="(options, index) in config.options"
@@ -14,7 +21,7 @@
   </Col>
 </template>
 <script>
-import { FormItem, Col, CheckboxGroup, Checkbox } from "view-design";
+import { FormItem, Col, CheckboxGroup, Checkbox } from "view-design"
 export default {
   name: "FormCheckboxItem",
   components: {
@@ -39,18 +46,18 @@ export default {
   },
   computed: {
     disabled() {
-      const { props = {} } = this.config;
+      const { props = {} } = this.config
       if ("disabled" in props) {
-        return props["disabled"];
+        return props["disabled"]
       }
-      return false;
+      return false
     },
     renderConfig() {
-      const { _ifShow = true } = this.config;
-      return _ifShow;
+      const { _ifShow = true } = this.config
+      return _ifShow
     },
   },
-};
+}
 </script>
 <style lang="less">
 .ivu-checkbox {

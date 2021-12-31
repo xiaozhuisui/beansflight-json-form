@@ -1,13 +1,13 @@
 {
   "name": "beansflight-json-form",
-  "version": "0.21.22",
+  "version": "0.22.01",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "lib": "vue-cli-service build --mode lib --target lib packages/index.js --name beansflight-json-form --dest beansflightJsonForm",
+    "lib": "vue-cli-service build --target lib packages/index.js --name beansflight-json-form --dest lib",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
-  "main": "beansflightJsonForm/beansflight-json-form.umd.min.js",
+  "main": "lib/beansflight-json-form.umd.min.js",
   "keywords": [
     "vue",
     "ddf",

@@ -27,11 +27,13 @@
     <Detail ref="detailForm" :value="formData"></Detail>
     <Edit ref="editForm" @cancel="mockDatas" :value="formData"> </Edit>
     <!-- <New ref="newForm" @cancel="mockDatas"></New> -->
+    <form-panel :data="panelData" :config="panelConfig2"></form-panel>
   </div>
 </template>
 
 <script>
 import Detail from "./Detail.vue"
+import FormPanel from "../../packages/form/form"
 import Edit from "./Edit.vue"
 // import New from "./New.vue"
 export default {
@@ -39,6 +41,7 @@ export default {
   components: {
     Detail,
     Edit,
+    FormPanel,
   },
   data() {
     return {
@@ -101,25 +104,29 @@ export default {
                 // extendType:  // 扩展属性
                 span: 6,
               },
-              {
-                label: "datePciekr",
-                key: "datePickerVal",
-                placeholder: "占位符",
-                type: "datePicker", // 输入框
-                extendType: "daterange", // extendType取值范围: [date: 单选daterange:时间段、 year：年份、month：月份选择]
-                span: 6,
-                props: {
-                  disabledDate: (date) => {
-                    const disabledDay = date.getDate()
-                    return disabledDay === 15
-                  },
-                },
-              },
+              // {
+              //   label: "datePciekr",
+              //   key: "datePickerVal",
+              //   placeholder: "占位符",
+              //   type: "datePicker", // 输入框
+              //   extendType: "daterange", // extendType取值范围: [date: 单选daterange:时间段、 year：年份、month：月份选择]
+              //   span: 6,
+              //   props: {
+              //     disabledDate: (date) => {
+              //       const disabledDay = date.getDate()
+              //       return disabledDay === 15
+              //     },
+              //   },
+              // },
             ],
           },
         ],
+        // 操作按钮的位置
+        btnGroup: "inline",
       },
       panelConfig: {
+        splitLine: true,
+        lineTitle: "人员参保信息",
         show: true, // 是否显示顶部默认 新建、批量删除、导出全部、批量导出按钮
         options: [
           {
@@ -157,16 +164,16 @@ export default {
             key: "name",
             minWidth: 120,
           },
+          // {
+          //   title: "商户状态",
+          //   key: "status",
+          //   minWidth: 120,
+          //   type: "eunm",
+          //   enumKey: "STATUS",
+          // },
           {
-            title: "商户状态",
-            key: "status",
-            minWidth: 120,
-            type: "eunm",
-            enumKey: "STATUS",
-          },
-          {
-            title: "createDate",
-            key: "createDate",
+            title: "modifyDate",
+            key: "modifyDate",
             formate: "YYYY-MM-DD",
             minWidth: 140,
           },
@@ -200,11 +207,62 @@ export default {
           },
         ],
       },
+      panelData: {},
+      panelConfig2: [
+        {
+          row: [
+            {
+              label: "商户名称",
+              type: "input",
+              extendType: "textarea", // 取值范围[text、password、textarea、url、email、date、number、tel]
+              key: "name",
+              props: {
+                // 扩展属性
+                disabled: true, // 设置输入框为禁用状态
+                border: false, // 不显示边框
+                bottom: 1,
+              },
+              control: {
+                // 组件联动
+                hiddenOption: (form) => {
+                  return form.isUniformprice === "0"
+                },
+              },
+              span: 8,
+            },
+            {
+              label: "商户统一定价",
+              type: "input",
+              // type: "select",
+              key: "isUniformprice",
+              control: {
+                // 组件enum
+                enumOption: {
+                  type: "STATUS",
+                },
+              },
+              span: 8,
+            },
+            {
+              label: "修改时间",
+              type: "input",
+              key: "modifyDate",
+              control: {
+                // 时间格式化
+                formatOption: {
+                  format: "YYYY-MM-DD",
+                },
+              },
+              span: 8,
+            },
+          ],
+        },
+      ],
     }
   },
   mounted() {
     // setTimeout(() => {
-    // this.mockDatas()
+    this.mockDatas()
     // }, 2000)
     // setTimeout(() => {
     this.formConfig.formItems[0].row[1].options = [
@@ -240,12 +298,15 @@ export default {
           payType: ["1", "2"],
           roleType: "1",
           switch_key: true,
-          createDate: "2020-12-11 10:57:55",
+          createDate: "",
           modifyDate: "2020-12-11 10:57:55",
+          // modifyDate: "",
           isUniformprice: "1",
           departmentId: null,
         })
       })
+
+      this.panelData = this.mainTable.data[0]
     },
     query(params) {
       console.log("query", params)

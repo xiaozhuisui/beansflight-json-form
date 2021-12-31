@@ -10,14 +10,14 @@
       :styles="{ top: '20px' }"
       @on-cancel="cancel"
     >
-      <Form :label-width="100" :label-colon="true">
+      <Form :label-width="130" :label-colon="true">
         <slot></slot>
       </Form>
     </Modal>
   </div>
 </template>
 <script>
-import { Modal, Form } from "view-design";
+import { Modal, Form } from "view-design"
 export default {
   name: "ModelPanel",
   components: {
@@ -37,22 +37,22 @@ export default {
   data() {
     return {
       childValue: false,
-    };
+    }
   },
   watch: {
     value(newValue) {
-      this.childValue = newValue;
+      this.childValue = newValue
     },
   },
   methods: {
     cancel() {
-      this.$emit("cance-modal");
+      this.$emit("cance-modal")
     },
     backFn() {
-      this.$emit("input", this.childValue);
+      this.$emit("input", this.childValue)
     },
   },
-};
+}
 </script>
 <style lang="less">
 @import "../assets/styles/theme.less";

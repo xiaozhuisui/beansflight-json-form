@@ -2,7 +2,7 @@
   <ModelPanel v-bind="$attrs" v-on="$listeners" @cance-modal="cancel">
     <Form
       ref="form"
-      :label-width="100"
+      :label-width="130"
       :model="formData"
       :rules="rules"
       :label-colon="true"

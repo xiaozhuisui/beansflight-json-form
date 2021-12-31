@@ -2,7 +2,7 @@
   <EditFormPanel
     title="编辑"
     v-model="isShowDetailModal"
-    displayed="panel"
+    displayed="model"
     :data="edit"
     :config="editConfig"
     @sumbit="sumbit"
@@ -52,6 +52,14 @@ export default {
                 // disabled: true, // 设置输入框为禁用状态
                 // maxlength: Number 最大长度
               },
+              control: {
+                // 组件联动
+                hiddenOption: (form) => {
+                  return form.isUniformprice === "0"
+                },
+                // 组件enum
+                // 时间格式化
+              },
               rule: [
                 {
                   required: true,
@@ -76,7 +84,7 @@ export default {
               type: "select",
               key: "status",
               props: {
-                disabled: true, //是否禁用
+                // disabled: true, //是否禁用
               },
               options: [
                 { value: "0", label: "否" },
@@ -84,8 +92,8 @@ export default {
               ],
               span: 8,
               control: {
-                handle: (form) => {
-                  return form.isUniformprice === "1"
+                hiddenOption: (form) => {
+                  return form.isUniformprice === "0"
                 },
               },
             },
@@ -131,7 +139,8 @@ export default {
               ],
               span: 24,
               control: {
-                handle: (form) => {
+                hiddenOption: (form) => {
+                  // 组件联动
                   return form.switchkey === true
                 },
               },

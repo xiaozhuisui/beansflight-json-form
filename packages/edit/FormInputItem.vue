@@ -1,6 +1,12 @@
 <template>
-  <Col :span="config.span || 8">
-    <FormItem :label="`${config.label}`" :prop="config.key">
+  <Col :span="config.span || 8" v-if="isShow">
+    <FormItem
+      :label="`${config.label}`"
+      :prop="config.key"
+      :style="{
+        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px',
+      }"
+    >
       <Input
         v-model="data[config.key]"
         :readonly="readOnly"
@@ -22,6 +28,10 @@ export default {
     Input,
   },
   props: {
+    isShow: {
+      type: Boolean,
+      default: true,
+    },
     config: {
       type: Object,
       default: () => {},

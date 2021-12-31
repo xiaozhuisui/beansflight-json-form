@@ -1,12 +1,19 @@
 <template>
   <Col :span="config.span || 8">
-    <FormItem :label="`${config.label}`" :prop="config.key" v-if="isShow">
+    <FormItem
+      :label="`${config.label}`"
+      :prop="config.key"
+      v-if="isShow"
+      :style="{
+        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px',
+      }"
+    >
       <i-switch v-model="data[config.key]" :disabled="disabled" />
     </FormItem>
   </Col>
 </template>
 <script>
-import { Col, FormItem, Switch } from "view-design";
+import { Col, FormItem, Switch } from "view-design"
 export default {
   name: "FormSwitchItem",
   components: {
@@ -30,11 +37,11 @@ export default {
   },
   computed: {
     disabled() {
-      const { props = {} } = this.config;
+      const { props = {} } = this.config
       if ("disabled" in props) {
-        return props["disabled"];
+        return props["disabled"]
       }
-      return false;
+      return false
     },
   },
   methods: {
@@ -42,6 +49,6 @@ export default {
       // console.log("topStatusChange=", e);
     },
   },
-};
+}
 </script>
 <style></style>

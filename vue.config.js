@@ -1,9 +1,9 @@
 const path = require("path")
 const webpack = require("webpack")
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 const resolve = (dir) => path.join(__dirname, dir)
 console.log("当前运行时:", process.env.VUE_APP_TYPE)
 module.exports = {
+  publicPath: "./",
   lintOnSave: false,
   pages: {
     index: {
@@ -16,22 +16,14 @@ module.exports = {
     disableHostCheck: true,
     open: true,
     overlay: {
-      warnings: false,
+      warnings: true,
       errors: true,
-    },
-    proxy: {
-      "/posts": {
-        target: "http://jsonplaceholder.typicode.com/posts/",
-        ws: true,
-        changeOrigin: true,
-        pathRewrite: {
-          "^/posts": "",
-        },
-      },
     },
   },
   // 扩展webpack 配置，使packages加入编译
   chainWebpack: (config) => {
+    config.resolve.alias.set("@", resolve("packages"))
+
     config.module
       .rule("js")
       .include.add(path.resolve(__dirname, "packages"))
@@ -39,13 +31,14 @@ module.exports = {
       .use("babel")
       .loader("babel-loader")
       .tap((options) => {
-        // 修改他的选项
         return options
       })
     config.module
       .rule("images")
       .use("url-loader")
       .loader("url-loader")
-      .tap((options) => Object.assign(options, { limit: 100 * 1024 }))
+      .tap((options) => {
+        return Object.assign(options, { limit: 100 * 1024 })
+      })
   },
 }

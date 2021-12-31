@@ -1,6 +1,13 @@
 <template>
   <Col :span="config.span || 8">
-    <FormItem :label="`${config.label}`" :prop="config.key" v-if="isShow">
+    <FormItem
+      :label="`${config.label}`"
+      :prop="config.key"
+      v-if="isShow"
+      :style="{
+        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px',
+      }"
+    >
       <RadioGroup v-model="data[config.key]" :disabled="disabled">
         <Radio
           v-for="(options, index) in config.options"
@@ -14,7 +21,7 @@
   </Col>
 </template>
 <script>
-import { FormItem, Col, RadioGroup, Radio } from "view-design";
+import { FormItem, Col, RadioGroup, Radio } from "view-design"
 export default {
   name: "FormRadioItem",
   components: {
@@ -39,14 +46,14 @@ export default {
   },
   computed: {
     disabled() {
-      const { props = {} } = this.config;
+      const { props = {} } = this.config
       if ("disabled" in props) {
-        return props["disabled"];
+        return props["disabled"]
       }
-      return false;
+      return false
     },
   },
-};
+}
 </script>
 <style lang="less">
 .ivu-modal-wrap .ivu-radio {
