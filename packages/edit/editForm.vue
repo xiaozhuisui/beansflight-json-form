@@ -22,6 +22,7 @@
               :config="col"
               :data="formData"
               :isShow="col._ifShow"
+              v-on="col.control"
             >
             </component>
           </Row>
@@ -58,6 +59,7 @@
             :config="col"
             :data="formData"
             :isShow="col._ifShow"
+            v-on="col.control"
           >
           </component>
         </Row>

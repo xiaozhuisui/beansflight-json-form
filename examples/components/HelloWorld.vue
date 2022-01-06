@@ -1,41 +1,28 @@
 <template>
   <div>
-    <query-panel
-      :config="formConfig"
-      @query="query"
-      @reset="reset"
-    ></query-panel>
+    <query-panel :config="formConfig" @query="query"></query-panel>
     <table-panel
       border
       ref="mainTable"
       :panelConfig="panelConfig"
-      @newAction="newInfoForm"
-      @batchDeleteAction="batchDelete"
-      @allExportAction="exportAll"
-      @batchExportAction="batchExport"
       :columns="mainTable.columnArray"
       :value="mainTable.data"
       :loading="mainTable.loading"
       :pageNumber="queryForm.pageNum"
       :pageSize="queryForm.pageSize"
       :pageTotal="mainTablePage.total"
-      @onChangePageNum="changeMainTablePagePageNum"
-      @onChangePageSize="changeMainTablePagePageSize"
-      @on-row-click="onRowClick"
       :multi="false"
     ></table-panel>
-    <Detail ref="detailForm" :value="formData"></Detail>
-    <Edit ref="editForm" @cancel="mockDatas" :value="formData"> </Edit>
-    <!-- <New ref="newForm" @cancel="mockDatas"></New> -->
+    <Detail ref="detailForm"></Detail>
+    <Edit ref="editForm"></Edit>
     <form-panel :data="panelData" :config="panelConfig2"></form-panel>
   </div>
 </template>
 
 <script>
-import Detail from "./Detail.vue"
+import Detail from "./Detail"
+import Edit from "./Edit"
 import FormPanel from "../../packages/form/form"
-import Edit from "./Edit.vue"
-// import New from "./New.vue"
 export default {
   name: "HelloWorld",
   components: {
@@ -88,13 +75,30 @@ export default {
                     ],
                   },
                 ],
+                control: {
+                  // 回调函数
+                  change: (val) => console.log("回调函数", val),
+                },
               },
               {
                 label: "下拉框",
                 key: "selOptions",
                 type: "select",
                 span: 6,
-                options: [],
+                options: [
+                  {
+                    value: "01",
+                    label: "是",
+                  },
+                  {
+                    value: "02",
+                    label: "否",
+                  },
+                ],
+                control: {
+                  // 回调函数
+                  change: (val) => console.log("回调函数", val),
+                },
               },
               {
                 label: "输入框",
@@ -102,22 +106,28 @@ export default {
                 placeholder: "占位符",
                 type: "Input", // 输入框
                 // extendType:  // 扩展属性
+                control: {
+                  // 回调函数
+                  cb: (val) => {
+                    console.log("输入框-value:", val)
+                  },
+                },
                 span: 6,
               },
-              // {
-              //   label: "datePciekr",
-              //   key: "datePickerVal",
-              //   placeholder: "占位符",
-              //   type: "datePicker", // 输入框
-              //   extendType: "daterange", // extendType取值范围: [date: 单选daterange:时间段、 year：年份、month：月份选择]
-              //   span: 6,
-              //   props: {
-              //     disabledDate: (date) => {
-              //       const disabledDay = date.getDate()
-              //       return disabledDay === 15
-              //     },
-              //   },
-              // },
+              {
+                label: "datePciekr",
+                key: "datePickerVal",
+                placeholder: "占位符",
+                type: "datePicker", // 输入框
+                extendType: "daterange", // extendType取值范围: [date: 单选daterange:时间段、 year：年份、month：月份选择]
+                span: 6,
+                props: {
+                  disabledDate: (date) => {
+                    const disabledDay = date.getDate()
+                    return disabledDay === 15
+                  },
+                },
+              },
             ],
           },
         ],
@@ -225,7 +235,7 @@ export default {
               control: {
                 // 组件联动
                 hiddenOption: (form) => {
-                  return form.isUniformprice === "0"
+                  return form.isUniformprice === "1"
                 },
               },
               span: 8,
@@ -233,7 +243,6 @@ export default {
             {
               label: "商户统一定价",
               type: "input",
-              // type: "select",
               key: "isUniformprice",
               control: {
                 // 组件enum
@@ -261,24 +270,7 @@ export default {
     }
   },
   mounted() {
-    // setTimeout(() => {
     this.mockDatas()
-    // }, 2000)
-    // setTimeout(() => {
-    this.formConfig.formItems[0].row[1].options = [
-      {
-        label: "启用",
-        value: "1",
-      },
-      {
-        label: "未启用",
-        value: "0",
-      },
-    ]
-    // }, 5000)
-    setTimeout(() => {
-      this.queryForm.pageSize = 20
-    }, 10000)
   },
   methods: {
     mockDatas() {
@@ -301,39 +293,19 @@ export default {
           createDate: "",
           modifyDate: "2020-12-11 10:57:55",
           // modifyDate: "",
-          isUniformprice: "1",
+          isUniformprice: "0",
           departmentId: null,
         })
       })
-
-      this.panelData = this.mainTable.data[0]
+      setTimeout(() => {
+        this.panelData = this.mainTable.data[0]
+      }, 5000)
+      setTimeout(() => {
+        this.panelData.isUniformprice = "1"
+      }, 10000)
     },
-    query(params) {
-      console.log("query", params)
-    },
-    reset() {
-      console.log("reset")
-    },
-    newInfoForm() {
-      this.$refs.newForm.showModal()
-    },
-    async batchDelete(rows) {
-      console.log("batchDelete:", rows)
-    },
-    async exportAll() {
-      console.log("exportAll")
-    },
-    async batchExport() {
-      console.log("batchExport")
-    },
-    changeMainTablePagePageNum(pageNum) {
-      console.log("changeMainTablePagePageNum:", pageNum)
-    },
-    changeMainTablePagePageSize(pageSize) {
-      console.log("changeMainTablePagePageSize:", pageSize)
-    },
-    onRowClick(rowParams) {
-      this.formData = rowParams
+    query(val) {
+      console.log("query被调用:", val)
     },
   },
 }

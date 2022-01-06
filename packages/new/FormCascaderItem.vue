@@ -10,13 +10,14 @@
         v-model="data[config.key]"
         :disabled="disabled"
         trigger="hover"
+        @on-change="change"
       >
       </Cascader>
     </FormItem>
   </Col>
 </template>
 <script>
-import { Cascader, FormItem } from "view-design";
+import { Cascader, FormItem } from "view-design"
 export default {
   name: "FormCascaderItem",
   components: {
@@ -36,7 +37,7 @@ export default {
   data() {
     return {
       cvalus: [],
-    };
+    }
   },
   computed: {
     cascadeModel: {
@@ -47,22 +48,27 @@ export default {
           ).toString(),
           this.data[this.config.key[0]],
           this.data[this.config.key[1]],
-        ];
+        ]
       },
       set(val) {
-        this.data[this.config.key[0]] = val[1];
-        this.data[this.config.key[1]] = val[2];
+        this.data[this.config.key[0]] = val[1]
+        this.data[this.config.key[1]] = val[2]
       },
     },
     disabled() {
-      const { props = {} } = this.config;
+      const { props = {} } = this.config
       if ("disabled" in props) {
-        return props["disabled"];
+        return props["disabled"]
       }
-      return false;
+      return false
     },
   },
-};
+  methods: {
+    change(...arges) {
+      this.$$emit("change", { ...arges })
+    },
+  },
+}
 </script>
 <style lang="less">
 @import "../assets/styles/theme.less";

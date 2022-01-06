@@ -1,8 +1,6 @@
----
-typora-root-url: ./screenshot/formPanel.png
----
+# beansflight-json-form
 
-# beansflight-vue-json-form: 一份配置，轻松搞定配置 Vue 表单渲染
+# 一份配置，轻松搞定配置 Vue 表单渲染
 
 ---
 
@@ -12,7 +10,7 @@ typora-root-url: ./screenshot/formPanel.png
 
 **beansflight-vue-json-form 具有数据收集、校验和提交功能的表单生成器，支持双向数据绑定和事件扩展，组件包含有复选框、单选框、输入框、下拉选择框等表单元素以及省市区三级联动,时间选择,日期选择,颜色选择,滑块,评分,框架,树型,文件/图片上传等功能组件**
 
-# 一·JSONForm 组件目前支持的类型(config 中的 type 属性)
+# 一· JSONForm 组件目前支持的类型(config 中的 type 属性)
 
 1. **Input：输入框**
 
@@ -90,7 +88,7 @@ Vue.use(beansflightForm);
 
 # 三·表单类型
 
-## 1 列表：tablePanel
+## 1 tablePanel - 列表
 
 ### 页面展示
 
@@ -98,7 +96,7 @@ Vue.use(beansflightForm);
 
 ### **使用方式**
 
-```javascript
+```vue
 <table-panel
       border
       ref="mainTable"
@@ -259,6 +257,8 @@ columnArray: [
 | onClick    | true   | 按钮回调函数 | Function | (row)=>{} |                                                             |
 | directives | false  | 按钮权限     | Array    | -         | {                                                           |
 
+##### DEMO
+
 ```javascript
 columnArray: [
   {
@@ -308,7 +308,7 @@ columnArray: [
 ],
 ```
 
-### 2 查询：queryPanel
+### 2  queryPanel - 查询
 
 ### 页面展示
 
@@ -316,18 +316,22 @@ columnArray: [
 
 ### **使用方式**
 
-```javascript
-     <query-panel
-      :config="formConfig"
-      @query="query"
-      @reset="reset">
+```vue
+<query-panel
+  :config="formConfig"
+  @query="query"
+	@reset="reset"
+>
+  </query-panel>
 ```
+
+#### **query-panel 属性**
 
 | 属性   | 必填项 | 说明             | 类型     | 默认值       | 备注 |
 | ------ | ------ | ---------------- | -------- | ------------ | ---- |
 | config | true   | 查询项配置       | Object   | -            |      |
 | query  | true   | 查询事件回调函数 | Function | (params)=>{} |      |
-| reset  | false  | 重置按钮回调函数 | Fcuntion |              |      |
+| reset  | false  | 重置按钮回调函数 | Fcuntion | ()=>{}       |      |
 
 #### **config**
 
@@ -336,7 +340,7 @@ columnArray: [
 | formModel | true   | v-model 绑定项 | Object | -      | 框架目前支持 4 中交互 input：输入框、select：下拉列表、日历：dataPicker、Cascader：省市区级联 |
 | formItems | true   | 布局项         | Array  |        | 用于绘制查询项表单                                                                            |
 
-#### **config.formModel**
+##### **config.formModel**
 
 ```javascript
 formModel: {
@@ -347,7 +351,26 @@ formModel: {
         },
 ```
 
-#### **config.formItems**
+##### **config.formItems**
+
+| 属性        | 必填项 | 说明                                                         | 默认值 | 备注 |
+| ----------- | ------ | ------------------------------------------------------------ | ------ | ---- |
+| label       | true   | 输入框标题                                                   | -      |      |
+| key         | true   | 绑定的值                                                     | -      |      |
+| type        | true   | 组件类型  type 取值范围：[select、input、datePicker、 cascader] | -      |      |
+| placeholder | true   | 占位文字                                                     | -      |      |
+| span        | true   | 24栏布局 占比 如果不传则是6                                  | -      |      |
+| control     | false  | 操作项                                                       | -      |      |
+
+
+
+###### **config.formItems.control**
+
+| 属性 | 必填项 | 说明         | 默认值      | 说明                         |
+| ---- | ------ | ------------ | ----------- | ---------------------------- |
+| on   | false  | 组件回调函数 | (Event)=>{} | 目前只实现了Select、cascader |
+
+#### **DEMO**
 
 ```javascript
 formItems: [
@@ -359,6 +382,13 @@ formItems: [
         type: "cascader", // 组件类型 不区分大小写 级联多用于省市区选择  type 取值范围：[select、input、datePicker、 cascader]
         placeholder: "请选择城市/区县(可搜索）", // 占位文字
         span: 6, // 24栏布局 占比 如果不传则是6
+        control: { // 操作项
+          on:{
+            change:()=>{ // 回调函数
+              
+            }
+          }
+        },
         options: [
           // 数据选项
           {
@@ -448,7 +478,7 @@ formItems: [
 ]
 ```
 
-## 3 编辑：editFormPanel
+## 3 editFormPanel -  编辑
 
 ### 页面展示
 
@@ -456,7 +486,7 @@ formItems: [
 
 ### 使用方式
 
-```javascript
+```vue
 <edit-form-panel
     title="编辑或新建"
     v-model="isShowDetailModal"
@@ -467,25 +497,65 @@ formItems: [
     @cancel="cancel"
 >
       <template v-slot:footer="data">
-       	  <div>底部按钮布局</div>
-      		<div>{{ data }}</div>
+       	<div>底部按钮布局</div>
+      	<div>{{ data }}</div>
      </template>
 
   </edit-form-panel>
 ```
 
-| 属性      | 必填项 | 说明                                                   | 类型          | 默认值 | 备注            |
-| --------- | ------ | ------------------------------------------------------ | ------------- | ------ | --------------- |
-| title     | true   | 标题                                                   | String        | -      |                 |
-| v-model   | true   | 页面显示隐藏                                           | Boolean       | -      |                 |
-| displayed | false  | 页面展现形式 支持 2 中显示方式 model:弹窗、panel: 平面 | String        | model  |                 |
-| detail    | true   | 数据项                                                 | Object        | -      |                 |
-| config    | true   | 页面配置                                               | Object        | -      |                 |
-| footer    | false  | 页脚插槽                                               | Slot          | -      | data 是表单数据 |
-| sumbit    | true   | 确认按钮回调函数                                       | (params) =>{} |        |                 |
-| cancel    | true   | 取消按钮回调函数                                       | ()=>{}        |        |                 |
+
+
+#### **edit-form-panel 属性**
+
+| 属性      | 必填项 | 说明                                               | 默认值        | 备注 |
+| --------- | ------ | -------------------------------------------------- | ------------- | ---- |
+| title     | true   | 标题                                               | -             |      |
+| v-model   | true   | 控制弹窗是否显示                                   | False         |      |
+| displayed | false  | 显示方式 支持 2 中显示方式 model:弹窗、panel: 平面 | model         |      |
+| data      | true   | 表单项绑定对象                                     | -             |      |
+| config    | true   | 表单配置项                                         | -             |      |
+| footer    | false  | 页脚插槽                                           | slot          |      |
+| sumbit    | true   | 确认按钮回调函数                                   | (params) =>{} |      |
+| cancel    | true   | 取消按钮回调函数                                   | ()=>{}        |      |
+
+
 
 #### **config**
+
+| 属性      | 必填项 | 说明                            | 默认值 | 备注     |
+| --------- | ------ | ------------------------------- | ------ | -------- |
+| splitLine | false  | 是否显示分栏布局                | false  | 纵向分栏 |
+| lineTitle | false  | 分栏标题                        | -      |          |
+| row       | true   | 如果在一个行内布局，则用row嵌套 | -      |          |
+
+
+
+##### **config.row**
+
+| 属性        | 必填项 | 说明                                                         | 默认值 | 备注 |
+| ----------- | ------ | ------------------------------------------------------------ | ------ | ---- |
+| label       | true   | label标题                                                    | -      |      |
+| type        | true   | 组件类型 不区分大小写 type取值范围['datePicker', 'input', 'select', 'cascader'] | -      |      |
+| extendType  | false  | 组件扩展类型                                                 |        |      |
+| key         | true   | 绑定的值                                                     | -      |      |
+| placeholder | false  | 占位文字                                                     | -      |      |
+| rule        | false  | 必填项验证                                                   | -      |      |
+| props       | false  | 扩展属性                                                     |        |      |
+| control     | false  | 输入项交互                                                   |        |      |
+
+
+
+###### **config.row.control**
+
+|     属性     | 必填项 | 说明               | 默认值          | 备注                                                         |
+| :----------: | ------ | ------------------ | --------------- | ------------------------------------------------------------ |
+|      on      | false  | 输入项交互回调函数 | {}              |                                                              |
+| hiddenOption | false  | 输入项联动回调函数 | (formdata)=> {} |                                                              |
+|  enumOption  | false  | 输入项枚举值转换   | -               | enumOption: {<br/>                  type: "STATUS",<br/>                }, |
+| formatOption | false  | 输入项格式化       | -               | formatOption: {<br/>                  format: "YYYY-MM-DD",<br/>                }, |
+
+#### **DEMO**
 
 ```javascript
       editConfig: [
@@ -527,7 +597,7 @@ formItems: [
       ],
 ```
 
-## 4 查看：detailFormPanel
+## 4 detailFormPanel - 查看
 
 ### 页面展示
 
@@ -535,7 +605,7 @@ formItems: [
 
 ### **使用方式**
 
-```javascript
+```vue
 <detail-form-panel
   title="商户详情"
   v-model="isShowDetailModal"
@@ -549,15 +619,55 @@ formItems: [
   </detail-form-panel>
 ```
 
-| 属性    | 必填项 | 说明         | 类型    | 默认值 | 备注            |
-| ------- | ------ | ------------ | ------- | ------ | --------------- |
-| title   | true   | 标题         | String  | -      |                 |
-| v-model | true   | 页面显示隐藏 | Boolean | -      |                 |
-| footer  | false  | 页脚插槽     | Slot    | -      | data 是表单数据 |
-| detail  | true   | 数据项       | Object  | -      |                 |
-| config  | true   | 页面配置     | Object  | -      |                 |
+#### **detail-form-panel 属性**
+
+| 属性    | 必填项 | 说明           | 类型    | 默认值 | 备注 |
+| ------- | ------ | -------------- | ------- | ------ | ---- |
+| title   | true   | 标题           | String  | -      |      |
+| v-model | true   | 页面显示隐藏   | Boolean | -      |      |
+| footer  | false  | 页脚插槽       | Slot    | -      |      |
+| data    | true   | 表单项绑定对象 | Object  | -      |      |
+| config  | true   | 页面配置       | Object  | -      |      |
+
+
 
 #### **config**
+
+| 属性      | 必填项 | 说明                            | 类型  | 默认值   |
+| --------- | ------ | ------------------------------- | ----- | -------- |
+| splitLine | false  | 是否显示分栏布局                | false | 纵向分栏 |
+| lineTitle | false  | 分栏标题                        | -     |          |
+| row       | true   | 如果在一个行内布局，则用row嵌套 | -     |          |
+
+
+
+##### **config.row**
+
+| 属性        | 必填项 | 说明                                                         | 默认值 | 备注 |
+| ----------- | ------ | ------------------------------------------------------------ | ------ | ---- |
+| label       | true   | label标题                                                    | -      |      |
+| type        | true   | 组件类型 不区分大小写 type取值范围['datePicker', 'input', 'select', 'cascader'] | -      |      |
+| extendType  | false  | 组件扩展类型                                                 |        |      |
+| key         | true   | 绑定的值                                                     | -      |      |
+| placeholder | false  | 占位文字                                                     | -      |      |
+| rule        | false  | 必填项验证                                                   | -      |      |
+| props       | false  | 扩展属性                                                     |        |      |
+| control     | false  | 输入项交互                                                   |        |      |
+
+
+
+###### **config.row.control**
+
+| 属性         | 必填项 | 说明               | 默认值          | 备注                                                         |
+| ------------ | ------ | ------------------ | --------------- | ------------------------------------------------------------ |
+| on           | false  | 输入项交互回调函数 | {}              |                                                              |
+| hiddenOption | false  | 输入项联动回调函数 | (formdata)=> {} |                                                              |
+| enumOption   | false  | 输入项枚举值转换   | -               | enumOption: {<br/>                  type: "STATUS",<br/>                }, |
+| formatOption | false  | 输入项格式化       | -               | formatOption: {<br/>                  format: "YYYY-MM-DD",<br/>                }, |
+
+
+
+#### **DEMO**
 
 ```javascript
 config: [
@@ -591,7 +701,7 @@ config: [
 ],
 ```
 
-## 5 新建：newFormPanel
+## 5 newFormPanel - 新建
 
 ### 页面展示
 
@@ -611,7 +721,55 @@ config: [
   </NewFormPanel>
 ```
 
-#### **newConfig**
+#### **new-form-panel 属性**
+
+| 属性    | 必填项 | 说明           | 类型    | 默认值 |
+| ------- | ------ | -------------- | ------- | ------ |
+| title   | true   | 标题           | String  | -      |
+| v-model | true   | 页面显示隐藏   | Boolean | -      |
+| footer  | false  | 页脚插槽       | Slot    | -      |
+| data    | true   | 表单项绑定对象 | Object  | -      |
+| config  | true   | 页面配置       | Object  | -      |
+
+
+
+#### **config**
+
+| 属性      | 必填项 | 说明                            | 类型  | 默认值   |
+| --------- | ------ | ------------------------------- | ----- | -------- |
+| splitLine | false  | 是否显示分栏布局                | false | 纵向分栏 |
+| lineTitle | false  | 分栏标题                        | -     |          |
+| row       | true   | 如果在一个行内布局，则用row嵌套 | -     |          |
+
+
+
+##### **config.row**
+
+| 属性        | 必填项 | 说明                                                         | 默认值 | 备注 |
+| ----------- | ------ | ------------------------------------------------------------ | ------ | ---- |
+| label       | true   | label标题                                                    | -      |      |
+| type        | true   | 组件类型 不区分大小写 type取值范围['datePicker', 'input', 'select', 'cascader'] | -      |      |
+| extendType  | false  | 组件扩展类型                                                 |        |      |
+| key         | true   | 绑定的值                                                     | -      |      |
+| placeholder | false  | 占位文字                                                     | -      |      |
+| rule        | false  | 必填项验证                                                   | -      |      |
+| props       | false  | 扩展属性                                                     |        |      |
+| control     | false  | 输入项交互                                                   |        |      |
+
+
+
+###### **config.row.control**
+
+| 属性         | 必填项 | 说明               | 默认值          | 备注                                                         |
+| ------------ | ------ | ------------------ | --------------- | ------------------------------------------------------------ |
+| on           | false  | 输入项交互回调函数 | {}              |                                                              |
+| hiddenOption | false  | 输入项联动回调函数 | (formdata)=> {} |                                                              |
+| enumOption   | false  | 输入项枚举值转换   | -               | enumOption: {<br/>                  type: "STATUS",<br/>                }, |
+| formatOption | false  | 输入项格式化       | -               | formatOption: {<br/>                  format: "YYYY-MM-DD",<br/>                }, |
+
+
+
+#### **DEMO**
 
 ```javascript
       newConfig: [
@@ -677,7 +835,7 @@ config: [
       ],
 ```
 
-## 6 展示：formPanel
+## 6  formPanel - 展示
 
 ### 页面展示
 
@@ -685,11 +843,57 @@ config: [
 
 ### 使用方式
 
-```javascript
- <form-panel :data="panelData" :config="panelConfig"></form-panel>
+```vue
+ <form-panel 
+     :data="panelData" 
+     :config="panelConfig"
+ ></form-panel>
 ```
 
-panelConfig 
+#### **form-panel 属性**
+
+| 属性   | 必填项 | 说明           | 类型   | 默认值 | 备注 |
+| ------ | ------ | -------------- | ------ | ------ | ---- |
+| data   | true   | 表单项绑定对象 | Object | -      |      |
+| config | true   | 页面配置       | Object | -      |      |
+
+
+
+#### **config**
+
+| 属性      | 必填项 | 说明                            | 类型  | 默认值   |
+| --------- | ------ | ------------------------------- | ----- | -------- |
+| splitLine | false  | 是否显示分栏布局                | false | 纵向分栏 |
+| lineTitle | false  | 分栏标题                        | -     |          |
+| row       | true   | 如果在一个行内布局，则用row嵌套 | -     |          |
+
+
+
+##### **config.row**
+
+| 属性        | 必填项 | 说明                                                         | 默认值 | 备注 |
+| ----------- | ------ | ------------------------------------------------------------ | ------ | ---- |
+| label       | true   | label标题                                                    | -      |      |
+| type        | true   | 组件类型 不区分大小写 type取值范围['datePicker', 'input', 'select', 'cascader'] | -      |      |
+| extendType  | false  | 组件扩展类型                                                 |        |      |
+| key         | true   | 绑定的值                                                     | -      |      |
+| placeholder | false  | 占位文字                                                     | -      |      |
+| rule        | false  | 必填项验证                                                   | -      |      |
+| props       | false  | 扩展属性                                                     |        |      |
+| control     | false  | 输入项交互                                                   |        |      |
+
+
+
+###### **config.row.control**
+
+| 属性         | 必填项 | 说明               | 默认值          | 备注                                                         |
+| ------------ | ------ | ------------------ | --------------- | ------------------------------------------------------------ |
+| on           | false  | 输入项交互回调函数 | {}              |                                                              |
+| hiddenOption | false  | 输入项联动回调函数 | (formdata)=> {} |                                                              |
+| enumOption   | false  | 输入项枚举值转换   | -               | enumOption: {<br/>                  type: "STATUS",<br/>                }, |
+| formatOption | false  | 输入项格式化       | -               | formatOption: {<br/>                  format: "YYYY-MM-DD",<br/>                }, |
+
+#### **DEMO**
 
 ```javascript
     panelConfig: [
@@ -772,6 +976,7 @@ panelConfig
 | required | true   | 是否为必填项       | Boolean | -      |
 | message  | true   | 必填项提示信息     | String  | -      |
 | trigger  | true   | 验证触发方式       | String  | -      |
+
 
 ```javascript
 formConfig: [

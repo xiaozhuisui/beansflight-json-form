@@ -7,6 +7,7 @@
       :placeholder="config.placeholder"
       filterable
       v-model="rule[config.key]"
+      @on-change="change"
     >
       <Option
         v-for="(option, index) in config.options"
@@ -18,8 +19,8 @@
   </Col>
 </template>
 <script>
-import props from "../common/comPros";
-import { Col, Select, Option } from "view-design";
+import props from "../common/comPros"
+import { Col, Select, Option } from "view-design"
 export default {
   name: "SelectItem",
   components: {
@@ -37,7 +38,12 @@ export default {
       deep: true,
     },
   },
-};
+  methods: {
+    change(event) {
+      this.$emit("change", event)
+    },
+  },
+}
 </script>
 <style lang="less">
 @import "../assets/styles/theme.less";

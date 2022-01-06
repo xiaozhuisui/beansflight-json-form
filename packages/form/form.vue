@@ -53,6 +53,7 @@
             :data="formData"
             :readOnly="col.props.readOnly"
             :border="col.props.border"
+            :isShow="col._ifShow"
           >
           </component>
         </Row>

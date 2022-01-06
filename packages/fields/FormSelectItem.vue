@@ -12,6 +12,7 @@
         v-model="data[config.key]"
         :placeholder="config.placeholder"
         :disabled="disabled"
+        @on-change="change"
         filterable
       >
         <Option
@@ -55,6 +56,11 @@ export default {
         return props["disabled"]
       }
       return false
+    },
+  },
+  methods: {
+    change(event) {
+      this.$emit("change", event)
     },
   },
 }

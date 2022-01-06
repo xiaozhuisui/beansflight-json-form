@@ -10,13 +10,14 @@
       :placeholder="config.placeholder"
       class="query-form-element"
       trigger="hover"
+      @on-change="change"
     >
     </Cascader>
   </Col>
 </template>
 <script>
-import props from "../common/comPros";
-import { Col, Cascader } from "view-design";
+import props from "../common/comPros"
+import { Col, Cascader } from "view-design"
 export default {
   name: "CascaderItem",
   components: {
@@ -24,7 +25,12 @@ export default {
     Cascader,
   },
   props,
-};
+  methods: {
+    change(...arges) {
+      this.$emit("change", { ...arges })
+    },
+  },
+}
 </script>
 <style lang="less">
 @import "../assets/styles/theme.less";

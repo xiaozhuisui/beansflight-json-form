@@ -55,6 +55,7 @@ export default {
               control: {
                 // 组件联动
                 hiddenOption: (form) => {
+                  console.log("组件联动")
                   return form.isUniformprice === "0"
                 },
                 // 组件enum

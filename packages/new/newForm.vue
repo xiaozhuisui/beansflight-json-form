@@ -20,6 +20,7 @@
           :config="col"
           :data="formData"
           :isShow="col._ifShow"
+          v-no="col.control"
         >
         </component>
       </Row>

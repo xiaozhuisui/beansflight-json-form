@@ -8,15 +8,13 @@
       v-if="showRow(index)"
       :key="index"
     >
-      <component
-        :is="col.tag"
+      <DynamicItem
         v-for="(col, index) in row"
         :key="index"
         :rule="model"
+        v-on="col.control"
         :config="col"
-        v-no="col.control"
-      >
-      </component>
+      ></DynamicItem>
       <template v-if="btnPostion">
         <Col span="6" style="margin-left: 50px">
           <Button
@@ -69,23 +67,17 @@
 </template>
 <script>
 import { Row, Card, ButtonGroup, Button } from "view-design"
-import CascaderItem from "./CascaderItem.vue"
-import SelectItem from "./SelectItem.vue"
-import InputItem from "./InputItem.vue"
-import DatePickerItem from "./DatePickerItem.vue"
 import { titleCase } from "../libs/lib"
 import { componentsMap } from "../mappings"
+import DynamicItem from "./DynamicCell"
 export default {
   name: "QueryPanel",
   components: {
-    CascaderItem,
-    SelectItem,
-    InputItem,
-    DatePickerItem,
     Row,
     Card,
     ButtonGroup,
     Button,
+    DynamicItem,
   },
   props: {
     config: {
@@ -138,22 +130,6 @@ export default {
         column.props = Object.assign({}, def.props, column.props)
         return column
       })
-      // 表单控件的类型
-      // let type = item.type || "text";
-      // // 对应到组件映射表
-      // // let def = ElementMapping[type];
-      // item.tag = def.component;
-      // item.props = Object.assign({}, def.props, item.props);
-      // // 获取动态 props
-      // if (isFunction(item.getProps)) {
-      //   Object.assign(item.props, item.getProps(form));
-      // }
-      // // 条件渲染
-      // item._ifRender = isFunction(item.ifRender) ? !!item.ifRender(form) : true;
-      // // 防止表单提交时存在多余 key
-      // if (!item._ifRender) {
-      //   delete form[item.key];
-      // }
       return row
     },
     queryAction() {
