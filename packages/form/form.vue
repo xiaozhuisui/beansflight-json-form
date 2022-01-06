@@ -3,20 +3,14 @@
     <!-- 需要卡片包裹 -->
     <template v-if="cardWrapper">
       <Card class="smart-query-card">
-        <Form
-          ref="form"
-          :label-width="130"
-          :model="formData"
-          :label-colon="true"
-        >
+        <Form ref="form" v-bind="$attrs" :model="formData" :label-colon="true">
           <Row :gutter="16" v-for="(row, index) in configForm" :key="index">
             <!-- 分割线 -->
             <template v-if="row.splitLine">
               <Divider orientation="left">{{ row.lineTitle || "" }}</Divider>
             </template>
             <!-- 行内容 -->
-            <component
-              :is="col.tag"
+            <DynamicCell
               v-for="(col, index) in row.row"
               :key="index"
               :config="col"
@@ -24,8 +18,8 @@
               :readOnly="col.props.readOnly"
               :border="col.props.border"
               :isShow="col._ifShow"
-            >
-            </component>
+              v-on="col.control"
+            ></DynamicCell>
           </Row>
         </Form>
       </Card>
@@ -45,8 +39,7 @@
             <Divider orientation="left">{{ row.lineTitle || "" }}</Divider>
           </template>
           <!-- 行内容 -->
-          <component
-            :is="col.tag"
+          <DynamicCell
             v-for="(col, index) in row.row"
             :key="index"
             :config="col"
@@ -54,8 +47,8 @@
             :readOnly="col.props.readOnly"
             :border="col.props.border"
             :isShow="col._ifShow"
-          >
-          </component>
+            v-on="col.control"
+          ></DynamicCell>
         </Row>
       </Form>
     </template>
@@ -63,16 +56,9 @@
 </template>
 <script>
 import { Form, Card, Divider, Row } from "view-design"
-import FormSelectItem from "../fields/FormSelectItem.vue"
-import FormDatepickerItem from "../fields/FormDatePickerItem.vue"
-import FormCheckboxItem from "../fields/FormCheckboxItem.vue"
-import FormRadioItem from "../fields/FormRadioItem.vue"
-import FormSwitchItem from "../fields/FormSwitchItem.vue"
-import FormInputItem from "./FormInputItem.vue"
-import FormCascaderItem from "./FormCascaderItem.vue"
-import ModelPanel from "../fields/ModelItem.vue"
 import { titleCase, isFunc, isObj } from "../libs/lib"
 import { componentsMap } from "../mappings/formMapping.js"
+import DynamicCell from "./DynamicCell.vue"
 const dayJS = require("dayjs")
 
 export default {
@@ -82,14 +68,7 @@ export default {
     Card,
     Row,
     Divider,
-    ModelPanel,
-    FormInputItem,
-    FormSelectItem,
-    FormCascaderItem,
-    FormDatepickerItem,
-    FormCheckboxItem,
-    FormRadioItem,
-    FormSwitchItem,
+    DynamicCell,
   },
   props: {
     cardWrapper: {

@@ -3,12 +3,7 @@
     <div v-if="displayed === 'model'">
       <!-- 弹窗显示 -->
       <ModelPanel v-bind="$attrs" v-on="$listeners">
-        <Form
-          ref="form"
-          :label-width="130"
-          :model="formData"
-          :label-colon="true"
-        >
+        <Form ref="form" v-bind="$attrs" :model="formData" :label-colon="true">
           <Row :gutter="16" v-for="(row, index) in configForm" :key="index">
             <!-- 分割线 -->
             <template v-if="row.splitLine">

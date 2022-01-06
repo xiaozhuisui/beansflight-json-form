@@ -2,7 +2,7 @@
   <ModelPanel v-bind="$attrs" v-on="$listeners" @cance-modal="cancel">
     <Form
       ref="form"
-      :label-width="130"
+      v-bind="$attrs"
       :model="formData"
       :rules="rules"
       :label-colon="true"
@@ -12,17 +12,14 @@
         <template v-if="row.splitLine">
           <Divider orientation="left">{{ row.lineTitle || "" }}</Divider>
         </template>
-        <!-- 行内容 -->
-        <component
-          :is="col.tag"
+        <DynamicCell
           v-for="(col, index) in row.row"
           :key="index"
           :config="col"
           :data="formData"
           :isShow="col._ifShow"
-          v-no="col.control"
-        >
-        </component>
+          v-on="col.control"
+        ></DynamicCell>
       </Row>
     </Form>
     <template v-if="!$slots.footer">
@@ -39,16 +36,9 @@
 <script>
 import { Form, Row, Button, Divider } from "view-design"
 import ModelPanel from "../fields/ModelItem.vue"
-import FormUploadItem from "../fields/FormUploadItem"
-import FormSelectItem from "../fields/FormSelectItem.vue"
-import FormDatepickerItem from "../fields/FormDatePickerItem.vue"
-import FormCheckboxItem from "../fields/FormCheckboxItem.vue"
-import FormSwitchItem from "../fields/FormSwitchItem.vue"
-import FormRadioItem from "../fields/FormRadioItem.vue"
-import FormInputItem from "./FormInputItem.vue"
-import FormCascaderItem from "./FormCascaderItem.vue"
 import { componentsMap } from "../mappings/formEditMapping"
 import { titleCase, isFunc, isObj } from "../libs/lib"
+import DynamicCell from "./DynamicCell.vue"
 
 export default {
   name: "NewFormPanel",
@@ -59,14 +49,7 @@ export default {
     Divider,
     Button,
     ModelPanel,
-    FormInputItem,
-    FormSelectItem,
-    FormCascaderItem,
-    FormDatepickerItem,
-    FormCheckboxItem,
-    FormRadioItem,
-    FormSwitchItem,
-    FormUploadItem,
+    DynamicCell,
   },
   props: {
     data: {

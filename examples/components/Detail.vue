@@ -3,6 +3,7 @@
     <DetailFormPanel
       v-model="isShowDetailModal"
       :data="detail"
+      :label-width="200"
       :config="config"
     >
     </DetailFormPanel>

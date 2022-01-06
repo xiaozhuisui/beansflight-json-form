@@ -4,6 +4,7 @@
     v-model="isShowDetailModal"
     displayed="model"
     :data="edit"
+    :label-width="150"
     :config="editConfig"
     @sumbit="sumbit"
     @cancel="cancel"
@@ -53,14 +54,25 @@ export default {
                 // maxlength: Number 最大长度
               },
               control: {
-                // 组件联动
                 hiddenOption: (form) => {
-                  console.log("组件联动")
                   return form.isUniformprice === "0"
                 },
-                // 组件enum
-                // 时间格式化
+                // 回调函数
+                change: (val) => console.log("回调函数", val),
               },
+              // control: {
+              //   on: {
+              //     change: (event) => {
+              //       console.log(event)
+              //     },
+              //   },
+              //   // 组件联动
+              //   hiddenOption: (form) => {
+              //     return form.isUniformprice === "0"
+              //   },
+              //   // 组件enum
+              //   // 时间格式化
+              // },
               rule: [
                 {
                   required: true,
@@ -79,6 +91,13 @@ export default {
                 //   { value: "1", label: "是" },
               ],
               span: 8,
+              control: {
+                on: {
+                  change: (event) => {
+                    console.log(event)
+                  },
+                },
+              },
             },
             {
               label: "商户状态",
@@ -95,6 +114,9 @@ export default {
               control: {
                 hiddenOption: (form) => {
                   return form.isUniformprice === "0"
+                },
+                change: (val) => {
+                  console.log("商户状态->回调函数", val)
                 },
               },
             },

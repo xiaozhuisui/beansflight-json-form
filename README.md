@@ -1,4 +1,4 @@
-# beansflight-json-form
+# ![image-20220106142743239](/Users/feiwu/Library/Application Support/typora-user-images/image-20220106142743239.png)beansflight-json-form
 
 # 一份配置，轻松搞定配置 Vue 表单渲染
 
@@ -508,16 +508,17 @@ formItems: [
 
 #### **edit-form-panel 属性**
 
-| 属性      | 必填项 | 说明                                               | 默认值        | 备注 |
-| --------- | ------ | -------------------------------------------------- | ------------- | ---- |
-| title     | true   | 标题                                               | -             |      |
-| v-model   | true   | 控制弹窗是否显示                                   | False         |      |
-| displayed | false  | 显示方式 支持 2 中显示方式 model:弹窗、panel: 平面 | model         |      |
-| data      | true   | 表单项绑定对象                                     | -             |      |
-| config    | true   | 表单配置项                                         | -             |      |
-| footer    | false  | 页脚插槽                                           | slot          |      |
-| sumbit    | true   | 确认按钮回调函数                                   | (params) =>{} |      |
-| cancel    | true   | 取消按钮回调函数                                   | ()=>{}        |      |
+| 属性        | 必填项 | 说明                                               | 默认值        | 备注 |
+| ----------- | ------ | -------------------------------------------------- | ------------- | ---- |
+| title       | true   | 标题                                               | -             |      |
+| v-model     | true   | 控制弹窗是否显示                                   | False         |      |
+| displayed   | false  | 显示方式 支持 2 中显示方式 model:弹窗、panel: 平面 | model         |      |
+| data        | true   | 表单项绑定对象                                     | -             |      |
+| label-width | true   | 表单域标签的宽度                                   | -             |      |
+| config      | true   | 表单配置项                                         | -             |      |
+| footer      | false  | 页脚插槽                                           | slot          |      |
+| sumbit      | true   | 确认按钮回调函数                                   | (params) =>{} |      |
+| cancel      | true   | 取消按钮回调函数                                   | ()=>{}        |      |
 
 
 
@@ -621,13 +622,14 @@ formItems: [
 
 #### **detail-form-panel 属性**
 
-| 属性    | 必填项 | 说明           | 类型    | 默认值 | 备注 |
-| ------- | ------ | -------------- | ------- | ------ | ---- |
-| title   | true   | 标题           | String  | -      |      |
-| v-model | true   | 页面显示隐藏   | Boolean | -      |      |
-| footer  | false  | 页脚插槽       | Slot    | -      |      |
-| data    | true   | 表单项绑定对象 | Object  | -      |      |
-| config  | true   | 页面配置       | Object  | -      |      |
+| 属性        | 必填项 | 说明             | 类型    | 默认值 | 备注 |
+| ----------- | ------ | ---------------- | ------- | ------ | ---- |
+| title       | true   | 标题             | String  | -      |      |
+| v-model     | true   | 页面显示隐藏     | Boolean | -      |      |
+| footer      | false  | 页脚插槽         | Slot    | -      |      |
+| label-width | true   | 表单域标签的宽度 | Number  | -      |      |
+| data        | true   | 表单项绑定对象   | Object  | -      |      |
+| config      | true   | 页面配置         | Object  | -      |      |
 
 
 
@@ -723,13 +725,14 @@ config: [
 
 #### **new-form-panel 属性**
 
-| 属性    | 必填项 | 说明           | 类型    | 默认值 |
-| ------- | ------ | -------------- | ------- | ------ |
-| title   | true   | 标题           | String  | -      |
-| v-model | true   | 页面显示隐藏   | Boolean | -      |
-| footer  | false  | 页脚插槽       | Slot    | -      |
-| data    | true   | 表单项绑定对象 | Object  | -      |
-| config  | true   | 页面配置       | Object  | -      |
+| 属性        | 必填项 | 说明             | 类型    | 默认值 |
+| ----------- | ------ | ---------------- | ------- | ------ |
+| title       | true   | 标题             | String  | -      |
+| v-model     | true   | 页面显示隐藏     | Boolean | -      |
+| label-width | true   | 表单域标签的宽度 | Number  | -      |
+| footer      | false  | 页脚插槽         | Slot    | -      |
+| data        | true   | 表单项绑定对象   | Object  | -      |
+| config      | true   | 页面配置         | Object  | -      |
 
 
 
@@ -852,10 +855,11 @@ config: [
 
 #### **form-panel 属性**
 
-| 属性   | 必填项 | 说明           | 类型   | 默认值 | 备注 |
-| ------ | ------ | -------------- | ------ | ------ | ---- |
-| data   | true   | 表单项绑定对象 | Object | -      |      |
-| config | true   | 页面配置       | Object | -      |      |
+| 属性        | 必填项 | 说明             | 类型   | 默认值 | 备注 |
+| ----------- | ------ | ---------------- | ------ | ------ | ---- |
+| data        | true   | 表单项绑定对象   | Object | -      |      |
+| label-width | true   | 表单域标签的宽度 | Number | -      |      |
+| config      | true   | 页面配置         | Object | -      |      |
 
 
 

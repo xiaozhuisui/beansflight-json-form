@@ -15,19 +15,26 @@
     ></table-panel>
     <Detail ref="detailForm"></Detail>
     <Edit ref="editForm"></Edit>
-    <form-panel :data="panelData" :config="panelConfig2"></form-panel>
+    <New ref="newForm"></New>
+    <form-panel
+      :data="panelData"
+      :label-width="100"
+      :config="panelConfig2"
+    ></form-panel>
   </div>
 </template>
 
 <script>
 import Detail from "./Detail"
 import Edit from "./Edit"
+import New from "./New"
 import FormPanel from "../../packages/form/form"
 export default {
   name: "HelloWorld",
   components: {
     Detail,
     Edit,
+    New,
     FormPanel,
   },
   data() {
@@ -137,14 +144,14 @@ export default {
       panelConfig: {
         splitLine: true,
         lineTitle: "人员参保信息",
-        show: true, // 是否显示顶部默认 新建、批量删除、导出全部、批量导出按钮
+        show: false, // 是否显示顶部默认 新建、批量删除、导出全部、批量导出按钮
         options: [
           {
             title: "逗逗飞新建", // 按钮标题
             type: "primary", // 按钮主题
             icon: "md-add", // 按钮图标
             click: () => {
-              this.$refs.editForm.showNewModal()
+              this.$refs.newForm.showModal()
             },
           },
         ],

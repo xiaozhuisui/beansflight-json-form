@@ -1,4 +1,4 @@
-import QueryPanel from "./queryPanel/query2.vue"
+import QueryPanel from "./queryPanel/query.vue"
 import TablesPanel from "./tablesPanel/tables.vue"
 import FormPanel from "./form/form.vue"
 import EditFormPanel from "./edit/editForm.vue"
