@@ -1,6 +1,12 @@
 <template>
   <Col :span="config.span || 8">
-    <FormItem :label="`${config.label}`" :prop="config.key">
+    <FormItem
+      :label="`${config.label}`"
+      :prop="config.key"
+      :style="{
+        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px',
+      }"
+    >
       <Cascader
         :placeholder="config.placeholder"
         clearable
