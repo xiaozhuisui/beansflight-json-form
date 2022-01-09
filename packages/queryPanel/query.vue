@@ -1,7 +1,7 @@
 <template>
   <Card class="smart-query-card">
     <!-- 查询框 -->
-    <Form :rules="config.rules" :model="model" ref="formRef" label-width="100">
+    <Form :rules="config.rules" :model="model" ref="formRef" :label-width="100">
       <Row
         :gutter="row.gutter || 18"
         v-for="(row, index) in configItems"

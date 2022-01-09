@@ -1,10 +1,11 @@
 <!--
  * @Date: 2022-01-06 16:36:37
  * @LastEditors: 追随
- * @LastEditTime: 2022-01-09 17:28:49
+ * @LastEditTime: 2022-01-09 19:40:01
 -->
 <template>
   <DatePicker
+    v-model="rule[config.key]"
     format="yyyy-MM-dd"
     clearable
     placement="bottom-end"

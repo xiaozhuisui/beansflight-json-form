@@ -1,10 +1,14 @@
 <!--
  * @Date: 2022-01-06 16:36:37
  * @LastEditors: 追随
- * @LastEditTime: 2022-01-09 17:28:40
+ * @LastEditTime: 2022-01-09 19:40:04
 -->
 <template>
-  <Input clearable :placeholder="config.placeholder" />
+  <Input
+    clearable
+    :placeholder="config.placeholder"
+    v-model="rule[config.key]"
+  />
 </template>
 <script>
 import props from "../common/comPros"

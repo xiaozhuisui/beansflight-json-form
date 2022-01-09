@@ -53,11 +53,11 @@ export default {
       formConfig: {
         // 输出值
         formModel: {
-          cascVal: "", // 级联
-          selOptions: null, // 下拉框
-          inputVal: null, // 输入框
-          datePickerVal: null, // DatePicker
-          slot1: "222",
+          cascVal: [], // 级联
+          selOptions: "", // 下拉框
+          inputVal: "", // 输入框
+          datePickerVal: "", // DatePicker
+          slot1: "",
           slot2: "",
         },
         // item项目
@@ -168,11 +168,23 @@ export default {
         btnGroup: "inline",
         // 表单校验规格
         rules: {
-          cascVal: [{ required: true, message: "请处理", trigger: "blur" }],
+          cascVal: [
+            {
+              required: true,
+              message: "请处理",
+              trigger: "blur",
+              type: "array",
+            },
+          ],
           selOptions: [{ required: true, message: "请处理", trigger: "blur" }],
           inputVal: [{ required: true, message: "请处理", trigger: "blur" }], // 输入框
           datePickerVal: [
-            { required: true, message: "请处理", trigger: "blur" },
+            {
+              required: true,
+              message: "请处理",
+              trigger: "blur",
+              type: "array",
+            },
           ], // DatePicker
           slot1: [{ required: true, message: "请处理", trigger: "blur" }],
           slot2: [{ required: true, message: "请处理", trigger: "blur" }],
