@@ -1,27 +1,27 @@
+<!--
+ * @Date: 2022-01-08 01:27:49
+ * @LastEditors: 追随
+ * @LastEditTime: 2022-01-09 17:14:37
+-->
 <template>
-  <Col :span="config.span || 6">
-    <label class="query-form-label">{{ config.label }} :</label>
-    <Cascader
-      v-model="rule[config.key]"
-      :data="config.options"
-      clearable
-      change-on-select
-      filterable
-      :placeholder="config.placeholder"
-      class="query-form-element"
-      trigger="hover"
-      @on-change="change"
-    >
-    </Cascader>
-  </Col>
+  <Cascader
+    v-model="rule[config.key]"
+    :data="config.options"
+    clearable
+    change-on-select
+    filterable
+    :placeholder="config.placeholder"
+    trigger="hover"
+    @on-change="change"
+  >
+  </Cascader>
 </template>
 <script>
 import props from "../common/comPros"
-import { Col, Cascader } from "view-design"
+import { Cascader } from "view-design"
 export default {
   name: "CascaderItem",
   components: {
-    Col,
     Cascader,
   },
   props,

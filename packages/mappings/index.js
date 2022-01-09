@@ -28,4 +28,9 @@ export const componentsMap = {
       clearable: true,
     },
   },
-};
+  // 自定义插槽
+  Slot: {
+    component: "SlotItem",
+    // props: {},
+  },
+}

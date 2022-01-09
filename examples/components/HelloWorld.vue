@@ -1,6 +1,13 @@
 <template>
   <div>
-    <query-panel :config="formConfig" @query="query"></query-panel>
+    <query-panel :config="formConfig" @query="query">
+      <template v-slot:slot1
+        ><Input
+          clearable
+          placeholder="插槽1"
+          v-model="formConfig.formModel.slot1"
+      /></template>
+    </query-panel>
     <table-panel
       border
       ref="mainTable"
@@ -12,7 +19,8 @@
       :pageSize="queryForm.pageSize"
       :pageTotal="mainTablePage.total"
       :multi="false"
-    ></table-panel>
+    >
+    </table-panel>
     <Detail ref="detailForm"></Detail>
     <Edit ref="editForm"></Edit>
     <New ref="newForm"></New>
@@ -29,6 +37,7 @@ import Detail from "./Detail"
 import Edit from "./Edit"
 import New from "./New"
 import FormPanel from "../../packages/form/form"
+import { Input } from "view-design"
 export default {
   name: "HelloWorld",
   components: {
@@ -36,6 +45,7 @@ export default {
     Edit,
     New,
     FormPanel,
+    Input,
   },
   data() {
     return {
@@ -43,10 +53,12 @@ export default {
       formConfig: {
         // 输出值
         formModel: {
-          cascVal: [], // 级联
+          cascVal: "", // 级联
           selOptions: null, // 下拉框
           inputVal: null, // 输入框
           datePickerVal: null, // DatePicker
+          slot1: "222",
+          slot2: "",
         },
         // item项目
         formItems: [
@@ -135,11 +147,36 @@ export default {
                   },
                 },
               },
+              {
+                label: "插槽组件",
+                key: "slot1",
+                placeholder: "占位符",
+                type: "slot", // 输入框
+                extendType: "daterange", // extendType取值范围: [date: 单选daterange:时间段、 year：年份、month：月份选择]
+                span: 6,
+                props: {
+                  disabledDate: (date) => {
+                    const disabledDay = date.getDate()
+                    return disabledDay === 15
+                  },
+                },
+              },
             ],
           },
         ],
         // 操作按钮的位置
         btnGroup: "inline",
+        // 表单校验规格
+        rules: {
+          cascVal: [{ required: true, message: "请处理", trigger: "blur" }],
+          selOptions: [{ required: true, message: "请处理", trigger: "blur" }],
+          inputVal: [{ required: true, message: "请处理", trigger: "blur" }], // 输入框
+          datePickerVal: [
+            { required: true, message: "请处理", trigger: "blur" },
+          ], // DatePicker
+          slot1: [{ required: true, message: "请处理", trigger: "blur" }],
+          slot2: [{ required: true, message: "请处理", trigger: "blur" }],
+        },
       },
       panelConfig: {
         splitLine: true,

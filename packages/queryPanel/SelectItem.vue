@@ -1,30 +1,30 @@
+<!--
+ * @Date: 2022-01-08 01:27:10
+ * @LastEditors: 追随
+ * @LastEditTime: 2022-01-09 17:19:46
+-->
 <template>
-  <Col :span="config.span || 6">
-    <label class="query-form-label">{{ config.label }} :</label>
-    <Select
-      class="query-form-element"
-      clearable
-      :placeholder="config.placeholder"
-      filterable
-      v-model="rule[config.key]"
-      @on-change="change"
-    >
-      <Option
-        v-for="(option, index) in config.options"
-        :value="option.value"
-        :key="index"
-        >{{ option.label }}
-      </Option>
-    </Select>
-  </Col>
+  <Select
+    clearable
+    :placeholder="config.placeholder"
+    filterable
+    v-model="rule[config.key]"
+    @on-change="change"
+  >
+    <Option
+      v-for="(option, index) in config.options"
+      :value="option.value"
+      :key="index"
+      >{{ option.label }}
+    </Option>
+  </Select>
 </template>
 <script>
 import props from "../common/comPros"
-import { Col, Select, Option } from "view-design"
+import { Select, Option } from "view-design"
 export default {
   name: "SelectItem",
   components: {
-    Col,
     Select,
     Option,
   },

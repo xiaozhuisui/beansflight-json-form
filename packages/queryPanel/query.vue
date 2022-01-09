@@ -1,72 +1,90 @@
 <template>
   <Card class="smart-query-card">
     <!-- 查询框 -->
-    <Row
-      class="smart-query-form-row"
-      :gutter="row.gutter || 18"
-      v-for="(row, index) in configItems"
-      v-if="showRow(index)"
-      :key="index"
-    >
-      <DynamicItem
-        v-for="(col, index) in row"
+    <Form :rules="config.rules" :model="model" ref="formRef" label-width="100">
+      <Row
+        :gutter="row.gutter || 18"
+        v-for="(row, index) in configItems"
+        v-show="showRow(index)"
         :key="index"
-        :rule="model"
-        v-on="col.control"
-        :config="col"
-      ></DynamicItem>
-      <template v-if="btnPostion">
-        <Col span="6" style="margin-left: 50px">
-          <Button
-            @click="queryAction"
-            icon="ios-search"
-            type="primary"
-            style="margin-left: 5px"
-            >查询
-          </Button>
-          <Button
-            @click="resetAction"
-            icon="md-refresh"
-            type="default"
-            style="margin-left: 10px"
-            >重置
-          </Button>
+      >
+        <Col v-for="(col, index) in row" :key="index" :span="col.span || 6">
+          <Form-item
+            :label="col.label"
+            :rules="config.rules[col.key]"
+            :prop="col.key"
+            show-message
+          >
+            <DynamicItem :rule="model" v-on="col.control" :config="col"
+              ><slot :name="col.key" v-if="col.type === 'slot'"></slot
+            ></DynamicItem>
+          </Form-item>
         </Col>
-      </template>
-    </Row>
-    <!-- 底部按钮 -->
-    <template v-if="!btnPostion">
-      <Row class="smart-query-form-row">
-        <ButtonGroup class="btn-wrapper">
-          <template v-if="showMoreQyery">
+
+        <template v-if="btnPostion">
+          <Col span="6">
             <Button
-              @click="conFlag = !conFlag"
-              :icon="conFlag ? 'ios-arrow-up' : 'ios-arrow-down'"
-              type="default"
-              >{{ conFlag ? "隐藏" : "展开" }}
+              @click="queryAction"
+              icon="ios-search"
+              type="primary"
+              style="margin-left: 5px"
+              >查询
             </Button>
-          </template>
-          <Button
-            @click="queryAction"
-            icon="ios-search"
-            type="primary"
-            style="margin-left: 5px"
-            >查询
-          </Button>
-          <Button
-            @click="resetAction"
-            icon="md-refresh"
-            type="default"
-            style="margin-left: 5px"
-            >重置
-          </Button>
-        </ButtonGroup>
+            <Button
+              icon="md-refresh"
+              type="default"
+              style="margin-left: 10px"
+              htmlType="reset"
+              @click="resetAction"
+              >重置
+            </Button>
+          </Col>
+        </template>
       </Row>
-    </template>
+      <!-- 底部按钮 -->
+      <template v-if="!btnPostion">
+        <Form-item>
+          <Row class="smart-query-form-row">
+            <ButtonGroup class="btn-wrapper">
+              <template v-if="showMoreQyery">
+                <Button
+                  @click="conFlag = !conFlag"
+                  :icon="conFlag ? 'ios-arrow-up' : 'ios-arrow-down'"
+                  type="default"
+                  >{{ conFlag ? "隐藏" : "展开" }}
+                </Button>
+              </template>
+              <Button
+                @click="queryAction"
+                icon="ios-search"
+                style="margin-left: 5px"
+                >查询
+              </Button>
+              <Button
+                @click="resetAction"
+                icon="md-refresh"
+                type="default"
+                style="margin-left: 5px"
+                htmlType="reset"
+                >重置
+              </Button>
+            </ButtonGroup>
+          </Row>
+        </Form-item>
+      </template>
+    </Form>
   </Card>
 </template>
 <script>
-import { Row, Card, ButtonGroup, Button } from "view-design"
+import {
+  Row,
+  Card,
+  ButtonGroup,
+  Button,
+  Form,
+  FormItem,
+  Col,
+} from "view-design"
 import { titleCase } from "../libs/lib"
 import { componentsMap } from "../mappings"
 import DynamicItem from "./DynamicCell"
@@ -78,6 +96,9 @@ export default {
     ButtonGroup,
     Button,
     DynamicItem,
+    Form,
+    FormItem,
+    Col,
   },
   props: {
     config: {
@@ -99,6 +120,15 @@ export default {
       return this.config.btnGroup === "inline" ? true : false
     },
     configItems() {
+      console.log(
+        this.config.formItems.map((item) =>
+          this.formatItem(
+            item,
+            this.config.formItems.length,
+            this.config.formModel
+          )
+        )
+      )
       return this.config.formItems.map((item) =>
         this.formatItem(
           item,
@@ -116,7 +146,7 @@ export default {
         return this.conFlag
       }
     },
-    formatItem(config, rowLength, form) {
+    formatItem(config, rowLength) {
       const { row } = config
       if (rowLength > 1) {
         this.showMoreQyery = true
@@ -133,14 +163,16 @@ export default {
       return row
     },
     queryAction() {
-      this.$emit("query", this.config.formModel)
+      this.$refs["formRef"].validate((validate) => console.log(validate))
+      // this.$emit("query", this.config.formModel)
     },
     resetAction() {
-      Object.keys(this.config.formModel).forEach((key) =>
-        Array.isArray(this.config.formModel[key])
-          ? (this.config.formModel[key] = [])
-          : (this.config.formModel[key] = null)
-      )
+      // Object.keys(this.config.formModel).forEach((key) =>
+      //   Array.isArray(this.config.formModel[key])
+      //     ? (this.config.formModel[key] = [])
+      //     : (this.config.formModel[key] = null)
+      // )
+      this.$refs.formRef.resetFields()
       this.$emit("reset")
     },
   },
