@@ -70,6 +70,7 @@ import { Row, Card, ButtonGroup, Button } from "view-design"
 import { titleCase } from "../libs/lib"
 import { componentsMap } from "../mappings"
 import DynamicItem from "./DynamicCell"
+const dayJS = require("dayjs")
 export default {
   name: "QueryPanel",
   components: {
@@ -133,6 +134,27 @@ export default {
       return row
     },
     queryAction() {
+      // 如果包含日历组件 则需要将出参处理掉 再返回给调用端
+      const { formItems } = this.config
+      const formItems__cache = formItems
+        .map((item) => item.row)
+        .reduce((prev, current) => prev.concat(current))
+
+      const dataPickerItem = formItems__cache.find(
+        (i) => i.type === "datePicker"
+      )
+      // 日历组件格式化
+      if (dataPickerItem) {
+        if (this.config.formModel[dataPickerItem.key]) {
+          this.config.formModel[dataPickerItem.key][0] = dayJS(
+            this.config.formModel[dataPickerItem.key][0]
+          ).format("YYYY-MM-DD HH:mm:ss")
+          this.config.formModel[dataPickerItem.key][1] = dayJS(
+            this.config.formModel[dataPickerItem.key][1]
+          ).format("YYYY-MM-DD HH:mm:ss")
+        }
+      }
+
       this.$emit("query", this.config.formModel)
     },
     resetAction() {
