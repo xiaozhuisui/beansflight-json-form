@@ -232,7 +232,7 @@ export default {
               label: "商户名称",
               type: "input",
               extendType: "textarea", // 取值范围[text、password、textarea、url、email、date、number、tel]
-              key: "name",
+              key: "input_textArea",
               props: {
                 // 扩展属性
                 disabled: true, // 设置输入框为禁用状态
@@ -242,35 +242,35 @@ export default {
               control: {
                 // 组件联动
                 hiddenOption: (form) => {
-                  return form.isUniformprice === "1"
+                  // return form.isUniformprice === "1"
                 },
               },
-              span: 8,
+              span: 12,
             },
-            {
-              label: "商户统一定价",
-              type: "input",
-              key: "isUniformprice",
-              control: {
-                // 组件enum
-                enumOption: {
-                  type: "STATUS",
-                },
-              },
-              span: 8,
-            },
-            {
-              label: "修改时间",
-              type: "input",
-              key: "modifyDate",
-              control: {
-                // 时间格式化
-                formatOption: {
-                  format: "YYYY-MM-DD",
-                },
-              },
-              span: 8,
-            },
+            // {
+            //   label: "商户统一定价",
+            //   type: "input",
+            //   key: "isUniformprice",
+            //   control: {
+            //     // 组件enum
+            //     enumOption: {
+            //       type: "STATUS",
+            //     },
+            //   },
+            //   span: 8,
+            // },
+            // {
+            //   label: "修改时间",
+            //   type: "input",
+            //   key: "modifyDate",
+            //   control: {
+            //     // 时间格式化
+            //     formatOption: {
+            //       format: "YYYY-MM-DD",
+            //     },
+            //   },
+            //   span: 8,
+            // },
           ],
         },
       ],
@@ -299,6 +299,8 @@ export default {
           switch_key: true,
           createDate: "",
           modifyDate: "2020-12-11 10:57:55",
+          input_textArea:
+            "符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用符合责任一保障范围费用",
           // modifyDate: "",
           isUniformprice: "0",
           departmentId: null,

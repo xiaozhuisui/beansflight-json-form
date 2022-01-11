@@ -1,6 +1,6 @@
 {
   "name": "beansflight-json-form",
-  "version": "0.22.06",
+  "version": "0.22.07",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",

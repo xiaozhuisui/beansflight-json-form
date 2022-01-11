@@ -13,6 +13,8 @@
         :readonly="readOnly"
         :placeholder="config.placeholder"
         :border="border"
+        :type="inputType"
+        :autosize="autosize"
       />
     </FormItem>
   </Col>
@@ -45,6 +47,16 @@ export default {
     border: {
       type: Boolean,
       default: true,
+    },
+  },
+  computed: {
+    inputType() {
+      return this.config.extendType || "text"
+    },
+    autosize() {
+      return this.config.extendType && this.config.extendType === "textarea"
+        ? true
+        : false
     },
   },
   data() {
