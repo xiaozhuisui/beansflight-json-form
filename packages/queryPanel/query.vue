@@ -135,35 +135,50 @@ export default {
     },
     queryAction() {
       // 如果包含日历组件 则需要将出参处理掉 再返回给调用端
-      const { formItems } = this.config
-      const formItems__cache = formItems
-        .map((item) => item.row)
-        .reduce((prev, current) => prev.concat(current))
+      const formItems__cache = this.arrayOptions()
 
       const dataPickerItem = formItems__cache.find(
         (i) => i.type === "datePicker"
       )
-      // 日历组件格式化
       if (dataPickerItem) {
         if (this.config.formModel[dataPickerItem.key]) {
           this.config.formModel[dataPickerItem.key][0] = dayJS(
             this.config.formModel[dataPickerItem.key][0]
           ).format("YYYY-MM-DD HH:mm:ss")
+
           this.config.formModel[dataPickerItem.key][1] = dayJS(
             this.config.formModel[dataPickerItem.key][1]
           ).format("YYYY-MM-DD HH:mm:ss")
         }
       }
-
       this.$emit("query", this.config.formModel)
     },
     resetAction() {
-      Object.keys(this.config.formModel).forEach((key) =>
-        Array.isArray(this.config.formModel[key])
-          ? (this.config.formModel[key] = [])
-          : (this.config.formModel[key] = null)
+      Object.keys(this.config.formModel).forEach(
+        (key) => (this.config.formModel[key] = null)
       )
+      const formItems_cache = this.arrayOptions()
+      formItems_cache.forEach((item) => {
+        const { type, key } = item
+        switch (type) {
+          case "cascader":
+            this.config.formModel[key] = []
+            break
+          case "datePicker":
+            this.config.formModel[key] = null
+            break
+          default:
+            break
+        }
+      })
       this.$emit("reset")
+    },
+
+    arrayOptions() {
+      const { formItems } = this.config
+      return formItems
+        .map((item) => item.row)
+        .reduce((prev, current) => prev.concat(current))
     },
   },
 }
