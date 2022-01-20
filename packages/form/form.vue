@@ -128,7 +128,7 @@ export default {
               if (isObj(enumOption) && enumOption.hasOwnProperty("type")) {
                 // console.log("可以处理枚举转换", form, column)
                 form[column.key] = this.$enum.getDescByValue(
-                  "STATUS",
+                  enumOption.type,
                   form[column.key]
                 )
               }

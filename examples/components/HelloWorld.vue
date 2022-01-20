@@ -1,6 +1,10 @@
 <template>
   <div>
-    <query-panel :config="formConfig" @query="query"></query-panel>
+    <query-panel
+      :config="formConfig"
+      @query="query"
+      @reset="reset"
+    ></query-panel>
     <table-panel
       border
       ref="mainTable"
@@ -8,9 +12,9 @@
       :columns="mainTable.columnArray"
       :value="mainTable.data"
       :loading="mainTable.loading"
-      :pageNumber="queryForm.pageNum"
-      :pageSize="queryForm.pageSize"
-      :pageTotal="mainTablePage.total"
+      :pageNumber="formConfig.formModel.pageNum"
+      :pageSize="formConfig.formModel.pageSize"
+      :pageTotal="mainTable.total"
       :multi="false"
     ></table-panel>
     <Detail ref="detailForm"></Detail>
@@ -29,6 +33,10 @@ import Detail from "./Detail"
 import Edit from "./Edit"
 import New from "./New"
 import FormPanel from "../../packages/form/form"
+const options = {
+  pageNum: 1,
+  pageSize: 10,
+}
 export default {
   name: "HelloWorld",
   components: {
@@ -39,7 +47,6 @@ export default {
   },
   data() {
     return {
-      formData: null,
       formConfig: {
         // 输出值
         formModel: {
@@ -47,6 +54,7 @@ export default {
           selOptions: null, // 下拉框
           inputVal: null, // 输入框
           datePickerVal: null, // DatePicker
+          ...options,
         },
         // item项目
         formItems: [
@@ -84,7 +92,7 @@ export default {
                 ],
                 control: {
                   // 回调函数
-                  change: (val) => console.log("回调函数", val),
+                  // change: (val) => console.log("回调函数", val),
                 },
               },
               {
@@ -104,7 +112,7 @@ export default {
                 ],
                 control: {
                   // 回调函数
-                  change: (val) => console.log("回调函数", val),
+                  // change: (val) => console.log("回调函数", val),
                 },
               },
               {
@@ -113,12 +121,7 @@ export default {
                 placeholder: "占位符",
                 type: "Input", // 输入框
                 // extendType:  // 扩展属性
-                control: {
-                  // 回调函数
-                  cb: (val) => {
-                    console.log("输入框-value:", val)
-                  },
-                },
+                control: {},
                 span: 6,
               },
               {
@@ -156,16 +159,10 @@ export default {
           },
         ],
       },
-      queryForm: {
-        pageNum: 1,
-        pageSize: 10,
-      },
-      mainTablePage: {
-        total: 0,
-      },
       mainTable: {
         // 加载中
         loading: false,
+        total: 0,
         // 表格数据
         data: [],
         // 表格列
@@ -181,13 +178,13 @@ export default {
             key: "name",
             minWidth: 120,
           },
-          // {
-          //   title: "商户状态",
-          //   key: "status",
-          //   minWidth: 120,
-          //   type: "eunm",
-          //   enumKey: "STATUS",
-          // },
+          {
+            title: "商户状态",
+            key: "status",
+            minWidth: 120,
+            type: "eunm",
+            enumKey: "STATUS",
+          },
           {
             title: "modifyDate",
             key: "modifyDate",
@@ -278,8 +275,12 @@ export default {
   },
   mounted() {
     this.mockDatas()
+    console.log("mounted被执行")
   },
   methods: {
+    reset() {
+      console.log("执行重置")
+    },
     mockDatas() {
       ;[...Array(2).keys()].forEach((i) => {
         this.mainTable.data.push({

@@ -10,12 +10,13 @@
       :type="datePickerType"
       class="query-form-element"
       :options="options"
+      split-panels
     >
     </DatePicker>
   </Col>
 </template>
 <script>
-import { Col, DatePicker } from "view-design";
+import { Col, DatePicker } from "view-design"
 export default {
   name: "DatePickerItem",
   components: {
@@ -25,21 +26,21 @@ export default {
   props: ["config", "rule"],
   computed: {
     datePickerType() {
-      return this.config.extendType || "date";
+      return this.config.extendType || "date"
     },
     options() {
       const {
         config: { props = {} },
-      } = this;
+      } = this
       if ("disabledDate" in props) {
         return {
           disabledDate: props["disabledDate"],
-        };
+        }
       }
-      return null;
+      return null
     },
   },
-};
+}
 </script>
 <style lang="less">
 @import "../assets/styles/theme.less";
