@@ -108,6 +108,21 @@ export default {
             }
           }
         }
+        switch (column.type) {
+          case "select":
+            if (column.options) {
+              if (isFunc(column.options)) {
+                column.options =
+                  column.options().length > 0
+                    ? column.options()
+                    : column.options
+              }
+            }
+            break
+
+          default:
+            break
+        }
         return column
       })
       return { splitLine, row, lineTitle }

@@ -15,7 +15,11 @@
       :pageNumber="formConfig.formModel.pageNum"
       :pageSize="formConfig.formModel.pageSize"
       :pageTotal="mainTable.total"
-      :multi="false"
+      @newAction="newAction"
+      @batchDeleteAction="batchDeleteAction"
+      @allExportAction="allExportAction"
+      @batchExportAction="batchExportAction"
+      :multi="true"
     ></table-panel>
     <Detail ref="detailForm"></Detail>
     <Edit ref="editForm"></Edit>
@@ -47,97 +51,111 @@ export default {
   },
   data() {
     return {
+      formOptions: [],
       formConfig: {
         // 输出值
         formModel: {
           cascVal: [], // 级联
           selOptions: null, // 下拉框
           inputVal: null, // 输入框
-          datePickerVal: null, // DatePicker
+          datePickerVal: ["2022-04-21", "2022-05-21"], // DatePicker
           ...options,
         },
         // item项目
         formItems: [
           {
             row: [
-              {
-                label: "省市区级联", // 描述
-                key: "cascVal", // 表单字段
-                type: "cascader", // 组件类型
-                placeholder: "请选择城市/区县(可搜索）", // 占位符
-                span: 6, // 24栏布局占比
-                props: {
-                  a: "ddf",
-                  b: "ccc",
-                },
-                options: [
-                  {
-                    value: "beijing",
-                    label: "北京",
-                    children: [
-                      {
-                        value: "gugong",
-                        label: "故宫",
-                      },
-                      {
-                        value: "tiantan",
-                        label: "天坛",
-                      },
-                      {
-                        value: "wangfujing",
-                        label: "王府井",
-                      },
-                    ],
-                  },
-                ],
-                control: {
-                  // 回调函数
-                  // change: (val) => console.log("回调函数", val),
-                },
-              },
+              // {
+              //   label: "省市区级联", // 描述
+              //   key: "cascVal", // 表单字段
+              //   type: "cascader", // 组件类型
+              //   placeholder: "请选择城市/区县(可搜索）", // 占位符
+              //   span: 6, // 24栏布局占比
+              //   props: {
+              //     a: "ddf",
+              //     b: "ccc",
+              //   },
+              //   options: [
+              //     {
+              //       value: "beijing",
+              //       label: "北京",
+              //       children: [
+              //         {
+              //           value: "gugong",
+              //           label: "故宫",
+              //         },
+              //         {
+              //           value: "tiantan",
+              //           label: "天坛",
+              //         },
+              //         {
+              //           value: "wangfujing",
+              //           label: "王府井",
+              //         },
+              //       ],
+              //     },
+              //   ],
+              //   control: {
+              //     // 回调函数
+              //     // change: (val) => console.log("回调函数", val),
+              //   },
+              // },
               {
                 label: "下拉框",
                 key: "selOptions",
                 type: "select",
                 span: 6,
-                options: [
-                  {
-                    value: "01",
-                    label: "是",
-                  },
-                  {
-                    value: "02",
-                    label: "否",
-                  },
-                ],
+                // options: [
+                //   {
+                //     value: "01",
+                //     label: "是",
+                //   },
+                //   {
+                //     value: "02",
+                //     label: "否",
+                //   },
+                // ],
+                options: () => {
+                  // return [
+                  //   {
+                  //     value: "01",
+                  //     label: "是",
+                  //   },
+                  //   {
+                  //     value: "02",
+                  //     label: "否",
+                  //   },
+                  // ]
+                  return this.formOptions
+                },
                 control: {
                   // 回调函数
                   // change: (val) => console.log("回调函数", val),
                 },
               },
-              {
-                label: "输入框",
-                key: "inputVal",
-                placeholder: "占位符",
-                type: "Input", // 输入框
-                // extendType:  // 扩展属性
-                control: {},
-                span: 6,
-              },
-              {
-                label: "datePciekr",
-                key: "datePickerVal",
-                placeholder: "占位符",
-                type: "datePicker", // 输入框
-                extendType: "daterange", // extendType取值范围: [date: 单选daterange:时间段、 year：年份、month：月份选择]
-                span: 6,
-                props: {
-                  disabledDate: (date) => {
-                    const disabledDay = date.getDate()
-                    return disabledDay === 15
-                  },
-                },
-              },
+              // {
+              //   label: "输入框",
+              //   key: "inputVal",
+              //   placeholder: "占位符",
+              //   type: "Input", // 输入框
+              //   // extendType:  // 扩展属性
+              //   control: {},
+              //   span: 6,
+              // },
+              // {
+              //   label: "datePciekr",
+              //   key: "datePickerVal",
+              //   placeholder: "占位符",
+              //   type: "datePicker", // 输入框
+              //   extendType: "daterange", // extendType取值范围: [date: 单选daterange:时间段、 year：年份、month：月份选择]
+              //   span: 6,
+              //   props: {
+              //     disabledDate: (date) => {
+              //       const disabledDay = date.getDate()
+              //       return disabledDay === 15
+              //     },
+              //   },
+              // },
             ],
           },
         ],
@@ -147,7 +165,8 @@ export default {
       panelConfig: {
         splitLine: true,
         lineTitle: "人员参保信息",
-        show: false, // 是否显示顶部默认 新建、批量删除、导出全部、批量导出按钮
+        show: true, // 是否显示顶部默认 新建、批量删除、导出全部、批量导出按钮
+        defBtns: [0, 2, 3], // 默认按钮时
         options: [
           {
             title: "逗逗飞新建", // 按钮标题
@@ -226,7 +245,7 @@ export default {
         {
           row: [
             {
-              label: "商户名称",
+              label: "textArea",
               type: "input",
               extendType: "textarea", // 取值范围[text、password、textarea、url、email、date、number、tel]
               key: "input_textArea",
@@ -242,7 +261,7 @@ export default {
                   // return form.isUniformprice === "1"
                 },
               },
-              span: 12,
+              // span: 12,
             },
             // {
             //   label: "商户统一定价",
@@ -275,11 +294,53 @@ export default {
   },
   mounted() {
     this.mockDatas()
-    console.log("mounted被执行")
+    // console.log("mounted被执行")
+    // setTimeout(() => {
+    //   this.formConfig.formModel.datePickerVal = ["2021-12-21", "2022-01-21"]
+    // }, 2000)
+    setTimeout(() => {
+      this.formOptions = [
+        {
+          value: "01",
+          label: "是",
+        },
+        {
+          value: "02",
+          label: "否",
+        },
+      ]
+      console.log("赋值完成")
+    }, 4000)
+    setTimeout(() => {
+      this.formOptions = [
+        {
+          value: "02",
+          label: "否",
+        },
+        {
+          value: "01",
+          label: "是",
+        },
+      ]
+      console.log("第二次赋值完成")
+    }, 8000)
   },
   methods: {
+    newAction() {
+      console.log("新建事件")
+    },
+    batchDeleteAction() {
+      console.log("batchDeleteAction")
+    },
+    allExportAction() {
+      console.log("导出全部")
+    },
+    batchExportAction(row) {
+      console.log("批量导出", row)
+    },
     reset() {
       console.log("执行重置")
+      console.log(this.formConfig.formModel)
     },
     mockDatas() {
       ;[...Array(2).keys()].forEach((i) => {

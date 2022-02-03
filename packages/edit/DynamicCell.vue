@@ -4,10 +4,10 @@ import FormDatepickerItem from "../fields/FormDatePickerItem.vue"
 import FormCheckboxItem from "../fields/FormCheckboxItem.vue"
 import FormSwitchItem from "../fields/FormSwitchItem.vue"
 import FormRadioItem from "../fields/FormRadioItem.vue"
-import FormInputItem from "./FormInputItem.vue"
-import FormCascaderItem from "./FormCascaderItem.vue"
 import FormUploadItem from "../fields/FormUploadItem"
 import props from "../common/hocPros"
+import FormCascaderItem from "./FormCascaderItem.vue"
+import FormInputItem from "./FormInputItem.vue"
 export default {
   name: "DynamicItem",
   components: {

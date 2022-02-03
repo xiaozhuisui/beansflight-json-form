@@ -14,7 +14,6 @@ const comps = [
   DetailFormPanel,
 ]
 const install = (Vue) => {
-  // 注册组件
   comps.forEach((comp) => {
     Vue.component(comp.name, comp)
   })

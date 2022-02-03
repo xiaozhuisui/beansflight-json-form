@@ -10,7 +10,40 @@
     <Row class="marginBottom10">
       <template v-if="showHeaderBtn">
         <slot>
-          <Button @click="newAction" icon="md-add" type="primary">新建 </Button>
+          <template v-for="(key, index) in defBtns">
+            <Button
+              @click="newAction"
+              icon="md-add"
+              type="primary"
+              v-if="key === 0"
+              >新建
+            </Button>
+            <Button
+              @click="batchDeleteAction"
+              class="marginLeft10"
+              icon="ios-trash-outline"
+              v-if="key === 1"
+              type="error"
+              >批量删除
+            </Button>
+            <Button
+              @click="allExportAction"
+              class="marginLeft10 float-right"
+              icon="ios-cloud-download-outline"
+              v-if="key === 2"
+              type="info"
+              >导出全部
+            </Button>
+            <Button
+              @click="batchExportAction"
+              class="marginLeft10 float-right"
+              icon="ios-download-outline"
+              v-if="key === 3"
+              type="info"
+              >批量导出
+            </Button>
+          </template>
+          <!-- <Button @click="newAction" icon="md-add" type="primary">新建 </Button>
           <Button
             @click="batchDeleteAction"
             class="marginLeft10"
@@ -31,7 +64,7 @@
             icon="ios-download-outline"
             type="info"
             >批量导出
-          </Button>
+          </Button> -->
         </slot>
       </template>
       <template v-else>
@@ -283,6 +316,8 @@ export default {
       searchKey: "",
       // 删除时标注是否有选中的数据
       selectRows: 0,
+      // 默认显示哪些按钮
+      defBtns: [],
     }
   },
   watch: {
@@ -318,12 +353,16 @@ export default {
         options: vmBtn = [],
         splitLine = false,
         lineTitle = "",
+        defBtns = [],
       } = options
       // 分割线
       this.showDivider = splitLine
       this.showDividerTitle = lineTitle
       // 按钮
       this.showHeaderBtn = show
+
+      // 默认显示哪个按钮
+      this.defBtns = defBtns
 
       if (!show) {
         this.headerBtns = vmBtn
@@ -529,7 +568,9 @@ export default {
     batchDeleteAction() {
       const selectRows = this.$refs.tablesMain.getSelection()
       if (selectRows.length < 1) {
-        this.$Message.error("请选择至少一条数据")
+        this.$Notice.error({
+          desc: "请选择至少一条数据",
+        })
         return
       }
       this.$emit("batchDeleteAction", { rows: selectRows })
@@ -542,7 +583,9 @@ export default {
     batchExportAction() {
       const selectRows = this.$refs.tablesMain.getSelection()
       if (selectRows.length < 1) {
-        this.$Message.error("请选择至少一条数据")
+        this.$Notice.error({
+          desc: "请选择至少一条数据",
+        })
         return
       }
       this.$emit("batchExportAction", { rows: selectRows })

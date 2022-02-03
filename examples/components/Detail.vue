@@ -1311,10 +1311,6 @@ export default {
       ],
     }
   },
-  mounted() {
-    console.log("初始化:枚举")
-    console.log(this.$enum.getDescByValue("STATUS", "0"))
-  },
   methods: {
     showModal(detail) {
       this.isShowDetailModal = true

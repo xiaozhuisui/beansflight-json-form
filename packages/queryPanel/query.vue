@@ -67,7 +67,7 @@
 </template>
 <script>
 import { Row, Card, ButtonGroup, Button } from "view-design"
-import { titleCase } from "../libs/lib"
+import { titleCase, isFunc } from "../libs/lib"
 import { componentsMap } from "../mappings"
 import DynamicItem from "./DynamicCell"
 const dayJS = require("dayjs")
@@ -90,6 +90,7 @@ export default {
     return {
       conFlag: false, // 默认收起
       showMoreQyery: false,
+      formModel: JSON.parse(JSON.stringify(this.config.formModel)),
     }
   },
   computed: {
@@ -129,6 +130,23 @@ export default {
         let def = componentsMap[titleCase(type)]
         column.tag = def.component
         column.props = Object.assign({}, def.props, column.props)
+        // select组件判断options
+        switch (column.type) {
+          case "select":
+            if (column.options) {
+              if (isFunc(column.options)) {
+                column.options =
+                  column.options().length > 0
+                    ? column.options()
+                    : column.options
+              }
+            }
+            break
+
+          default:
+            break
+        }
+
         return column
       })
       return row
@@ -154,23 +172,9 @@ export default {
       this.$emit("query", this.config.formModel)
     },
     resetAction() {
-      Object.keys(this.config.formModel).forEach(
-        (key) => (this.config.formModel[key] = null)
+      Object.keys(this.formModel).forEach(
+        (key) => (this.config.formModel[key] = this.formModel[key])
       )
-      const formItems_cache = this.arrayOptions()
-      formItems_cache.forEach((item) => {
-        const { type, key } = item
-        switch (type) {
-          case "cascader":
-            this.config.formModel[key] = []
-            break
-          case "datePicker":
-            this.config.formModel[key] = null
-            break
-          default:
-            break
-        }
-      })
       this.$emit("reset")
     },
 

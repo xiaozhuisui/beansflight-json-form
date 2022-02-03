@@ -86,10 +86,16 @@ export default {
               label: "商户统一定价",
               type: "select",
               key: "isUniformprice",
-              options: [
-                //   { value: "0", label: "否" },
-                //   { value: "1", label: "是" },
-              ],
+              // options: [
+              //   //   { value: "0", label: "否" },
+              //   //   { value: "1", label: "是" },
+              // ],
+              options: () => {
+                return [
+                  { value: "0", label: "否:统一定价" },
+                  { value: "1", label: "是: 是统一订单" },
+                ]
+              },
               span: 8,
               control: {
                 on: {
@@ -106,10 +112,16 @@ export default {
               props: {
                 // disabled: true, //是否禁用
               },
-              options: [
-                { value: "0", label: "否" },
-                { value: "1", label: "是" },
-              ],
+              // options: [
+              //   { value: "0", label: "否" },
+              //   { value: "1", label: "是" },
+              // ],
+              options: () => {
+                return [
+                  { value: "0", label: "否:商户状态" },
+                  { value: "1", label: "是:商户状态" },
+                ]
+              },
               span: 8,
               control: {
                 hiddenOption: (form) => {

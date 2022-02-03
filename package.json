@@ -1,7 +1,7 @@
 {
   "name": "beansflight-json-form",
-  "version": "0.22.13",
-  "private": false,
+  "version": "0.22.17",
+  "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "lib": "vue-cli-service build --target lib packages/index.js --name beansflight-json-form --dest lib",
@@ -20,10 +20,8 @@
     "url": ""
   },
   "dependencies": {
-    "-": "^0.0.1",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
     "@vue/babel-preset-jsx": "^1.2.4",
-    "D": "^1.0.0",
     "core-js": "^3.6.5",
     "eslint-config-prettier": "^8.3.0",
     "lodash": "^4.17.21",
@@ -47,6 +45,7 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^6.2.2",
     "husky": "^7.0.4",
+    "lerna": "^4.0.0",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
     "prettier": "^2.2.1",
