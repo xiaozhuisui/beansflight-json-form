@@ -20,7 +20,6 @@
 </template>
 <script>
 import EditFormPanel from "../../packages/edit/editForm.vue"
-// import { casitems } from "../../packages/libs/conversion-cascader";
 export default {
   name: "EditForm",
   components: { EditFormPanel },

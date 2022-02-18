@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 弹窗 -->
     <div v-if="displayed === 'model'">
       <!-- 弹窗显示 -->
       <ModelPanel v-bind="$attrs" v-on="$listeners">
@@ -27,7 +28,7 @@
       </ModelPanel>
     </div>
     <!-- 面板显示 -->
-    <template v-else="displayed === 'panel'">
+    <template v-else-if="displayed === 'panel'">
       <!-- 是否有卡片包裹 -->
       <template v-if="cardWrapper">
         <Card class="smart-query-card">
@@ -86,11 +87,42 @@
         </Form>
       </template>
     </template>
+    <!-- 抽屉显示 -->
+    <template v-else-if="displayed === 'drawer'">
+      <DrawerItem v-bind="$attrs" v-on="$listeners">
+        <Form
+          ref="form"
+          :label-width="130"
+          :model="formData"
+          :label-colon="true"
+          style="margin-top: 12px"
+        >
+          <Row :gutter="16" v-for="(row, index) in configForm" :key="index">
+            <!-- 分割线 -->
+            <template v-if="row.splitLine">
+              <Divider orientation="left">{{ row.lineTitle || "" }}</Divider>
+            </template>
+            <!-- 行内容 -->
+            <component
+              :is="col.tag"
+              v-for="(col, index) in row.row"
+              :key="index"
+              :config="col"
+              :data="formData"
+              :readOnly="col.props.readOnly"
+              :border="col.props.border"
+            >
+            </component>
+          </Row>
+        </Form>
+      </DrawerItem>
+    </template>
   </div>
 </template>
 <script>
 import { Form, Card, Divider, Row } from "view-design"
 import FormSelectItem from "../fields/FormSelectItem.vue"
+import DrawerItem from "../fields/DrawerItem"
 import FormDatepickerItem from "../fields/FormDatePickerItem.vue"
 import FormCheckboxItem from "../fields/FormCheckboxItem.vue"
 import FormRadioItem from "../fields/FormRadioItem.vue"
@@ -118,6 +150,7 @@ export default {
     FormCheckboxItem,
     FormRadioItem,
     FormSwitchItem,
+    DrawerItem,
   },
   props: {
     displayed: {

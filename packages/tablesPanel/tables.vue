@@ -1,5 +1,5 @@
 <template>
-  <Card class="warp-card">
+  <Card class="warp-card" id="tablWrapper">
     <!-- 分割线 -->
     <template v-if="showDivider">
       <Divider orientation="left" style="margin: 0 !important">{{
@@ -8,70 +8,55 @@
     </template>
     <!-- 按钮区 -->
     <Row class="marginBottom10">
-      <template v-if="showHeaderBtn">
-        <slot>
-          <template v-for="(key, index) in defBtns">
-            <Button
-              @click="newAction"
-              icon="md-add"
-              type="primary"
-              v-if="key === 0"
-              >新建
-            </Button>
-            <Button
-              @click="batchDeleteAction"
-              class="marginLeft10"
-              icon="ios-trash-outline"
-              v-if="key === 1"
-              type="error"
-              >批量删除
-            </Button>
-            <Button
-              @click="allExportAction"
-              class="marginLeft10 float-right"
-              icon="ios-cloud-download-outline"
-              v-if="key === 2"
-              type="info"
-              >导出全部
-            </Button>
-            <Button
-              @click="batchExportAction"
-              class="marginLeft10 float-right"
-              icon="ios-download-outline"
-              v-if="key === 3"
-              type="info"
-              >批量导出
-            </Button>
-          </template>
-          <!-- <Button @click="newAction" icon="md-add" type="primary">新建 </Button>
-          <Button
-            @click="batchDeleteAction"
-            class="marginLeft10"
-            icon="ios-trash-outline"
-            type="error"
-            >批量删除
-          </Button>
-          <Button
-            @click="allExportAction"
-            class="marginLeft10 float-right"
-            icon="ios-cloud-download-outline"
-            type="info"
-            >导出全部
-          </Button>
-          <Button
-            @click="batchExportAction"
-            class="marginLeft10 float-right"
-            icon="ios-download-outline"
-            type="info"
-            >批量导出
-          </Button> -->
-        </slot>
-      </template>
-      <template v-else>
-        <template v-for="(btn, index) in headerBtns">
-          <HeaderBtnOptions :option="btn" :key="index" />
+      <div
+        class="table-operate-left"
+        style="display: flex; flex: 2; justify-content: flex-start"
+      >
+        <template v-if="showHeaderBtn">
+          <slot>
+            <template v-for="(key, index) in defBtns">
+              <Button
+                @click="newAction"
+                icon="md-add"
+                type="primary"
+                v-if="key === 0"
+                >新建
+              </Button>
+              <Button
+                @click="batchDeleteAction"
+                class="marginLeft10"
+                icon="ios-trash-outline"
+                v-if="key === 1"
+                type="error"
+                >批量删除
+              </Button>
+              <Button
+                @click="allExportAction"
+                class="marginLeft10 float-right"
+                icon="ios-cloud-download-outline"
+                v-if="key === 2"
+                type="info"
+                >导出全部
+              </Button>
+              <Button
+                @click="batchExportAction"
+                class="marginLeft10 float-right"
+                icon="ios-download-outline"
+                v-if="key === 3"
+                type="info"
+                >批量导出
+              </Button>
+            </template>
+          </slot>
         </template>
-      </template>
+        <template v-else>
+          <template v-for="(btn, index) in headerBtns">
+            <HeaderBtnOptions :option="btn" :key="index" />
+          </template>
+        </template>
+      </div>
+      <!-- tabl - setting -->
+      <TableOps></TableOps>
     </Row>
     <!-- table -->
     <Table
@@ -126,13 +111,24 @@
 
 <script>
 import TablesEdit from "./edit.vue"
-// import handleBtns from "./handle-btns";
 import noDataText from "./icon_no_data.png"
 import "./index.less"
 import tableAction from "../libs/table-action"
 import HeaderBtnOptions from "./header-btn-options.js"
-import { Card, Divider, Row, Page, Table, Button, Switch } from "view-design"
+import {
+  Card,
+  Divider,
+  Row,
+  Page,
+  Table,
+  Button,
+  Switch,
+  Avatar,
+  Icon,
+  Tooltip,
+} from "view-design"
 import dayjs from "dayjs"
+import TableOps from "../components/tableOps"
 
 export default {
   name: "TablePanel",
@@ -146,6 +142,9 @@ export default {
     Button,
     Switch,
     Divider,
+    Icon,
+    Tooltip,
+    TableOps,
   },
   props: {
     // 开启多选
@@ -318,6 +317,8 @@ export default {
       selectRows: 0,
       // 默认显示哪些按钮
       defBtns: [],
+      // 是否能全屏
+      isFullscreen: 0,
     }
   },
   watch: {
@@ -338,8 +339,28 @@ export default {
     this.setDefaultSearchKey()
     this.handleTableData()
     this.handleHeaderBtnOPtions(this.panelConfig)
+
+    // let isFullscreen =
+    //   document.fullscreenElement ||
+    //   document.mozFullScreenElement ||
+    //   document.webkitFullscreenElement ||
+    //   document.fullScreen ||
+    //   document.mozFullScreen ||
+    //   document.webkitIsFullScreen
+    // isFullscreen = !!isFullscreen
+    // console.log("isFullscreen", isFullscreen)
+    // 处理浏览器能不能全屏
   },
   methods: {
+    fullScreen() {
+      let main = document.querySelector("#tablWrapper")
+      if (this.isFullscreen) {
+        document.exitFullscreen()
+      } else {
+        main.requestFullscreen()
+      }
+      this.isFullscreen = this.isFullscreen ? 0 : 1
+    },
     changeOrder(oldIndex, newIndex) {
       oldIndex = parseInt(oldIndex)
       newIndex = parseInt(newIndex)
@@ -462,6 +483,19 @@ export default {
               ? this.$enum.getDescByValue(res.enumKey, params.row[res.key])
               : params.row[res.key]
             return h("span", disabled)
+          }
+        }
+        // 头像处理
+        if (res.type && res.type === "avatar") {
+          res.render = (h, params) => {
+            return h(Avatar, {
+              props: {
+                src: params.row[res.key],
+                icon: "ios-person",
+                shape: "square",
+                disabled: true,
+              },
+            })
           }
         }
         // switch处理

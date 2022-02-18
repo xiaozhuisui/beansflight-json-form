@@ -1,4 +1,6 @@
-# 一份配置，轻松搞定配置 Vue 表单渲染
+# BeansFlight-JSON-FORM
+
+一份配置，轻松搞定配置 Vue 表单渲染
 
 ---
 
@@ -180,39 +182,40 @@ Vue.use(beansflightForm);
 
 #### **columns**
 
-| 属性     | 必填项 | 描述                                                             | 类型   | 默认值 | 备注                                                                 |
-| -------- | ------ | ---------------------------------------------------------------- | ------ | ------ | -------------------------------------------------------------------- |
-| title    | true   | 列头显示文字                                                     | String | -      |                                                                      |
-| key      | true   | 对应列内容的字段名                                               | String |        |                                                                      |
-| minWidth | false  | 最小列宽                                                         | Number |        |                                                                      |
-| type     | false  | 用于区分枚举转换/列表操作区 取值范围['switch','eunm', 'handler'] | String | -      | 如果需要处理枚举则 type: 'eunm'，如果是列表操作项则 type: 'handler', |
-| enumKey  | false  | 枚举的 key                                                       |        |        | 对于项目中维护的枚举的 Key                                           |
-| formate  | False  | 日期格式化                                                       | Sring  | -      | 格式参照 dayjs                                                       |
-| align    | false  | 列表操作区位置固定                                               | String | -      | 如果是列表操作项则必传,固定值 align: 'right',                        |
-| fixed    | false  | 列表操作区位置固定                                               | String | -      | 如果是列表操作项则必传,固定值 fixed: 'right',                        |
-| options  | False  | 列表操作按钮                                                     | Array  | -      | 如果是列表操作项则必传,                                              |
+| 属性     | 必填项 | 描述                                                         | 类型   | 默认值 | 备注                                                         |
+| -------- | ------ | ------------------------------------------------------------ | ------ | ------ | ------------------------------------------------------------ |
+| title    | true   | 列头显示文字                                                 | String | -      |                                                              |
+| key      | true   | 对应列内容的字段名                                           | String |        |                                                              |
+| minWidth | false  | 最小列宽                                                     | Number |        |                                                              |
+| type     | false  | 用于区分枚举转换/列表操作区 取值范围['switch','eunm', 'handler','avatar'] | String | -      | 如果需要处理枚举则 type: 'eunm'，如果是列表操作项则 type: 'handler', 显示头像则是avatar， 如果滑块的话 则是 switch |
+| enumKey  | false  | 枚举的 key                                                   |        |        | 对于项目中维护的枚举的 Key                                   |
+| formate  | False  | 日期格式化                                                   | Sring  | -      | 格式参照 dayjs                                               |
+| align    | false  | 列表操作区位置固定                                           | String | -      | 如果是列表操作项则必传,固定值 align: 'right',                |
+| fixed    | false  | 列表操作区位置固定                                           | String | -      | 如果是列表操作项则必传,固定值 fixed: 'right',                |
+| options  | False  | 列表操作按钮                                                 | Array  | -      | 如果是列表操作项则必传,                                      |
 
 ```javascript
 columnArray: [
   {
-    title: '商户编号',
+    title: '正常',
     key: 'code',
     minWidth: 100,
   },
+   {
+    title: '头像',
+    key: 'avatar_key',
+    type: 'avatar', // 用于枚举处理
+    minWidth: 100,
+  },
   {
-    title: '商户状态',
+    title: '枚举',
     key: 'status',
     minWidth: 120,
     type: 'eunm', // 用于枚举处理
     enumKey: 'STATUS',
   },
   {
-    title: '电子邮件',
-    key: 'email',
-    minWidth: 140,
-  },
-  {
-    title: "createDate",
+    title: "日期",
     key: "createDate",
     formate: "YYYY-MM-DD",  用于日期格式化
     minWidth: 140,
@@ -597,6 +600,7 @@ formItems: [
   v-model="isShowDetailModal"
   :data="detail"
   :config="detailConfig"
+   displayed="drawer"                 
 >
     <template v-slot:footer="data">
       <div>底部按钮布局</div>
@@ -607,14 +611,15 @@ formItems: [
 
 #### **detail-form-panel 属性**
 
-| 属性        | 必填项 | 说明             | 类型    | 默认值 | 备注 |
-| ----------- | ------ | ---------------- | ------- | ------ | ---- |
-| title       | true   | 标题             | String  | -      |      |
-| v-model     | true   | 页面显示隐藏     | Boolean | -      |      |
-| footer      | false  | 页脚插槽         | Slot    | -      |      |
-| label-width | true   | 表单域标签的宽度 | Number  | -      |      |
-| data        | true   | 表单项绑定对象   | Object  | -      |      |
-| config      | true   | 页面配置         | Object  | -      |      |
+| 属性        | 必填项 | 说明                                                         | 类型    | 默认值  | 备注 |
+| ----------- | ------ | ------------------------------------------------------------ | ------- | ------- | ---- |
+| title       | true   | 标题                                                         | String  | -       |      |
+| v-model     | true   | 页面显示隐藏                                                 | Boolean | -       |      |
+| footer      | false  | 页脚插槽                                                     | Slot    | -       |      |
+| label-width | true   | 表单域标签的宽度                                             | Number  | -       |      |
+| data        | true   | 表单项绑定对象                                               | Object  | -       |      |
+| config      | true   | 页面配置                                                     | Object  | -       |      |
+| displayed   | false  | 显示方式 支持三种显示方式 model:弹窗显示、drawer:抽屉弹窗显示(右侧) | String  | 'model' |      |
 
 #### **config**
 

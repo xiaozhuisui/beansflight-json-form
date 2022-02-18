@@ -67,6 +67,7 @@
 </template>
 <script>
 import { Row, Card, ButtonGroup, Button } from "view-design"
+import Vue from "vue"
 import { titleCase, isFunc } from "../libs/lib"
 import { componentsMap } from "../mappings"
 import DynamicItem from "./DynamicCell"
@@ -130,23 +131,28 @@ export default {
         let def = componentsMap[titleCase(type)]
         column.tag = def.component
         column.props = Object.assign({}, def.props, column.props)
-        // select组件判断options
         switch (column.type) {
-          case "select":
+          case "select": // select组件判断options
             if (column.options) {
-              if (isFunc(column.options)) {
-                column.options =
-                  column.options().length > 0
-                    ? column.options()
-                    : column.options
-              }
+              // 设置响应式
+              Vue.set(column, "selOptions", [])
+              column.selOptions = isFunc(column.options)
+                ? column.options()
+                : column.options
             }
             break
-
+          case "cascader":
+            if (column.options) {
+              // 设置响应式
+              Vue.set(column, "casOptions", [])
+              column.casOptions = isFunc(column.options)
+                ? column.options()
+                : column.options
+            }
+            break
           default:
             break
         }
-
         return column
       })
       return row

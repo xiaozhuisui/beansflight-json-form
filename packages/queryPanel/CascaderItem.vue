@@ -3,7 +3,7 @@
     <label class="query-form-label">{{ config.label }} :</label>
     <Cascader
       v-model="rule[config.key]"
-      :data="config.options"
+      :data="config.casOptions"
       clearable
       change-on-select
       filterable

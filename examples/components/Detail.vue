@@ -5,6 +5,8 @@
       :data="detail"
       :label-width="200"
       :config="config"
+      displayed="drawer"
+      title="详情页"
     >
     </DetailFormPanel>
   </div>

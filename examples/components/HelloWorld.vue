@@ -24,11 +24,6 @@
     <Detail ref="detailForm"></Detail>
     <Edit ref="editForm"></Edit>
     <New ref="newForm"></New>
-    <form-panel
-      :data="panelData"
-      :label-width="100"
-      :config="panelConfig2"
-    ></form-panel>
   </div>
 </template>
 
@@ -65,74 +60,96 @@ export default {
         formItems: [
           {
             row: [
-              // {
-              //   label: "省市区级联", // 描述
-              //   key: "cascVal", // 表单字段
-              //   type: "cascader", // 组件类型
-              //   placeholder: "请选择城市/区县(可搜索）", // 占位符
-              //   span: 6, // 24栏布局占比
-              //   props: {
-              //     a: "ddf",
-              //     b: "ccc",
-              //   },
-              //   options: [
-              //     {
-              //       value: "beijing",
-              //       label: "北京",
-              //       children: [
-              //         {
-              //           value: "gugong",
-              //           label: "故宫",
-              //         },
-              //         {
-              //           value: "tiantan",
-              //           label: "天坛",
-              //         },
-              //         {
-              //           value: "wangfujing",
-              //           label: "王府井",
-              //         },
-              //       ],
-              //     },
-              //   ],
-              //   control: {
-              //     // 回调函数
-              //     // change: (val) => console.log("回调函数", val),
-              //   },
-              // },
               {
-                label: "下拉框",
-                key: "selOptions",
-                type: "select",
-                span: 6,
+                label: "省市区级联", // 描述
+                key: "cascVal", // 表单字段
+                type: "cascader", // 组件类型
+                placeholder: "请选择城市/区县(可搜索）", // 占位符
+                span: 6, // 24栏布局占比
+                props: {
+                  a: "ddf",
+                  b: "ccc",
+                },
                 // options: [
                 //   {
-                //     value: "01",
-                //     label: "是",
-                //   },
-                //   {
-                //     value: "02",
-                //     label: "否",
+                //     value: "beijing",
+                //     label: "北京",
+                //     children: [
+                //       {
+                //         value: "gugong",
+                //         label: "故宫",
+                //       },
+                //       {
+                //         value: "tiantan",
+                //         label: "天坛",
+                //       },
+                //       {
+                //         value: "wangfujing",
+                //         label: "王府井",
+                //       },
+                //     ],
                 //   },
                 // ],
                 options: () => {
-                  // return [
-                  //   {
-                  //     value: "01",
-                  //     label: "是",
-                  //   },
-                  //   {
-                  //     value: "02",
-                  //     label: "否",
-                  //   },
-                  // ]
-                  return this.formOptions
+                  return [
+                    {
+                      value: "beijing",
+                      label: "北京",
+                      children: [
+                        {
+                          value: "gugong",
+                          label: "故宫",
+                        },
+                        {
+                          value: "tiantan",
+                          label: "天坛",
+                        },
+                        {
+                          value: "wangfujing",
+                          label: "王府井",
+                        },
+                      ],
+                    },
+                  ]
                 },
                 control: {
                   // 回调函数
                   // change: (val) => console.log("回调函数", val),
                 },
               },
+              // {
+              //   label: "下拉框",
+              //   key: "selOptions",
+              //   type: "select",
+              //   span: 6,
+              //   // options: [
+              //   //   {
+              //   //     value: "01",
+              //   //     label: "是",
+              //   //   },
+              //   //   {
+              //   //     value: "02",
+              //   //     label: "否",
+              //   //   },
+              //   // ],
+              //   options: () => {
+              //     return [
+              //       {
+              //         value: "01",
+              //         label: "是",
+              //       },
+              //       {
+              //         value: "02",
+              //         label: "否",
+              //       },
+              //     ]
+              //     // return this.formOptions
+              //   },
+              //   control: {
+              //     // 回调函数
+              //     // change: (val) => console.log("回调函数", val),
+              //   },
+              // },
               // {
               //   label: "输入框",
               //   key: "inputVal",
@@ -186,6 +203,12 @@ export default {
         data: [],
         // 表格列
         columnArray: [
+          {
+            title: "头像",
+            minWidth: 200,
+            key: "avator_key",
+            type: "avatar",
+          },
           {
             title: "swtich",
             minWidth: 200,
@@ -309,21 +332,28 @@ export default {
           label: "否",
         },
       ]
-      console.log("赋值完成")
-    }, 4000)
+    }, 5000)
     setTimeout(() => {
       this.formOptions = [
         {
-          value: "02",
-          label: "否",
+          value: "01",
+          label: "东",
         },
         {
-          value: "01",
-          label: "是",
+          value: "02",
+          label: "南",
+        },
+        {
+          value: "03",
+          label: "男",
+        },
+        {
+          value: "04",
+          label: "女",
         },
       ]
       console.log("第二次赋值完成")
-    }, 8000)
+    }, 10000)
   },
   methods: {
     newAction() {
@@ -343,9 +373,10 @@ export default {
       console.log(this.formConfig.formModel)
     },
     mockDatas() {
-      ;[...Array(2).keys()].forEach((i) => {
+      ;[...Array(10).keys()].forEach((i) => {
         this.mainTable.data.push({
           id: "7D5DB3EA7DDD4457903059E39ED93C49",
+          avator_key: "https://file.iviewui.com/asd/asd-pro-3.png",
           code: "2016EA",
           name: `${i}+商户C`,
           cityName: "和平区",

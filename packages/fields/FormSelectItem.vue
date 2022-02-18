@@ -16,7 +16,7 @@
         filterable
       >
         <Option
-          v-for="(option, index) in config.options"
+          v-for="(option, index) in config.selOptions"
           :value="option.value"
           :key="index"
           >{{ option.label }}
@@ -27,6 +27,7 @@
 </template>
 <script>
 import { Col, FormItem, Select, Option } from "view-design"
+
 export default {
   name: "FormSelectItem",
   components: {

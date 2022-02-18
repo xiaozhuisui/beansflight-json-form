@@ -39,6 +39,7 @@ import ModelPanel from "../fields/ModelItem.vue"
 import { componentsMap } from "../mappings/formEditMapping"
 import { titleCase, isFunc, isObj } from "../libs/lib"
 import DynamicCell from "./DynamicCell.vue"
+import Vue from "vue"
 
 export default {
   name: "NewFormPanel",
@@ -108,18 +109,26 @@ export default {
             }
           }
         }
+        //
         switch (column.type) {
-          case "select":
+          case "select": // select组件判断options
             if (column.options) {
-              if (isFunc(column.options)) {
-                column.options =
-                  column.options().length > 0
-                    ? column.options()
-                    : column.options
-              }
+              // 设置响应式
+              Vue.set(column, "selOptions", [])
+              column.selOptions = isFunc(column.options)
+                ? column.options()
+                : column.options
             }
             break
-
+          case "cascader":
+            if (column.options) {
+              // 设置响应式
+              Vue.set(column, "casOptions", [])
+              column.casOptions = isFunc(column.options)
+                ? column.options()
+                : column.options
+            }
+            break
           default:
             break
         }

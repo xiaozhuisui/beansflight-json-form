@@ -10,7 +10,7 @@
       @on-change="change"
     >
       <Option
-        v-for="(option, index) in config.options || []"
+        v-for="(option, index) in config.selOptions || []"
         :value="option.value"
         :key="index"
         >{{ option.label }}
@@ -29,13 +29,6 @@ export default {
     Option,
   },
   props,
-  watch: {
-    config: {
-      handler(val) {},
-      immediate: true,
-      deep: true,
-    },
-  },
   methods: {
     change(event) {
       this.$emit("change", event)
